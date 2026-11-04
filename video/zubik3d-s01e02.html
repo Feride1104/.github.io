@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Зубик против Кариеса 3D — Серия 2</title>
+<style>
+  @font-face { font-family: 'Nunito'; font-weight: 800; src: url('Nunito-ExtraBold.ttf') format('truetype'); }
+  @font-face { font-family: 'Nunito'; font-weight: 900; src: url('Nunito-Black.ttf') format('truetype'); }
+  html, body { margin: 0; height: 100%; background: #0f1724; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { height: 100vh; max-width: 100vw; aspect-ratio: 9 / 16; object-fit: contain; display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script type="module">
+import * as THREE from './lib/three.module.min.js';
+const W = 1080, H = 1920, DURATION = 30;
+const cv = document.getElementById('c');
+const ctx = cv.getContext('2d');
+const F = (w, s) => `${w} ${s}px Nunito, "DejaVu Sans", sans-serif`;
+// ---------- helpers ----------
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = k => 1 - Math.pow(1 - k, 3);
+const easeInOut = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const easeBack = k => { const c1 = 1.9, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+// scene visibility: fade in over 0.4s at a, fade out over 0.4s at b
+const vis = (t, a, b, f = .4) => Math.min(prog(t, a, a + f), 1 - prog(t, b - f, b));
+function rand(i) { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+
+function roundRect(x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function star4(x, y, r, rot = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.beginPath();
+  for (let i = 0; i < 8; i++) {
+    const a = i * Math.PI / 4, rr = i % 2 ? r * .28 : r;
+    ctx.lineTo(Math.cos(a) * rr, Math.sin(a) * rr);
+  }
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function star5(x, y, r) {
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * .45 : r;
+    ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr);
+  }
+  ctx.closePath();
+}
+function heart(x, y, s) {
+  ctx.beginPath();
+  ctx.moveTo(x, y + s * .35);
+  ctx.bezierCurveTo(x - s * 1.1, y - s * .35, x - s * .45, y - s * 1.05, x, y - s * .45);
+  ctx.bezierCurveTo(x + s * .45, y - s * 1.05, x + s * 1.1, y - s * .35, x, y + s * .35);
+  ctx.closePath();
+}
+
+// ---------- text ----------
+function caption(lines, x, y, size, k, opts = {}) {
+  if (k <= 0) return;
+  const { color = '#1d2b4a', bg = 'rgba(255,255,255,.94)', pad = 36, lh = 1.18, weight = 900 } = opts;
+  ctx.save();
+  const sc = easeBack(clamp(k));
+  ctx.translate(x, y); ctx.scale(sc, sc); ctx.globalAlpha = clamp(k * 2);
+  ctx.font = F(weight, size);
+  const w = Math.max(...lines.map(l => ctx.measureText(l).width));
+  const h = lines.length * size * lh;
+  if (bg) {
+    ctx.shadowColor = 'rgba(20,40,90,.25)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 12;
+    roundRect(-w / 2 - pad, -h / 2 - pad * .75, w + pad * 2, h + pad * 1.5, 46);
+    ctx.fillStyle = bg; ctx.fill();
+    ctx.shadowColor = 'transparent';
+  }
+  ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  lines.forEach((l, i) => ctx.fillText(l, 0, -h / 2 + size * lh * (i + .5) + size * .04));
+  ctx.restore();
+}
+
+function bubble(lines, x, y, size, k, tx, ty, o = {}) {
+  if (k <= 0) return;
+  const { bg = '#fff', color = '#1d2b4a', weight = 900 } = o;
+  ctx.save(); ctx.globalAlpha = clamp(k * 2);
+  ctx.font = F(weight, size);
+  const w = Math.max(...lines.map(l => ctx.measureText(l).width)) + 70, h = lines.length * size * 1.15 + 50;
+  const sc = easeBack(clamp(k)); ctx.translate(x, y); ctx.scale(sc, sc);
+  ctx.shadowColor = 'rgba(0,0,0,.3)'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 10;
+  ctx.fillStyle = bg;
+  ctx.beginPath(); ctx.moveTo(-28, h / 2 - 10); ctx.lineTo((tx - x) / sc, (ty - y) / sc); ctx.lineTo(28, h / 2 - 10); ctx.fill();
+  roundRect(-w / 2, -h / 2, w, h, 40); ctx.fill();
+  ctx.shadowColor = 'transparent';
+  ctx.fillStyle = color; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  lines.forEach((l, i) => ctx.fillText(l, 0, -h / 2 + 25 + size * 1.15 * (i + .5)));
+  ctx.restore();
+}
+
+// ===== 3D scene: «Зубик против Кариеса», Серия 1 =====
+const R3 = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+R3.setPixelRatio(1); R3.setSize(W, H, false);
+R3.shadowMap.enabled = true; R3.shadowMap.type = THREE.PCFSoftShadowMap;
+R3.toneMapping = THREE.ACESFilmicToneMapping; R3.toneMappingExposure = 1.05;
+R3.outputColorSpace = THREE.SRGBColorSpace;
+const cam = new THREE.PerspectiveCamera(62, W / H, .1, 200);
+
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+const std = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: .45, ...o });
+const phys = (color, o = {}) => new THREE.MeshPhysicalMaterial({ color, roughness: .35, clearcoat: .6, clearcoatRoughness: .3, ...o });
+function mesh(geo, mat, pos, scale, parent) {
+  const m = new THREE.Mesh(geo, mat);
+  if (pos) m.position.copy(pos); if (scale) m.scale.copy(scale);
+  m.castShadow = true; m.receiveShadow = true; if (parent) parent.add(m); return m;
+}
+const SPH = new THREE.SphereGeometry(1, 48, 32), SPHlo = new THREE.SphereGeometry(1, 20, 14);
+const MT = {
+  tooth: phys(0xf6f9ff, { roughness: .18, clearcoat: 1, clearcoatRoughness: .08 }),
+  white: std(0xffffff, { roughness: .15 }),
+  black: std(0x14182a, { roughness: .2 }),
+  cheek: std(0xff8fa8, { transparent: true, opacity: .6, roughness: .6 }),
+  mouth: std(0xb8243f, { roughness: .4 }),
+  tongueS: std(0xff8fa3),
+  arm: phys(0x3b6ea8),
+  spot: std(0xb08429, { roughness: .85 }),
+};
+function stripeTex(c1, c2, n = 8) {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 256; const x = cv.getContext('2d');
+  x.fillStyle = c1; x.fillRect(0, 0, 256, 256); x.fillStyle = c2; const w = 256 / n;
+  for (let i = -n; i < n * 2; i++) { x.beginPath(); x.moveTo(i * w, 0); x.lineTo(i * w + w / 2, 0); x.lineTo(i * w + w / 2 + 128, 256); x.lineTo(i * w + 128, 256); x.fill(); }
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+}
+
+// ---------- tooth character ----------
+let toothSeed = 0;
+function makeTooth(arms) {
+  const seed = toothSeed++;
+  const g = new THREE.Group(), body = new THREE.Group(); g.add(body);
+  mesh(SPH, MT.tooth, V(0, 0, 0), V(1, 1.15, .85), body);
+  mesh(SPH, MT.tooth, V(-.45, .78, 0), V(.58, .5, .6), body);
+  mesh(SPH, MT.tooth, V(.45, .78, 0), V(.58, .5, .6), body);
+  mesh(SPH, MT.tooth, V(0, -.9, 0), V(.8, .7, .7), body);
+  const face = new THREE.Group(); body.add(face);
+  const open = new THREE.Group(), closed = new THREE.Group(); face.add(open, closed);
+  const pupils = [];
+  for (const s of [-1, 1]) {
+    mesh(SPHlo, MT.white, V(s * .36, .25, .74), V(.25, .3, .14), open);
+    const p = new THREE.Group(); p.position.set(s * .34, .22, .86); open.add(p); pupils.push(p);
+    mesh(SPHlo, MT.black, V(0, 0, 0), V(.13, .15, .06), p);
+    mesh(SPHlo, MT.white, V(-.04, .06, .05), V(.045, .045, .02), p);
+    const lid = mesh(new THREE.TorusGeometry(.17, .035, 8, 20, Math.PI), MT.black, V(s * .36, .27, .8), null, closed); lid.rotation.z = Math.PI;
+    mesh(SPHlo, MT.cheek, V(s * .62, -.08, .64), V(.16, .1, .06), face);
+  }
+  const smile = new THREE.Group(); face.add(smile);
+  mesh(new THREE.CircleGeometry(.3, 28, Math.PI, Math.PI), MT.mouth, V(0, -.16, .855), null, smile);
+  mesh(new THREE.CircleGeometry(.15, 20, Math.PI, Math.PI), MT.tongueS, V(0, -.3, .86), V(1, .8, 1), smile);
+  const pts = []; for (let i = 0; i <= 8; i++) pts.push(V(-.28 + i * .07, -.22 + (i % 2 ? .05 : 0), .845));
+  const frown = mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, .028, 6), MT.black, null, null, face);
+  const brows = new THREE.Group(); face.add(brows);
+  for (const s of [-1, 1]) { const b = mesh(new THREE.CapsuleGeometry(.035, .2, 4, 8), MT.black, V(s * .36, .62, .66), null, brows); b.rotation.z = Math.PI / 2 - s * .35; }
+  const oM = mesh(SPHlo, MT.mouth, V(0, -.2, .83), V(.07, .09, .04), face);
+  const spots = [];
+  [[-.55, .5], [.52, .52], [.6, -.45], [-.62, -.48], [.15, -.68], [-.12, .82]].forEach(([x, y], i) => {
+    const z = .85 * Math.sqrt(Math.max(.05, 1 - x * x - (y / 1.15) ** 2)) + .01;
+    const m = mesh(SPHlo, MT.spot, V(x, y, z), null, body);
+    const n = V(x, y / 1.32, z / .72).normalize(); m.quaternion.setFromUnitVectors(V(0, 0, 1), n);
+    m.userData.base = V(.17 - i * .01, .15 - i * .01, .04); m.scale.copy(m.userData.base); spots.push(m);
+  });
+  let armR = null;
+  if (arms) {
+    const capG = new THREE.CapsuleGeometry(.09, .7, 4, 10);
+    const aL = new THREE.Group(); aL.position.set(-.95, -.1, .1); aL.rotation.z = -.6; body.add(aL);
+    mesh(capG, MT.arm, V(0, -.45, 0), null, aL); mesh(SPHlo, MT.arm, V(0, -.9, 0), V(.17, .17, .17), aL);
+    armR = new THREE.Group(); armR.position.set(.95, -.1, .1); armR.rotation.z = .6; body.add(armR);
+    mesh(capG, MT.arm, V(0, -.45, 0), null, armR); mesh(SPHlo, MT.arm, V(0, -.9, 0), V(.17, .17, .17), armR);
+  }
+  function set({ t = 0, sleep = 0, mood = 1, spots: ns = 0, dirt = 0, wave = 0 }) {
+    const blink = ((t + rand(seed) * 3) % 3.3) < .12;
+    const shut = sleep > .5 || blink;
+    open.visible = !shut; closed.visible = shut;
+    const happy = mood >= .5, awake = sleep <= .5;
+    smile.visible = awake && happy; frown.visible = awake && !happy; brows.visible = awake && !happy; oM.visible = !awake;
+    pupils.forEach((p, i) => { const k = happy ? 1 : .62; p.scale.set(k, k, 1); p.position.x = (i ? 1 : -1) * .34 + (happy ? 0 : Math.sin(t * 40 + i) * .015); });
+    oM.scale.y = .09 + Math.sin(t * 3) * .02;
+    spots.forEach((m, i) => { m.visible = i < ns && dirt > .02; m.scale.copy(m.userData.base).multiplyScalar(Math.max(dirt, .01)); });
+    if (armR) armR.rotation.z = .6 + wave * (2.0 + Math.sin(t * 10) * .35);
+  }
+  return { g, body, set };
+}
+
+// ---------- germ ----------
+function makeGerm(color, seed) {
+  const g = new THREE.Group(), b = new THREE.Group(); g.add(b);
+  const geo = new THREE.SphereGeometry(1, 48, 32), pa = geo.attributes.position;
+  for (let i = 0; i < pa.count; i++) {
+    const v = V(pa.getX(i), pa.getY(i), pa.getZ(i));
+    v.multiplyScalar(1 + .07 * Math.sin(v.x * 5 + seed) * Math.sin(v.y * 5) * Math.sin(v.z * 5 + seed * 2));
+    pa.setXYZ(i, v.x, v.y, v.z);
+  }
+  geo.computeVertexNormals();
+  const mat = phys(color, { roughness: .5, clearcoat: .4 });
+  mesh(geo, mat, null, null, b);
+  for (let i = 0; i < 16; i++) {
+    const phi = Math.acos(1 - 2 * (i + .5) / 16), th = i * 2.4 + seed;
+    const d = V(Math.sin(phi) * Math.cos(th), Math.cos(phi), Math.sin(phi) * Math.sin(th));
+    if (d.z > .6) continue;
+    mesh(SPHlo, mat, d.multiplyScalar(1.02), V(.22, .22, .22), b);
+  }
+  const eyes = [];
+  for (const s of [-1, 1]) {
+    const e = new THREE.Group(); e.position.set(s * .33, .18, .86); b.add(e); eyes.push(e);
+    mesh(SPHlo, MT.white, V(0, 0, 0), V(.24, .26, .15), e);
+    mesh(SPHlo, MT.black, V(-s * .03, -.03, .11), V(.11, .12, .05), e);
+    const brow = mesh(new THREE.BoxGeometry(.4, .09, .09), MT.black, V(s * .33, .52, .84), null, b); brow.rotation.z = s * .45;
+  }
+  const mo = mesh(new THREE.CircleGeometry(.36, 24, Math.PI, Math.PI), std(0x3a1020), V(0, -.2, .9), null, b); mo.rotation.x = .4;
+  for (const x of [-.15, .12]) { const tt = mesh(new THREE.ConeGeometry(.06, .15, 4), MT.white, V(x, -.25, .92), null, b); tt.rotation.z = Math.PI; tt.rotation.x = .4; }
+  return { g, b, eyes, mat };
+}
+function makeCaries() {
+  const c = makeGerm(0x6a3fb0, 7);
+  const hatTex = stripeTex('#ff4f8b', '#ffe14d', 6);
+  const hatMat = phys(0xffffff, { map: hatTex, roughness: .3, clearcoat: 1 });
+  const hat = new THREE.Group(); hat.position.set(0, .95, 0); hat.rotation.z = .15; c.b.add(hat);
+  mesh(new THREE.CylinderGeometry(1.05, 1.2, .35, 3), hatMat, V(0, 0, 0), null, hat);
+  mesh(SPHlo, hatMat, V(0, .25, 0), V(.62, .45, .62), hat);
+  for (const s of [-1, 1]) { const w = mesh(new THREE.ConeGeometry(.22, .5, 12), hatMat, V(s * 1.25, .05, -.3), null, hat); w.rotation.z = s * Math.PI / 2; }
+  const caneTex = stripeTex('#ffffff', '#e8304a', 4); caneTex.repeat.set(10, 1);
+  const curve = new THREE.CatmullRomCurve3([V(0, -1.3, 0), V(0, .4, 0), V(0, 1.0, 0), V(-.12, 1.32, 0), V(-.4, 1.42, 0), V(-.6, 1.2, 0)]);
+  const cane = new THREE.Group(); cane.position.set(1.25, -.1, .3); c.g.add(cane);
+  mesh(new THREE.TubeGeometry(curve, 60, .11, 12), phys(0xffffff, { map: caneTex, clearcoat: 1, roughness: .2 }), null, null, cane);
+  c.cane = cane; return c;
+}
+
+// ---------- mouth scene ----------
+const mouth = new THREE.Scene();
+const caveMat = std(0x2a0c24, { side: THREE.BackSide, roughness: .9 });
+mesh(new THREE.SphereGeometry(40, 48, 32), caveMat, V(0, 5, -5), null, mouth).castShadow = false;
+const RAD = 9, ANG = .27;
+const teeth = [];
+for (let i = 0; i < 7; i++) {
+  const a = (i - 3) * ANG, T = makeTooth(i === 3);
+  T.g.position.set(RAD * Math.sin(a), 0, RAD * Math.cos(a) - RAD); T.g.rotation.y = -a * .7;
+  T.s = i === 3 ? 1.12 : 1; T.g.scale.setScalar(T.s); T.base = T.g.position.clone();
+  mouth.add(T.g); teeth.push(T);
+}
+const ZI = 3;
+const topOf = i => teeth[i].base.clone().add(V(0, 1.3 * teeth[i].s, 0));
+const gumPts = []; for (let k = 0; k <= 24; k++) { const a = -1.05 + k / 24 * 2.1; gumPts.push(V(RAD * Math.sin(a), -1.2, RAD * Math.cos(a) - RAD)); }
+const gumMat = phys(0xd65a78, { roughness: .55, clearcoat: .4, sheen: 1, sheenColor: new THREE.Color(0xffb3c4) });
+mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(gumPts), 120, 1.15, 24), gumMat, null, null, mouth);
+const tongueMat = phys(0xc2456a, { roughness: .6, clearcoat: .3 });
+mesh(SPH, tongueMat, V(0, -2.7, 4.6), V(6.5, 1.7, 4.2), mouth);
+const OPEN = V(0, 7.2, -12);
+const lipMat = phys(0xb03f5c, { roughness: .4, clearcoat: .5 });
+mesh(new THREE.TorusGeometry(4.6, 1.3, 24, 64), lipMat, OPEN, V(1, .62, 1), mouth);
+function skyTex(day) {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 1024; const x = cv.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 0, 1024);
+  g.addColorStop(0, day ? '#8fd3ff' : '#0b1035'); g.addColorStop(1, day ? '#e6f7ff' : '#26306f');
+  x.fillStyle = g; x.fillRect(0, 0, 1024, 1024);
+  if (!day) {
+    for (let i = 0; i < 60; i++) { x.fillStyle = `rgba(255,255,220,${.4 + rand(i) * .6})`; x.beginPath(); x.arc(rand(i + 1) * 1024, rand(i + 2) * 1024, 2 + rand(i + 3) * 4, 0, 7); x.fill(); }
+    x.fillStyle = '#fff3b0'; x.beginPath(); x.arc(740, 330, 110, 0, 7); x.fill();
+    x.fillStyle = '#121a4a'; x.beginPath(); x.arc(790, 290, 100, 0, 7); x.fill();
+  } else {
+    const s = x.createRadialGradient(300, 330, 20, 300, 330, 260); s.addColorStop(0, 'rgba(255,245,180,1)'); s.addColorStop(.4, 'rgba(255,235,150,.8)'); s.addColorStop(1, 'rgba(255,235,150,0)');
+    x.fillStyle = s; x.fillRect(0, 0, 1024, 1024);
+    x.fillStyle = 'rgba(255,255,255,.9)'; for (const [cx, cy] of [[650, 520], [760, 500], [710, 470]]) { x.beginPath(); x.arc(cx, cy, 70, 0, 7); x.fill(); }
+  }
+  const t = new THREE.CanvasTexture(x.canvas); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const skyN = skyTex(false), skyD = skyTex(true);
+const skyMat = new THREE.MeshBasicMaterial({ map: skyN });
+const sky = mesh(new THREE.CircleGeometry(4.75, 64), skyMat, OPEN.clone().add(V(0, 0, -.4)), V(1, .62, 1), mouth); sky.castShadow = false;
+// glowing eyes for the hook
+const eyeMat = new THREE.MeshBasicMaterial({ color: 0xffe14d, transparent: true });
+const hookEyes = new THREE.Group(); hookEyes.position.copy(OPEN).add(V(0, .1, .3)); mouth.add(hookEyes);
+for (const s of [-1, 1]) { const e = mesh(SPHlo, eyeMat, V(s * .55, .25, 0), V(.32, .2, .05), hookEyes); e.rotation.z = -s * .3; e.castShadow = false; }
+const grin = mesh(new THREE.TorusGeometry(.75, .07, 8, 30, Math.PI * .7), eyeMat, V(0, .05, 0), null, hookEyes); grin.rotation.z = Math.PI * 1.15; grin.castShadow = false;
+const eyeLight = new THREE.PointLight(0xffe14d, 0, 12); eyeLight.position.copy(OPEN).add(V(0, 0, 1.5)); mouth.add(eyeLight);
+// bottle
+const bottle = new THREE.Group(); mouth.add(bottle);
+mesh(new THREE.CylinderGeometry(1.6, 1.6, 3.4, 40), std(0xe8f4ff, { transparent: true, opacity: .4, roughness: .1 }), V(0, 3.2, 0), null, bottle);
+mesh(new THREE.CylinderGeometry(1.45, 1.45, 2.6, 40), std(0xfffaf0, { roughness: .3 }), V(0, 2.8, 0), null, bottle);
+mesh(new THREE.CylinderGeometry(1.7, 1.7, .6, 40), phys(0x5ab0ff), V(0, 1.4, 0), null, bottle);
+mesh(new THREE.LatheGeometry([[0, -1.75], [.22, -1.72], [.33, -1.45], [.3, -1.05], [.45, -.4], [1.1, .5], [1.45, 1.15]].map(([r, y]) => new THREE.Vector2(r, y)), 40),
+  phys(0xf2c98a, { roughness: .35, clearcoat: .8 }), null, null, bottle);
+const BOTTLE_IN = V(0, 6.6, -7.6);
+bottle.position.copy(BOTTLE_IN); bottle.rotation.set(.25, 0, .15); bottle.updateMatrixWorld();
+const TIP = bottle.localToWorld(V(0, -1.75, 0));
+const T5 = topOf(5).add(V(0, .1, 0));
+const streamCurve = new THREE.CatmullRomCurve3([TIP, V(2.6, 4.6, -5.2), V(4.3, 3.0, -2.6), T5]);
+const streamGeo = new THREE.TubeGeometry(streamCurve, 80, .2, 12);
+const stream = mesh(streamGeo, phys(0xfffaf0, { roughness: .25, clearcoat: 1 }), null, null, mouth);
+const pool = mesh(SPH, phys(0xfffaf0, { roughness: .25, clearcoat: 1 }), T5.clone().add(V(0, -.05, 0)), V(.6, .08, .45), mouth);
+// characters
+const GCOL = [0x7ed957, 0xffb347, 0xb07cff];
+const germs = GCOL.map((c, i) => { const gm = makeGerm(c, i + 1); gm.g.scale.setScalar(.55); mouth.add(gm.g); return gm; });
+const car = makeCaries(); car.g.scale.setScalar(.78); mouth.add(car.g);
+// toothbrush
+const brush = new THREE.Group(); mouth.add(brush);
+{
+  const pink = phys(0xff6fa5, { clearcoat: 1, roughness: .2 });
+  const h = mesh(new THREE.CapsuleGeometry(.28, 5, 6, 16), pink, V(3.0, 0, 0), null, brush); h.rotation.z = Math.PI / 2;
+  mesh(new THREE.BoxGeometry(1.8, .5, .6), pink, V(0, 0, 0), null, brush);
+  for (let i = 0; i < 6; i++) for (let j = 0; j < 2; j++)
+    mesh(new THREE.CylinderGeometry(.1, .1, .8, 8), std(i % 2 ? 0x7fd3ff : 0xffffff), V(-.7 + i * .28, .6, -.12 + j * .24), null, brush);
+  for (let i = 0; i < 6; i++) mesh(SPHlo, std(0xffffff, { roughness: .9 }), V(-.8 + i * .32, 1.1 + (i % 2) * .15, 0), V(.28, .28, .28), brush);
+}
+// lights
+const hemi = new THREE.HemisphereLight(0x6a5cff, 0x1a0612, .6); mouth.add(hemi);
+const key = new THREE.DirectionalLight(0x9fb4ff, 1.2); key.position.set(-4, 12, 9); key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -12, right: 12, top: 12, bottom: -6, near: 1, far: 40 }); key.shadow.bias = -.0005; key.shadow.radius = 4;
+mouth.add(key);
+const rim = new THREE.PointLight(0xff5fa0, 40, 0, 1.5); rim.position.set(6, 4, -4); mouth.add(rim);
+const fill = new THREE.PointLight(0xffd7a0, 0, 0, 1.5); fill.position.set(0, 5, 11); mouth.add(fill);
+
+// ---------- timeline helpers ----------
+const HOP = .7, H0 = 13.1;
+const SEQ = [[0, 1, 2, 1, 0, 2, 1], [6, 4, 6, 4, 6, 4, 6], [2, 4, 1, 6, 0, 4, 2]];
+const START = [0, 6, 2];
+function landings(t) {
+  const L = Array(7).fill(0); if (t < H0) return L;
+  SEQ.forEach(s => { const n = Math.min(s.length, Math.floor((t - H0) / HOP)); for (let k = 0; k < n; k++) L[s[k]]++; });
+  return L;
+}
+const GR = .55;
+function germPos(g, t) {
+  if (t < 6.4) return null;
+  const sit = i => topOf(i).add(V(0, GR, 0));
+  if (t < 8.8) { const u = easeInOut(prog(t, 6.6 + g * .3, 7.9 + g * .3)); if (u <= 0) return null; return [streamCurve.getPoint(u).add(V((g - 1) * .5 * u, .45, 0)), 1]; }
+  if (t < 13) { const a = t * 1.6 + g * 2.1; return [V(Math.cos(a) * 1.65, .35 + Math.sin(a) * 1.35, 1.0), 1]; }
+  if (t < H0) return [sit(START[g]), 1];
+  if (t < H0 + HOP * 7) {
+    const k = (t - H0) / HOP, st = Math.floor(k), f = k - st;
+    const from = st === 0 ? START[g] : SEQ[g][st - 1], to = SEQ[g][Math.min(st, 6)];
+    const p = sit(from).lerp(sit(to), f); p.y += Math.sin(Math.PI * f) * 2; return [p, 1];
+  }
+  let p = sit(SEQ[g][6]);
+  if (g === 2 && t > 18.6) { const f = prog(t, 18.6, 19.1); p = p.lerp(V(.75, 1.25, .75), f); p.y += Math.sin(Math.PI * f) * 1.6; }
+  if (t > 22) { const f = easeInOut(prog(t, 22 + g * .15, 23.2 + g * .15)); p.lerp(OPEN.clone().add(V((g - 1) * 1.2, -1, 2)), f); return [p, 1 - f * .7]; }
+  return [p, 1];
+}
+// camera keys: [t, pos, target, roll]
+const CK = [
+  [0, V(0, 7.3, -3.2), V(0, 7.3, -12), .16], [1.8, V(0, 7.25, -3.9), V(0, 7.2, -12), .12],
+  [4.6, V(0, 3.4, 13.5), V(0, 2.5, -2), 0], [8.55, V(1.2, 3.5, 13), V(1.8, 2.6, -2), 0],
+  [8.95, V(0, 1.15, 5.6), V(0, .55, 0), 0], [12.9, V(0, 1.05, 4.9), V(0, .55, 0), .03],
+  [13.3, V(-2.5, 3.4, 13.5), V(0, 2.0, -2), 0], [18.2, V(2.5, 3.3, 13.5), V(0, 2.0, -2), 0],
+  [18.9, V(0, 1.0, 4.2), V(0, .7, 0), 0], [20.95, V(0, .95, 3.5), V(0, .7, 0), 0],
+  [21.0, V(0, 3.4, 13.5), V(0, 2.4, -2), 0], [26, V(0, 3.2, 12.5), V(0, 2.3, -2), 0]];
+function setCam(t, shake) {
+  let i = 0; while (i < CK.length - 2 && t > CK[i + 1][0]) i++;
+  const a = CK[i], b = CK[i + 1], k = easeInOut(prog(t, a[0], b[0]));
+  cam.position.copy(a[1]).lerp(b[1], k).add(V(Math.sin(t * 53) * shake, Math.cos(t * 47) * shake, 0));
+  cam.up.set(0, 1, 0); cam.lookAt(a[2].clone().lerp(b[2], k)); cam.rotateZ(lerp(a[3], b[3], k));
+  cam.updateMatrixWorld();
+}
+const scr = v => { const p = v.clone().project(cam); return [(p.x + 1) / 2 * W, clamp((1 - p.y) / 2 * H, 520, H - 300)]; };
+const C = (a, b, k) => new THREE.Color(a).lerp(new THREE.Color(b), k);
+
+let carPos = V(), zTop = V();
+function updateMouth(t) {
+  const day = t >= 21 ? 1 : 0;
+  hemi.color.copy(C(0x6a5cff, 0xffffff, day)); hemi.groundColor.copy(C(0x1a0612, 0xffb0c0, day)); hemi.intensity = lerp(.7, 1.3, day);
+  key.color.copy(C(0x9fb4ff, 0xfff2d8, day)); key.intensity = lerp(1.3, 2.6, day);
+  rim.intensity = lerp(40, 12, day); fill.intensity = lerp(0, 50, day);
+  caveMat.color.copy(C(0x2a0c24, 0xe48aa2, day)); gumMat.color.copy(C(0xb04a66, 0xf27a97, day));
+  tongueMat.color.copy(C(0x8e3050, 0xf06b8f, day)); lipMat.color.copy(C(0x8e3048, 0xf0738c, day));
+  skyMat.map = day ? skyD : skyN;
+  // darker during the "only not me" moment
+  R3.toneMappingExposure = t > 18.2 && t < 21 ? lerp(1.05, .55, prog(t, 18.2, 19)) : 1.05;
+  const shake = (t > 13.2 && t < 18) ? .05 : (t > 9 && t < 9.6 ? .06 : 0);
+  setCam(t, shake);
+  // hook eyes
+  const ea = Math.min(prog(t, .25, .5), 1 - prog(t, 3.0, 3.5));
+  hookEyes.visible = ea > 0; eyeMat.opacity = ea; eyeLight.intensity = ea * 20;
+  const bl = (t % 1.7) < .1 ? .15 : 1; hookEyes.children.slice(0, 2).forEach(e => e.scale.y = .2 * bl);
+  grin.scale.setScalar(Math.max(.01, prog(t, .9, 1.4)));
+  // bottle & stream
+  const inK = easeOut(prog(t, 4.3, 5.0)), outK = easeInOut(prog(t, 21.6, 22.4));
+  bottle.visible = inK > 0 && outK < 1;
+  bottle.position.copy(BOTTLE_IN).add(V(0, (1 - inK) * 10 + outK * 12, 0));
+  const sa = Math.min(prog(t, 4.9, 5.3), 1 - prog(t, 20.9, 21.2)), grow = prog(t, 4.9, 5.5);
+  stream.visible = sa > 0; streamGeo.setDrawRange(0, Math.floor(streamGeo.index.count * grow / 6) * 6);
+  pool.visible = sa > 0 && grow > .9; pool.scale.set(.6 * grow, .08, .45 * grow);
+  // brush
+  const bk = prog(t, 22.1, 23.9), bx = lerp(-12, 13, easeInOut(bk));
+  brush.visible = bk > 0 && bk < 1;
+  { const a = Math.asin(clamp(bx / RAD, -1, 1)); brush.position.set(bx, .7 + Math.sin(bk * 60) * .25, RAD * Math.cos(a) - RAD + 1.7); brush.rotation.set(0, -a, Math.PI + .15); }
+  // teeth
+  const L = landings(t);
+  teeth.forEach((T, i) => {
+    const isZ = i === ZI, night = t < 21;
+    let dirt = isZ ? (t > 19.1 ? 1 : 0) : (L[i] > 0 ? 1 : 0);
+    let spots = isZ ? (t > 19.1 ? 1 : 0) : Math.min(6, L[i] * 2);
+    if (!night) dirt = isZ || L[i] > 0 ? 1 : 0;
+    if (isZ && t > 19.1 && t < 19.6) dirt = prog(t, 19.1, 19.6);
+    const clean = clamp((bx - 1 - T.base.x) / 1.5);
+    if (t > 22) dirt *= 1 - clean;
+    let sleep = night ? 1 : 0, mood = 1;
+    if (isZ && t > 9.3 && night) { sleep = 0; mood = 0; }
+    if (!night) mood = clean > .9 ? 1 : .3;
+    const happyNow = !night && clean > .9;
+    T.g.position.copy(T.base).add(V(0, happyNow ? Math.abs(Math.sin((t - 23) * 5 + i)) * .45 : 0, 0));
+    T.g.rotation.z = isZ && night && t > 9.3 ? Math.sin(t * 30) * .03 : 0;
+    T.set({ t, sleep, mood, spots, dirt, wave: isZ && happyNow ? 1 : 0 });
+  });
+  zTop = topOf(ZI);
+  // germs
+  germs.forEach((gm, g) => {
+    const p = germPos(g, t); gm.g.visible = !!p; if (!p) return;
+    gm.g.position.copy(p[0]); gm.g.scale.setScalar(GR * p[1]); gm.g.lookAt(cam.position);
+    gm.b.rotation.z = Math.sin(t * 2.5 + g) * .25; gm.b.scale.set(1 + Math.sin(t * 9 + g) * .05, 1 - Math.sin(t * 9 + g) * .05, 1);
+  });
+  // caries
+  car.g.visible = t > 5.2 && t < 23.8;
+  if (car.g.visible) {
+    const u = easeInOut(prog(t, 5.3, 7.2)); const p = streamCurve.getPoint(u).add(V(0, .7, 0));
+    if (t > 22.6) p.lerp(OPEN.clone().add(V(1.5, -1, 2)), easeInOut(prog(t, 22.6, 23.8)));
+    car.g.position.copy(p); car.g.lookAt(cam.position); carPos = p;
+    car.cane.rotation.z = t > 13 && t < 18 ? Math.sin(t * 6) * .5 : .15;
+    car.b.rotation.z = Math.sin(t * 2) * .15;
+  }
+}
+
+function updateCandy(t) {
+  const lt = t - 26;
+  const k = easeInOut(prog(lt, 0, 2.2));
+  cam.position.copy(V(0, 5.2, 9.5)).lerp(V(0, 3.9, 6.6), k); cam.up.set(0, 1, 0); cam.lookAt(V(0, 1.8, 0)); cam.updateMatrixWorld();
+  R3.toneMappingExposure = 1.0;
+  const lidK = easeOut(prog(lt, .4, 1.0));
+  lidPivot.rotation.x = -lidK * 1.9;
+  const rise = easeBack(prog(lt, .7, 1.3));
+  car2.g.position.set(0, .2 + rise * 1.75, 0); car2.g.lookAt(cam.position);
+  car2.b.rotation.z = Math.sin(t * 2) * .12;
+  car2.eyes[1].scale.y = lt > 1.5 && lt < 2.1 ? .12 : 1;
+  car2.cane.rotation.z = .15 + Math.sin(lt * 4) * .2;
+}
+
+// ===================== СЕРИЯ 2 «Всё равно выпадет» =====================
+[bottle, stream, pool, brush, ...germs.map(g => g.g)].forEach(o => o.visible = false);
+const tongueMesh = mouth.children.find(m => m.material === tongueMat);
+const Z = teeth[ZI];
+// roots for Зубик
+for (const s of [-1, 1]) { const r = mesh(new THREE.CapsuleGeometry(.28, 1.6, 6, 16), MT.tooth, V(s * .33, -1.9, 0), null, Z.body); r.rotation.z = s * .12; }
+// cavity / filling on Зубик
+const holeMat = std(0x3a1a0a, { roughness: .9 });
+const fillMat = phys(0xffffff, { clearcoat: 1, roughness: .05, emissive: 0xfff4c0, emissiveIntensity: .25 });
+const hole = mesh(SPHlo, holeMat, V(.55, -.38, .64), V(.01, .01, .01), Z.body);
+hole.quaternion.setFromUnitVectors(V(0, 0, 1), V(.55, -.38 / 1.32, .64 / .72).normalize());
+const HOLE_W = V(.62, -.43, .76);
+// underground: bone wall, crypt, baby permanent tooth
+function boneTex() {
+  const cv = document.createElement('canvas'); cv.width = cv.height = 512; const x = cv.getContext('2d');
+  x.fillStyle = '#f2d9c4'; x.fillRect(0, 0, 512, 512);
+  for (let i = 0; i < 140; i++) { x.fillStyle = rand(i) > .5 ? 'rgba(220,180,150,.5)' : 'rgba(255,240,228,.6)'; x.beginPath(); x.ellipse(rand(i + 1) * 512, rand(i + 2) * 512, 6 + rand(i + 3) * 18, 5 + rand(i + 4) * 12, rand(i) * 3, 0, 7); x.fill(); }
+  const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(4, 2); return t;
+}
+const under = new THREE.Group(); mouth.add(under);
+mesh(new THREE.PlaneGeometry(24, 8), std(0xffffff, { map: boneTex(), roughness: .9 }), V(0, -6.1, -1.6), null, under);
+mesh(SPH, std(0xc98f7c, { roughness: .9 }), V(0, -4.55, -1.45), V(1.45, 1.2, .2), under);
+const baby = makeTooth(false); baby.g.scale.setScalar(.72); baby.g.position.set(0, -4.75, -.4); under.add(baby.g);
+const capMat = phys(0x6c8cff, { roughness: .5 });
+const nightcap = new THREE.Group(); nightcap.position.set(.15, .95, 0); nightcap.rotation.z = -.5; baby.body.add(nightcap);
+mesh(new THREE.ConeGeometry(.55, 1.1, 24), capMat, V(0, .45, 0), null, nightcap);
+mesh(SPHlo, MT.white, V(0, 1.0, 0), V(.17, .17, .17), nightcap);
+mesh(new THREE.CapsuleGeometry(.5, 1.6, 6, 16), phys(0x9fd8ff, { roughness: .6 }), V(0, -5.47, .35), V(1, .45, .7), under).rotation.z = Math.PI / 2;
+const underLight = new THREE.PointLight(0xffd9b0, 0, 0, 1.4); underLight.position.set(1, -3.2, 4); mouth.add(underLight);
+// crack from cavity to the baby tooth
+const crackCurve = new THREE.CatmullRomCurve3([HOLE_W, V(.85, -.8, .66), V(.75, -1.25, .62), V(.5, -1.9, .5), V(.35, -2.7, .45), V(.2, -3.3, .4), V(.08, -3.75, .3)]);
+const crackGeo = new THREE.TubeGeometry(crackCurve, 90, .055, 8);
+const crackMat = std(0x2a0a10, { emissive: 0xff2030, emissiveIntensity: .4 });
+const crack = mesh(crackGeo, crackMat, null, null, mouth);
+// drill debris
+const debris = Array.from({ length: 14 }, (_, i) => { const m = mesh(SPHlo, std(i % 2 ? 0xe9e2d0 : 0x6b4a2a), null, V(.05, .05, .05), mouth); m.castShadow = false; return m; });
+const sparkles = Array.from({ length: 10 }, () => { const m = mesh(new THREE.OctahedronGeometry(.12), new THREE.MeshBasicMaterial({ color: 0xffe14d, transparent: true }), null, null, mouth); m.castShadow = false; return m; });
+
+// ---------- Доктор И. ----------
+function makeDoctor() {
+  const g = new THREE.Group();
+  const skin = phys(0xf0c4a0, { roughness: .55, clearcoat: .15 }), hair = std(0x2b1d16, { roughness: .75 });
+  const navy = phys(0x22345e, { roughness: .6, clearcoat: .1 }), chrome = phys(0xdfe6ee, { metalness: 1, roughness: .15 });
+  for (const s of [-1, 1]) { mesh(new THREE.CapsuleGeometry(.17, .55, 4, 10), navy, V(s * .2, .45, 0), null, g); mesh(SPHlo, phys(0xffffff), V(s * .2, .1, .08), V(.2, .12, .28), g); }
+  mesh(new THREE.CapsuleGeometry(.42, .55, 6, 16), navy, V(0, 1.2, 0), V(1, 1, .8), g);
+  const vn = mesh(new THREE.ConeGeometry(.12, .26, 3), skin, V(0, 1.56, .3), null, g); vn.rotation.x = Math.PI;
+  mesh(new THREE.BoxGeometry(.2, .17, .03), phys(0x2c4170), V(-.2, 1.33, .33), null, g);
+  mesh(new THREE.BoxGeometry(.04, .14, .02), std(0xffffff), V(-.25, 1.4, .35), null, g);
+  const arm = s => { const a = new THREE.Group(); a.position.set(s * .48, 1.52, 0); a.rotation.z = s * .25; g.add(a);
+    mesh(new THREE.CapsuleGeometry(.12, .55, 4, 10), navy, V(0, -.35, 0), null, a); mesh(SPHlo, skin, V(0, -.72, 0), V(.13, .13, .13), a); return a; };
+  const armL = arm(-1), armR = arm(1);
+  const mirror = new THREE.Group(); mirror.position.set(0, -.75, .05); armR.add(mirror);
+  mesh(new THREE.CylinderGeometry(.025, .025, .55, 8), chrome, V(0, -.25, 0), null, mirror);
+  const md = mesh(new THREE.CylinderGeometry(.11, .11, .03, 24), chrome, V(0, -.55, .03), null, mirror); md.rotation.x = Math.PI / 2;
+  const head = new THREE.Group(); head.position.set(0, 2.15, 0); g.add(head);
+  mesh(SPH, skin, null, V(.48, .54, .48), head);
+  for (const s of [-1, 1]) mesh(SPHlo, skin, V(s * .47, 0, 0), V(.09, .13, .07), head);
+  mesh(new THREE.SphereGeometry(.5, 32, 16, 0, Math.PI * 2, 0, Math.PI * .42), hair, V(0, .06, -.02), V(1.02, 1.05, 1.04), head);
+  mesh(SPHlo, hair, V(0, .5, .1), V(.3, .15, .24), head);
+  for (const s of [-1, 1]) mesh(SPHlo, hair, V(s * .43, .08, 0), V(.08, .2, .2), head); // sideburns
+  mesh(new THREE.SphereGeometry(.5, 32, 16, Math.PI * .05, Math.PI * .9, Math.PI * .52, Math.PI * .4), hair, null, V(1.0, 1.12, 1.03), head);
+  const mus = mesh(new THREE.CapsuleGeometry(.05, .26, 4, 8), hair, V(0, -.1, .49), null, head); mus.rotation.z = Math.PI / 2;
+  mesh(new THREE.CircleGeometry(.14, 20, Math.PI, Math.PI), std(0xffffff), V(0, -.18, .5), null, head);
+  mesh(SPHlo, skin, V(0, -.01, .5), V(.07, .08, .07), head);
+  const eyes = [];
+  for (const s of [-1, 1]) {
+    const e = new THREE.Group(); e.position.set(s * .17, .08, .45); head.add(e); eyes.push(e);
+    mesh(SPHlo, MT.black, null, V(.06, .075, .04), e); mesh(SPHlo, MT.white, V(-.02, .03, .03), V(.018, .018, .01), e);
+    const b = mesh(new THREE.CapsuleGeometry(.03, .14, 4, 8), hair, V(s * .17, .22, .44), null, head); b.rotation.z = Math.PI / 2 - s * .12;
+    mesh(SPHlo, MT.cheek, V(s * .27, -.06, .4), V(.07, .045, .03), head);
+  }
+  return { g, armL, armR, head, eyes, mirror: md };
+}
+const doc = makeDoctor(); mouth.add(doc.g); doc.g.visible = false;
+const DOC_LAND = V(-1.7, -1.27, 2.6);
+const beamMat = new THREE.MeshBasicMaterial({ color: 0xfff1a8, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide });
+const beam = mesh(new THREE.CylinderGeometry(.6, 1.9, 11, 32, 1, true), beamMat, V(-1.7, 4.2, 2.6), null, mouth); beam.castShadow = false;
+
+// ---------- cameras ----------
+const cam2 = new THREE.PerspectiveCamera(42, W / (H / 2), .1, 200);
+const CK2 = [
+  [0, V(0, 1.0, 4.8), V(0, .6, 0), 0], [2.2, V(0, .9, 3.7), V(0, .6, 0), 0], [4.2, V(0, .9, 3.6), V(0, .6, 0), 0],
+  [5.8, V(0, -3.9, 5.4), V(0, -4.2, 0), 0], [9, V(0, -4.0, 5.0), V(0, -4.2, 0), 0],
+  [14, V(-.2, .8, 3.9), V(.3, .5, 0), .12], [16.7, V(-.2, .75, 3.5), V(.3, .5, 0), -.1],
+  [16.8, V(0, -4.0, 4.6), V(0, -4.1, 0), .08], [19, V(0, -4.1, 4.0), V(0, -4.1, 0), -.05],
+  [19.01, V(0, 2.6, 12.5), V(-.8, 2.2, -2), 0], [20.9, V(0, 2.2, 12), V(-.8, 1.6, -2), 0], [22.8, V(-.6, -.5, 7.8), V(-1.3, .9, 2.6), 0],
+  [23.4, V(-.4, .5, 8.6), V(-.5, .4, 1.2), 0], [24.1, V(.3, .9, 6.8), V(.2, .6, 0), 0], [27, V(.2, 1.0, 6.2), V(.2, .6, 0), 0],
+  [27.01, V(0, 2.2, 8), V(0, 6.0, -11), 0], [30, V(0, 2.6, 6.5), V(0, 6.6, -11), 0]];
+function setCam2(t, shake) {
+  let i = 0; while (i < CK2.length - 2 && t > CK2[i + 1][0]) i++;
+  const a = CK2[i], b = CK2[i + 1], k = b[0] - a[0] < .05 ? 1 : easeInOut(prog(t, a[0], b[0]));
+  cam.position.copy(a[1]).lerp(b[1], k).add(V(Math.sin(t * 53) * shake, Math.cos(t * 47) * shake, 0));
+  cam.up.set(0, 1, 0); cam.lookAt(a[2].clone().lerp(b[2], k)); cam.rotateZ(lerp(a[3], b[3], k)); cam.updateMatrixWorld();
+}
+
+let carP = V(), docHead = V();
+function update2(t) {
+  // daylight
+  hemi.color.set(0xffffff); hemi.groundColor.set(0xffb0c0); hemi.intensity = 1.25;
+  key.color.set(0xfff2d8); key.intensity = 2.4; rim.intensity = 14; fill.intensity = 45;
+  caveMat.color.set(0xe48aa2); gumMat.color.set(0xf27a97); tongueMat.color.set(0xf06b8f); lipMat.color.set(0xf0738c); skyMat.map = skyD;
+  hookEyes.visible = false; eyeLight.intensity = 0;
+  R3.toneMappingExposure = 1.05;
+  // cavity growth
+  const g = t < 9 ? 0 : prog(t, 9.3, 16.5);
+  const healed = t > 24.25;
+  hole.material = healed ? fillMat : holeMat;
+  const hs = healed ? 1.25 : .15 + g * 1.25;
+  hole.scale.set(.22 * hs, .2 * hs, .07);
+  hole.visible = t > 9.2;
+  const cg = t < 9.6 ? 0 : (healed ? 1 - prog(t, 24.3, 25.2) : prog(t, 9.6, 18.6));
+  crack.visible = cg > .01; crackGeo.setDrawRange(0, Math.floor(crackGeo.index.count * cg / 6) * 6);
+  crackMat.emissiveIntensity = .4 + .5 * Math.max(0, Math.sin(t * 8));
+  // teeth: neighbours happy; Зубик reacts
+  teeth.forEach((T, i) => { T.g.position.copy(T.base); T.g.rotation.z = 0; T.set({ t, mood: 1 }); });
+  const pain = t > 9.2 && !healed;
+  Z.g.rotation.z = pain ? Math.sin(t * 30) * .03 : 0;
+  Z.set({ t, mood: pain ? 0 : 1, wave: (t > 4.3 && t < 8.8) || t > 24.6 ? 1 : 0 });
+  if (t > 24.6 && t < 27) Z.g.position.y = Z.base.y + Math.abs(Math.sin((t - 24.6) * 5)) * .35;
+  // baby
+  const toss = t > 13 && !healed ? Math.sin(t * 7) * .12 * prog(t, 13, 17) : 0;
+  baby.g.rotation.z = toss;
+  baby.set({ t, sleep: (t > 17.4 && t < 24.3) ? 0 : 1, mood: t > 17.4 && t < 24.3 ? 0 : 1 });
+  under.visible = cam.position.y < -1 || t > 8.9 && t < 14.05;
+  tongueMesh.visible = cam.position.y > -1.5 || (t > 8.9 && t < 14.05);
+  underLight.intensity = cam.position.y < -1 || (t > 8.9 && t < 14.05) ? 35 : 0;
+  // caries drilling at cavity
+  car.g.visible = t > 8.9 && t < 28.7;
+  if (car.g.visible) {
+    let p = V(1.55, .3, 1.0), spin = 0;
+    if (t > 24.2) { const f = easeOut(prog(t, 24.2, 25.2)); p = p.lerp(V(4.5, 4.5, -3), f); spin = f * 12; }
+    if (t > 27) { const f = easeInOut(prog(t, 27.05, 28.6)); p = V(2.2, 3.2, -1).lerp(OPEN.clone().add(V(.8, .3, .5)), f); car.g.scale.setScalar(.78 * (1 - f * .75)); spin = t * 6; }
+    else car.g.scale.setScalar(.78);
+    car.g.position.copy(p); car.g.lookAt(cam.position); car.g.rotateZ(spin);
+    car.cane.rotation.z = t < 24.2 ? .9 + Math.sin(t * 40) * .15 : .2;
+    car.b.rotation.z = Math.sin(t * 2) * .12; carP = p;
+  }
+  // debris while drilling
+  debris.forEach((d, i) => {
+    const on = t > 9.3 && t < 24.2; d.visible = on; if (!on) return;
+    const ph = ((t * 2.2 + rand(i) * 3) % 1);
+    d.position.copy(HOLE_W).add(V(.15 + ph * (1 + rand(i + 1)), ph * 1.2 - ph * ph * 2.4 + .1, .2 + rand(i + 2) * .5 * ph));
+  });
+  // doctor
+  doc.g.visible = t > 19.2 && t < 27.05;
+  beamMat.opacity = Math.min(prog(t, 19.0, 19.4), 1 - prog(t, 21.0, 21.8)) * .35;
+  beam.visible = beamMat.opacity > 0;
+  if (doc.g.visible) {
+    const d = easeOut(prog(t, 19.3, 20.8));
+    doc.g.position.copy(DOC_LAND).add(V(0, (1 - d) * 9, 0));
+    const land = prog(t, 20.8, 21.2), sq = Math.sin(land * Math.PI) * .12;
+    doc.g.scale.set(1 + sq, 1 - sq, 1 + sq);
+    doc.g.rotation.y = .55;
+    doc.armL.rotation.z = -.25 - (t > 21 && t < 23 ? .35 + Math.sin(t * 6) * .15 : 0);
+    const point = prog(t, 23.2, 23.6) * (1 - prog(t, 25.5, 26));
+    doc.armR.rotation.z = .25 + point * 1.5; doc.armR.rotation.x = -point * .6;
+    const wink = t > 23.4 && t < 23.9; doc.eyes[1].scale.y = wink ? .12 : 1;
+    doc.head.rotation.z = wink ? -.12 : 0;
+    doc.head.position.y = 2.15 + Math.sin(t * 3) * .02;
+    docHead = doc.g.localToWorld(V(0, 2.75, 0));
+  }
+  // magic star from mirror to cavity, sparkles on filling
+  sparkles.forEach((s, i) => {
+    let vis = false;
+    if (t > 23.5 && t < 24.3 && i === 0) { const f = easeInOut(prog(t, 23.5, 24.25)); const from = doc.mirror.getWorldPosition(V()); s.position.copy(from.lerp(HOLE_W, f)); s.position.y += Math.sin(f * Math.PI) * .8; s.scale.setScalar(2.2); s.rotation.y = t * 8; vis = true; }
+    if (t > 24.25 && t < 26.5) { const f = prog(t, 24.25, 26.5), a = i / 10 * Math.PI * 2 + t; s.position.copy(HOLE_W).add(V(Math.cos(a) * (.3 + f * 1.2), Math.sin(a) * (.3 + f * 1.2), .3)); s.scale.setScalar(1.2 * (1 - f)); s.rotation.y = t * 5; vis = true; }
+    s.visible = vis;
+  });
+  const shake = (t > 2.2 && t < 2.6) ? .08 : (t > 14 && t < 16.7 ? .03 : 0);
+  setCam2(t, shake);
+}
+
+function overlay2(t) {
+  // hook: adult quote + MYTH stamp
+  caption(['«Это же молочный —', 'ВСЁ РАВНО ВЫПАДЕТ!»'], W / 2, 330, 70, prog(t, .15, .55) * (1 - prog(t, 3.9, 4.2)), { bg: '#fff' });
+  const st = prog(t, 2.2, 2.45);
+  if (st > 0 && t < 4.2) {
+    ctx.save(); ctx.globalAlpha = 1 - prog(t, 3.9, 4.2); ctx.translate(W / 2, 900); ctx.rotate(-.18); const sc = lerp(3, 1, easeOut(st)); ctx.scale(sc, sc);
+    ctx.lineWidth = 16; ctx.strokeStyle = '#e8304a'; roundRect(-260, -110, 520, 220, 30); ctx.stroke();
+    ctx.fillStyle = '#e8304a'; ctx.font = F(900, 170); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('МИФ', 0, 8); ctx.restore();
+  }
+  caption(['Самая дорогая ошибка родителей'], W / 2, 1580, 54, prog(t, 2.6, 3.0) * (1 - prog(t, 3.9, 4.2)), { bg: '#e8304a', color: '#fff' });
+  // underground intro
+  bubble(['Знакомьтесь — мой', 'младший брат!', 'Он ещё растёт.'], W / 2, 330, 58, prog(t, 5.9, 6.3) * (1 - prog(t, 8.6, 8.9)), W / 2, 40);
+  caption(['Под каждым молочным зубом', 'растёт постоянный'], W / 2, 1620, 54, prog(t, 6.6, 7.0) * (1 - prog(t, 8.6, 8.9)), { bg: '#38c6d9', color: '#fff' });
+  // split screen line + caption
+  if (t > 9 && t < 14) {
+    ctx.fillStyle = '#fff'; ctx.fillRect(0, H / 2 - 5, W, 10);
+    caption(['Инфекция из молочного зуба', 'может навредить постоянному'], W / 2, H / 2, 52, prog(t, 9.8, 10.3) * (1 - prog(t, 13.6, 14)), { bg: '#ffc93c' });
+  }
+  if (t > 14 && t < 16.8) { const [zx, zy] = scr(V(0, 1.6, .5)); bubble(['Помогите-е-е!'], clamp(zx, 330, W - 330), 380, 76, prog(t, 14.3, 14.7) * (1 - prog(t, 16.4, 16.7)), zx, zy); }
+  if (t > 16.8 && t < 19) caption(['Ой-ой…'], W / 2, 420, 70, prog(t, 17.5, 17.9) * (1 - prog(t, 18.7, 19)), { bg: '#e8f0ff' });
+  if (t > 21 && t < 23.3) { const [dx, dy] = scr(docHead); bubble(['Кто здесь обижает', 'молочные зубы?'], clamp(dx + 120, 330, W - 330), dy - 200, 60, prog(t, 21.1, 21.5) * (1 - prog(t, 23.0, 23.3)), dx, dy); }
+  caption(['Доктор И.'], W / 2, 1650, 64, prog(t, 20.9, 21.3) * (1 - prog(t, 22.9, 23.2)), { bg: '#22345e', color: '#fff' });
+  caption(['Вылеченный молочный зуб', 'бережёт постоянный'], W / 2, 330, 62, prog(t, 24.7, 25.2) * (1 - prog(t, 26.7, 27)), { bg: '#7ed957', color: '#fff' });
+  if (t > 27 && t < 28.6) { const [cx, cy] = scr(carP); bubble(['Я найду того,', 'кто БОИТСЯ!'], clamp(cx, 330, W - 330), 1450, 66, prog(t, 27.2, 27.6), cx, cy + 40, { bg: '#6a3fb0', color: '#fff' }); }
+  const frz = prog(t, 28.6, 28.75);
+  if (frz > 0) {
+    ctx.fillStyle = `rgba(40,20,80,${.45 * frz})`; ctx.fillRect(0, 0, W, H);
+    if (t < 28.9) { ctx.fillStyle = `rgba(255,255,255,${1 - prog(t, 28.6, 28.9)})`; ctx.fillRect(0, 0, W, H); }
+    caption(['Зубик против Кариеса'], W / 2, 230, 70, prog(t, 28.7, 29.1), { bg: '#fff', color: '#6a3fb0' });
+    caption(['Кого он выберет?'], W / 2, 1560, 84, prog(t, 28.8, 29.2), { bg: null, color: '#fff' });
+    const p = prog(t, 29.1, 29.4);
+    if (p > 0) { ctx.save(); ctx.translate(W / 2, 1740); const s = 1 + .05 * Math.sin(t * 8); ctx.scale(s, s); caption(['Серия 3 →'], 0, 0, 64, p, { bg: '#ff6fa5', color: '#fff' }); ctx.restore(); }
+  }
+  // flashes on cuts
+  for (const c of [19.0, 27.0]) { const f = 1 - Math.abs(t - c) / .25; if (f > 0) { ctx.fillStyle = `rgba(255,255,255,${f})`; ctx.fillRect(0, 0, W, H); } }
+}
+
+function render(t) {
+  update2(t);
+  const split = t > 9 && t < 14;
+  if (split) {
+    R3.setScissorTest(true);
+    cam2.fov = 42; cam2.aspect = W / (H / 2); cam2.updateProjectionMatrix();
+    // top: Кариес сверлит
+    cam2.position.set(.5, .95, 6.4 - prog(t, 9, 14) * .8); cam2.up.set(0, 1, 0); cam2.lookAt(.6, .5, 0);
+    R3.setViewport(0, H / 2, W, H / 2); R3.setScissor(0, H / 2, W, H / 2); tongueMesh.visible = true; under.visible = true; underLight.intensity = 0; R3.render(mouth, cam2);
+    // bottom: брат под десной
+    cam2.position.set(.15, -3.7, 5.6 - prog(t, 9, 14) * .8); cam2.lookAt(.1, -3.9, 0);
+    R3.setViewport(0, 0, W, H / 2); R3.setScissor(0, 0, W, H / 2); tongueMesh.visible = false; underLight.intensity = 35; R3.render(mouth, cam2);
+    R3.setScissorTest(false); R3.setViewport(0, 0, W, H);
+  } else {
+    under.visible = cam.position.y < -1; tongueMesh.visible = cam.position.y > -1.5; underLight.intensity = cam.position.y < -1 ? 35 : 0;
+    R3.render(mouth, cam);
+  }
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1;
+  ctx.drawImage(R3.domElement, 0, 0);
+  overlay2(t);
+  const b = Math.min(prog(t, 4.3, 4.7), 1 - prog(t, 28.4, 28.6));
+  if (b > 0) {
+    ctx.globalAlpha = b; roundRect(40, 60, 230, 70, 35); ctx.fillStyle = 'rgba(106,63,176,.9)'; ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = F(900, 36); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('СЕРИЯ 2', 155, 97); ctx.globalAlpha = 1;
+  }
+}
+
+// ===== sound (offline Web Audio) =====
+async function renderAudio() {
+  const SR = 44100, ac = new OfflineAudioContext(2, SR * DURATION, SR);
+  const master = ac.createGain(); master.gain.value = .8; master.connect(ac.destination);
+  const nbuf = ac.createBuffer(1, SR * 2, SR); const nd = nbuf.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+  function tone(t0, f0, dur, { type = 'sine', gain = .3, f1 = f0, attack = .01 } = {}) {
+    const o = ac.createOscillator(), g = ac.createGain(); o.type = type;
+    o.frequency.setValueAtTime(f0, t0); o.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+    g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(gain, t0 + attack); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + dur + .05);
+  }
+  function noise(t0, dur, { gain = .3, type = 'lowpass', f0 = 800, f1 = f0, q = 1 } = {}) {
+    const s = ac.createBufferSource(); s.buffer = nbuf; const fl = ac.createBiquadFilter(); fl.type = type; fl.Q.value = q;
+    fl.frequency.setValueAtTime(f0, t0); fl.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+    const g = ac.createGain(); g.gain.setValueAtTime(gain, t0); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur);
+    s.connect(fl); fl.connect(g); g.connect(master); s.start(t0); s.stop(t0 + dur + .05);
+  }
+  const note = n => 440 * Math.pow(2, (n - 69) / 12);
+  const pl = (x, n, d = .35, g = .14, type = 'triangle') => tone(x, note(n), d, { type, gain: g });
+  const talk = (x, n, base, type, g) => { for (let i = 0; i < n; i++) tone(x + i * .11, base * (1 + rand(i + x * 10) * .5), .09, { type, gain: g, f1: base * (1.1 + rand(i + 3) * .3) }); };
+  // 0–4 hook: adult voice, stamp, wrong buzzer
+  talk(.2, 14, 260, 'sawtooth', .07);
+  for (let i = 0; i < 8; i++) pl(.1 + i * .25, [60, 64, 67, 64][i % 4], .2, .1, 'square');
+  tone(2.2, 120, 1.0, { gain: .9, f1: 40 }); noise(2.2, .5, { gain: .6, f0: 2000, f1: 200 });
+  tone(2.45, note(43), .35, { type: 'square', gain: .14 }); tone(2.85, note(42), .6, { type: 'square', gain: .14 });
+  // 4.2–9 elevator down + music box for the little brother
+  noise(4.2, 1.6, { gain: .22, type: 'bandpass', f0: 1800, f1: 250, q: 2 });
+  [79, 84, 83, 79, 76, 79, 81, 76, 72, 76, 79, 84].forEach((n, i) => { pl(5.6 + i * .28, n, .8, .13, 'sine'); pl(5.6 + i * .28, n + 12, .3, .03, 'sine'); });
+  talk(5.95, 14, 640, 'triangle', .13);
+  // 9–14 drill + tension
+  for (let x = 9.3; x < 14; x += .5) tone(x, 880, .52, { type: 'sawtooth', gain: .05, f1: 1100 });
+  noise(9.3, 4.7, { gain: .08, type: 'bandpass', f0: 2500, f1: 3500, q: 6 });
+  for (let i = 0; i < 20; i++) pl(9.2 + i * .24, [45, 46][i % 2], .2, .14, 'square');
+  for (let i = 0; i < 6; i++) noise(10 + i * .7, .15, { gain: .15, type: 'highpass', f0: 4000 }); // crack creaks
+  // 14–19 panic: drums, scream, heartbeat
+  talk(14.35, 10, 700, 'triangle', .16);
+  for (let i = 0; i < 4; i++) tone(14.35 + i * .25, 900 + i * 200, .25, { type: 'triangle', gain: .1, f1: 1400 + i * 200 });
+  for (let x = 14; x < 16.8; x += .35) { tone(x, 140, .25, { gain: .5, f1: 45 }); noise(x + .17, .1, { gain: .15, type: 'highpass', f0: 1500 }); }
+  for (let x = 16.9; x < 19; x += .8) { tone(x, 70, .2, { gain: .8, f1: 40 }); tone(x + .22, 65, .2, { gain: .6, f1: 38 }); }
+  talk(17.5, 6, 950, 'sine', .12);
+  // 19–23 hero arrives: fanfare, landing, doctor speaks
+  noise(19.0, 1.2, { gain: .2, type: 'bandpass', f0: 600, f1: 5000, q: 1 });
+  [[60, 19.3], [64, 19.6], [67, 19.9], [72, 20.3]].forEach(([n, x]) => { [0, 4, 7].forEach(o => tone(x, note(n + o - 12), .9, { type: 'sawtooth', gain: .05, attack: .03 })); pl(x, n, .9, .12, 'square'); });
+  tone(20.85, 90, .5, { gain: .9, f1: 35 }); noise(20.85, .3, { gain: .3, f0: 600, f1: 100 });
+  [48, 55, 52, 55, 48, 55].forEach((n, i) => pl(21.1 + i * .35, n, .3, .12, 'triangle'));
+  talk(21.15, 14, 300, 'triangle', .14);
+  // 23–27 wink, magic, ejection, happy theme
+  tone(23.45, 1568, 1.0, { gain: .22 }); tone(23.45, 2350, .7, { gain: .08 });
+  [84, 88, 91, 96, 100, 103].forEach((n, i) => tone(23.55 + i * .1, note(n), .5, { gain: .07 }));
+  tone(24.2, 300, .8, { type: 'triangle', gain: .14, f1: 1800 }); noise(24.2, .4, { gain: .3, type: 'bandpass', f0: 500, f1: 4000, q: 2 });
+  [88, 91, 96, 100].forEach((n, i) => tone(24.35 + i * .08, note(n), .6, { gain: .08 }));
+  [76, 79, 84, 83, 81, 79, 76, 79].forEach((n, i) => { const x = 24.6 + i * .3; tone(x, note(n), .6, { gain: .14 }); pl(x, [48, 55, 52, 55][i % 4], .25, .12); });
+  talk(24.8, 8, 650, 'triangle', .12);
+  // 27–30 villain threat + sting
+  talk(27.2, 12, 140, 'square', .1);
+  tone(27.3, 700, 1.3, { type: 'triangle', gain: .1, f1: 200 });
+  tone(28.6, 98, 1.4, { type: 'sawtooth', gain: .12, f1: 92 }); tone(28.6, 147, 1.4, { type: 'sawtooth', gain: .08 });
+  tone(28.6, 1568, 1.2, { gain: .2 });
+  const buf = await ac.startRendering();
+  // encode WAV
+  const n = buf.length, out = new DataView(new ArrayBuffer(44 + n * 4));
+  const ws = (o, s) => [...s].forEach((ch, i) => out.setUint8(o + i, ch.charCodeAt(0)));
+  ws(0, 'RIFF'); out.setUint32(4, 36 + n * 4, true); ws(8, 'WAVEfmt '); out.setUint32(16, 16, true); out.setUint16(20, 1, true);
+  out.setUint16(22, 2, true); out.setUint32(24, SR, true); out.setUint32(28, SR * 4, true); out.setUint16(32, 4, true); out.setUint16(34, 16, true);
+  ws(36, 'data'); out.setUint32(40, n * 4, true);
+  const L = buf.getChannelData(0), R = buf.getChannelData(1);
+  for (let i = 0; i < n; i++) { out.setInt16(44 + i * 4, clamp(L[i], -1, 1) * 32767, true); out.setInt16(46 + i * 4, clamp(R[i], -1, 1) * 32767, true); }
+  let s = ''; const u8 = new Uint8Array(out.buffer); for (let i = 0; i < u8.length; i += 32768) s += String.fromCharCode.apply(null, u8.subarray(i, i + 32768));
+  return btoa(s);
+}
+
+window.renderAudio = renderAudio;
+window.DURATION = DURATION;
+window.renderFrame = render;
+window.ready = document.fonts.load(F(900, 40)).then(() => document.fonts.load(F(800, 40)));
+if (!/render=1/.test(location.search)) {
+  let start = performance.now(), audio = null;
+  window.ready.then(() => {
+    const loop = now => { render(((now - start) / 1000) % DURATION); requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  });
+  cv.addEventListener('click', async () => {
+    if (!audio) { audio = new Audio('data:audio/wav;base64,' + await renderAudio()); audio.loop = true; }
+    audio.currentTime = 0; audio.play(); start = performance.now();
+  });
+}
+</script>
+</body>
+</html>
