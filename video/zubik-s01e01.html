@@ -636,6 +636,31 @@ async function renderAudio() {
   noise(26.3, .6, { gain: .15, type: 'bandpass', f0: 200, f1: 600, q: 4 }); // lid creak
   tone(27.6, 1568, 1.2, { gain: .25 }); tone(27.6, 2350, .9, { gain: .1 }); // ding (wink)
   tone(28.25, 98, 1.6, { type: 'sawtooth', gain: .12, f1: 92 }); tone(28.25, 147, 1.6, { type: 'sawtooth', gain: .08 }); // sting
+  // ---- background score ----
+  const pl = (x, n, d = .35, g = .14, type = 'triangle') => tone(x, note(n), d, { type, gain: g });
+  // 0–5 mystery: slow A-minor arpeggio
+  [57, 60, 64, 69, 64, 60, 57, 60, 64, 71].forEach((n, i) => pl(.6 + i * .45, n, 1.1, .12, 'sine'));
+  // 5–9 sneaky villain theme (tiptoe pizzicato)
+  const sneak = [45, 0, 48, 0, 50, 51, 52, 0, 45, 0, 48, 0, 52, 51, 50, 0];
+  sneak.forEach((n, i) => { if (n) pl(5 + i * .25, n, .22, .22, 'square'); });
+  [69, 72, 75, 76].forEach((n, i) => pl(6 + i * .5, n, .2, .06));
+  // 9–13 tense ostinato
+  for (let i = 0; i < 16; i++) pl(9.2 + i * .24, [57, 58][i % 2], .2, .12, 'sawtooth');
+  for (let i = 0; i < 4; i++) tone(9.2 + i * .96, note(33), .9, { type: 'sawtooth', gain: .1 });
+  // 13–18 chase bass under drums
+  const chase = [45, 45, 48, 45, 50, 45, 51, 52];
+  for (let i = 0; i < 14; i++) pl(13.1 + i * .35, chase[i % 8], .3, .2, 'square');
+  [69, 72, 76, 72].forEach((n, i) => { for (let r = 0; r < 4; r++) pl(13.1 + i * 1.4 + r * .35, n, .15, .05); });
+  // 21–26 happy bounce under lullaby
+  for (let i = 0; i < 12; i++) { pl(21.1 + i * .4, [48, 55, 52, 55][i % 4], .3, .14, 'triangle'); noise(21.3 + i * .4, .05, { gain: .08, type: 'highpass', f0: 6000 }); }
+  // 26–30 tiptoe + sting already
+  [64, 0, 67, 0, 71, 72].forEach((n, i) => { if (n) pl(26.3 + i * .22, n, .18, .12, 'square'); });
+  // ---- character "voices" (gibberish chirps on bubbles) ----
+  const talk = (x, n, base, type, g) => { for (let i = 0; i < n; i++) tone(x + i * .11, base * (1 + rand(i + x * 10) * .5), .09, { type, gain: g, f1: base * (1.1 + rand(i + 3) * .3) }); };
+  talk(6.25, 12, 150, 'square', .1);     // Кариес: «Сладкая ночка, ребята!»
+  talk(9.75, 9, 650, 'triangle', .16);   // Зубик: «Э-э-это ещё кто?!»
+  talk(19.75, 5, 500, 'triangle', .12);  // Зубик: «Только не я…»
+  talk(22.7, 6, 170, 'square', .08);     // Кариес убегает
   const buf = await ac.startRendering();
   // encode WAV
   const n = buf.length, out = new DataView(new ArrayBuffer(44 + n * 4));
