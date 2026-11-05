@@ -13,13 +13,15 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: Rubik, system-ui, sans-serif; }
   body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 16px; }
-  .stage { position: relative; width: min(100%, calc((100vh - 110px) * 16 / 9)); aspect-ratio: 16 / 9; background: #000; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+  .stage { position: relative; --ar: 9 / 16; --k: .5625; width: min(100%, calc((100vh - 110px) * var(--k))); aspect-ratio: var(--ar); background: #000; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
   canvas { width: 100%; height: 100%; display: block; }
   .play { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: rgba(0,0,0,.55); border: 0; color: #fff; cursor: pointer; font: inherit; }
   .play b { width: 96px; height: 96px; border-radius: 50%; border: 4px solid var(--accent); display: grid; place-items: center; box-shadow: 0 0 40px rgba(255,59,59,.6); }
   .play b::after { content: ''; border-left: 30px solid #fff; border-top: 18px solid transparent; border-bottom: 18px solid transparent; margin-left: 8px; }
   .play span { font-weight: 900; letter-spacing: .3em; font-size: clamp(18px, 3vw, 30px); }
-  .bar { width: min(100%, calc((100vh - 110px) * 16 / 9)); display: flex; gap: 12px; align-items: center; font-size: 14px; }
+  .landscape .stage { --ar: 16 / 9; --k: 1.7778; }
+  .landscape .bar { width: min(100%, calc((100vh - 110px) * 1.7778)); }
+  .bar { flex-wrap: wrap; width: min(100%, max(360px, calc((100vh - 110px) * .5625))); display: flex; gap: 12px; align-items: center; font-size: 14px; }
   .bar button { background: #1c1e22; color: #fff; border: 1px solid #333; border-radius: 8px; padding: 8px 14px; font: inherit; cursor: pointer; }
   .bar input[type=range] { flex: 1; accent-color: var(--accent); }
   .bar a { color: #aaa; }
@@ -29,7 +31,7 @@
 </head>
 <body>
   <div class="stage">
-    <canvas id="c" width="1920" height="1080"></canvas>
+    <canvas id="c" width="1080" height="1920"></canvas>
     <button class="play" id="play"><b></b><span>ПАУЗА · СЕРИЯ 1</span></button>
   </div>
   <div class="bar" id="bar">
@@ -37,7 +39,8 @@
     <input type="range" id="seek" min="0" max="70" step="0.01" value="0">
     <span id="time">0:00</span>
     <label><input type="checkbox" id="subs" checked> субтитры</label>
-    <a href="pauza.mp4" download>скачать mp4</a>
+    <a id="dl" href="pauza_vertical.mp4" download>скачать mp4</a>
+    <a id="fmt" href="?format=landscape">16:9</a>
   </div>
   <audio id="au" src="pauza_audio.mp3" preload="auto"></audio>
 <script src="anim.js"></script>
@@ -45,11 +48,15 @@
 (async () => {
   const q = new URLSearchParams(location.search);
   const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const landscape = q.get('format') === 'landscape';
+  PAUZA.setMode(landscape ? 'landscape' : 'portrait');
+  [cv.width, cv.height] = PAUZA.size();
+  if (landscape) { document.body.classList.add('landscape'); document.getElementById('dl').href = 'pauza.mp4'; const f = document.getElementById('fmt'); f.href = '?'; f.textContent = '9:16'; }
   await PAUZA.load('');
   if (q.has('render')) {
     document.querySelector('.play').remove(); document.getElementById('bar').remove();
     document.body.style.padding = 0;
-    Object.assign(document.querySelector('.stage').style, { width: '1920px', height: '1080px', borderRadius: 0 });
+    Object.assign(document.querySelector('.stage').style, { width: cv.width + 'px', height: cv.height + 'px', borderRadius: 0 });
     window.renderAt = t => PAUZA.render(ctx, t);
     window.READY = true; return;
   }

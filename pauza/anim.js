@@ -4,6 +4,8 @@
 (() => {
 'use strict';
 const W = 1920, H = 1080, DUR = 70;
+// логический кадр всегда 1920×1080; вывод — 16:9 или 9:16 (вертикальный кадр вырезается из центра)
+let OW = 1080, OH = 1920, BS = OH / H, OX = OW / 2 - 960 * BS, PORT = true;
 
 // ---------- утилиты ----------
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -276,12 +278,23 @@ function blurred(key) {
 }
 function frozenFilter(g, src, f, x = 0, y = 0) {
   g.filter = `saturate(${1 - .6 * f}) brightness(${1 - .06 * f}) contrast(${1 + .12 * f})`;
-  g.drawImage(src, x, y); g.filter = 'none';
+  if (src._out) blit(g, src); else g.drawImage(src, x, y);
+  g.filter = 'none';
   if (f > 0) { g.save(); g.globalCompositeOperation = 'multiply'; g.fillStyle = `rgba(165,195,245,${.5 * f})`; g.fillRect(0, 0, W, H); g.restore(); }
 }
-const B1 = mk(), b1 = B1.getContext('2d');
-const B2 = mk(), b2 = B2.getContext('2d');
-function clear(g) { g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; g.filter = 'none'; g.clearRect(0, 0, W, H); }
+let B1, b1, T1, t1, T2, t2, VIG;
+function outBuf() { const c = mk(OW, OH); c._out = true; return c; }
+function setMode(m) {
+  PORT = m !== 'landscape';
+  [OW, OH] = PORT ? [1080, 1920] : [1920, 1080];
+  BS = OH / H; OX = OW / 2 - 960 * BS;
+  B1 = outBuf(); b1 = B1.getContext('2d'); if (typeof KLAY !== 'undefined') KLAY.length = 0; T1 = outBuf(); t1 = T1.getContext('2d'); T2 = outBuf(); t2 = T2.getContext('2d'); VIG = null;
+}
+function base(g) { g.setTransform(BS, 0, 0, BS, OX, 0); }
+const toOut = (x, y) => [x * BS + OX, y * BS];
+function clear(g) { g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; g.filter = 'none'; g.clearRect(0, 0, OW, OH); base(g); }
+// вывести буфер размера экрана, игнорируя текущий логический transform
+function blit(g, src, dx = 0, dy = 0) { g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(src, dx, dy); g.restore(); }
 
 // мир кухни через камеру; frozen 0..1
 function kitchenShot(g, t, c, frozen, extra) {
@@ -612,7 +625,7 @@ function drawFigure(g, st) {
 function corridorShot(g, t, c, st, blur = 0) {
   clear(b1); b1.save(); cam(b1, ...c); drawCorridor(b1, st); b1.restore();
   if (blur) g.filter = `blur(${blur}px)`;
-  g.drawImage(B1, 0, 0); g.filter = 'none';
+  blit(g, B1); g.filter = 'none';
 }
 
 // =====================================================================
@@ -625,7 +638,7 @@ const shot = (s, tin, fn) => S.push({ s, tin, fn });
 shot(0, { type: 'cut' }, (g, t) => {
   const z = lerp(1.0, 1.06, ss(0, 2.6, t));
   clear(b1); b1.save(); cam(b1, 1000, 560, z); drawKitchen(b1, wtime(t)); drawElmirStand(b1, 1000, 1045, 880, t); b1.restore();
-  g.drawImage(B1, 0, 0);
+  blit(g, B1);
   // вибрация телефона в кармане
   const bz = (t > 1.75 && t < 2.15) || (t > 2.25 && t < 2.6);
   if (bz) {
@@ -710,13 +723,13 @@ shot(20.98, { type: 'flash', d: .25 }, (g, t) => {
   clear(b1); b1.save(); cam(b1, ...c); drawKitchen(b1, wtime(t)); b1.restore();
   const O = [W / 2 + (1000 + 80 - 1000) * z, H / 2 + (1045 - 880 * .45 - 560) * z];
   const r = Math.pow(lin(21.15, 23.05, t), 1.6) * 2600;
-  g.drawImage(B1, 0, 0);
+  blit(g, B1);
   if (r > 0) {
     g.save(); g.beginPath(); g.arc(O[0], O[1], r, 0, TAU); g.clip(); frozenFilter(g, B1, 1); g.restore();
     if (r < 2500) {
       // «линза» на фронте волны
       g.save(); g.beginPath(); g.arc(O[0], O[1], r + 60, 0, TAU); g.arc(O[0], O[1], Math.max(0, r - 20), 0, TAU, true); g.clip('evenodd');
-      g.translate(O[0], O[1]); g.scale(1.035, 1.035); g.translate(-O[0], -O[1]); g.drawImage(B1, 0, 0); g.restore();
+      const [ox, oy] = toOut(...O); g.setTransform(1.035, 0, 0, 1.035, ox - ox * 1.035, oy - oy * 1.035); g.drawImage(B1, 0, 0); g.restore();
       g.save(); g.strokeStyle = 'rgba(220,240,255,.8)'; g.lineWidth = 6; g.shadowColor = '#bfe3ff'; g.shadowBlur = 40; g.beginPath(); g.arc(O[0], O[1], r, 0, TAU); g.stroke(); g.restore();
     }
   }
@@ -750,7 +763,7 @@ shot(30.98, { type: 'fade', d: .3 }, (g, t) => {
   const walkK = ss(31.0, 32.7, t), lunge = ss(33.55, 33.95, t) * (1 - ss(34.3, 34.8, t) * .6);
   const push = eout(lin(33.75, 34.9, t));
   const x = lerp(760, 1395, walkK) + lunge * 25;
-  const cx = lerp(1050, 1330, ss(31, 34.3, t)), z = lerp(1.2, 1.55, ss(31, 34.6, t));
+  const cx = PORT ? x + 30 + 70 * ss(32.6, 33.8, t) : lerp(1050, 1330, ss(31, 34.3, t)), z = lerp(1.2, 1.55, ss(31, 34.6, t));
   const c = [cx, 640, z];
   clear(b1); b1.save(); cam(b1, ...c);
   drawKitchen(b1, wtime(t), { dropPush: push, steamPush: push * .6, dustPush: (i, bx, by) => { const dx = bx - x, dy = by - 600; const d = Math.hypot(dx, dy); return d < 300 ? (1 - d / 300) * 70 * ss(31.0, 32.7, t) : 0; } });
@@ -786,14 +799,17 @@ shot(39.6, { type: 'cut' }, (g, t) => {
   head(g, 'happy', 960, 120 - laugh * 18 - k * 5, 990 + k * 20, Math.sin(k * 3) * .02);
 });
 // O — «сколько всего можно сделать»
+const BUB_P = [[770, 150, 82, 42.0, 'donut'], [1150, 135, 82, 42.85, 'money'], [745, 345, 74, 43.75, 'plane'], [1175, 335, 74, 44.55, 'crown']];
 shot(41.55, { type: 'fade', d: .2 }, (g, t) => {
   headBg(g, 'frozen');
   const k = t - 41.55;
-  head(g, 'sarcastic', 620 - k * 6, 150, 960 + k * 10, Math.sin(k * 1.2) * .015);
-  const B = [[1300, 330, 120, 42.0, 'donut'], [1620, 520, 120, 42.85, 'money'], [1290, 690, 115, 43.75, 'plane'], [1630, 230, 105, 44.55, 'crown']];
+  if (PORT) head(g, 'sarcastic', 960, 420 - k * 6, 920 + k * 10, Math.sin(k * 1.2) * .015);
+  else head(g, 'sarcastic', 620 - k * 6, 150, 960 + k * 10, Math.sin(k * 1.2) * .015);
+  const B = PORT ? BUB_P : [[1300, 330, 120, 42.0, 'donut'], [1620, 520, 120, 42.85, 'money'], [1290, 690, 115, 43.75, 'plane'], [1630, 230, 105, 44.55, 'crown']];
+  const HX = PORT ? 960 : 900, HY = PORT ? 520 : 380;
   for (const [x, y, r, st, ic] of B) {
     const kk = lin(st, st + .35, t); const fl = Math.sin(t * 2 + x) * 8;
-    if (kk > 0) for (let j = 0; j < 3; j++) { g.fillStyle = 'rgba(255,250,242,.9)'; g.beginPath(); g.arc(lerp(900, x, (j + 1) / 4), lerp(380, y, (j + 1) / 4), 10 + j * 6, 0, TAU); g.globalAlpha = clamp(kk * 4 - j); g.fill(); g.globalAlpha = 1; }
+    if (kk > 0) for (let j = 0; j < 3; j++) { g.fillStyle = 'rgba(255,250,242,.9)'; g.beginPath(); g.arc(lerp(HX, x, (j + 1) / 4), lerp(HY, y, (j + 1) / 4), 10 + j * 6, 0, TAU); g.globalAlpha = clamp(kk * 4 - j); g.fill(); g.globalAlpha = 1; }
     bubble(g, x, y + fl, r, kk, ICONS[ic]);
   }
 });
@@ -804,7 +820,7 @@ shot(45.6, { type: 'cut' }, (g, t) => {
   head(g, 'skeptic', 960 + k * 6, 110 + k * 4, 1000 + k * 40, -.01 - k * .004);
   // лопающиеся пузыри
   const pop = lin(45.6, 46.0, t);
-  if (pop < 1) for (const [x, y] of [[1500, 330], [1620, 560]]) { g.strokeStyle = `rgba(255,255,255,${1 - pop})`; g.lineWidth = 4; for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; g.beginPath(); g.moveTo(x + Math.cos(a) * 60 * (1 + pop), y + Math.sin(a) * 60 * (1 + pop)); g.lineTo(x + Math.cos(a) * 100 * (1 + pop), y + Math.sin(a) * 100 * (1 + pop)); g.stroke(); } }
+  if (pop < 1) for (const [x, y] of (PORT ? [[770, 150], [1150, 135], [745, 345], [1175, 335]] : [[1500, 330], [1620, 560]])) { g.strokeStyle = `rgba(255,255,255,${1 - pop})`; g.lineWidth = 4; for (let i = 0; i < 8; i++) { const a = i / 8 * TAU; g.beginPath(); g.moveTo(x + Math.cos(a) * 60 * (1 + pop), y + Math.sin(a) * 60 * (1 + pop)); g.lineTo(x + Math.cos(a) * 100 * (1 + pop), y + Math.sin(a) * 100 * (1 + pop)); g.stroke(); } }
   // тень наползает
   const dk = ss(46.5, 48.6, t);
   const gr = g.createRadialGradient(960, 480, 200, 960, 480, 1100); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, `rgba(0,0,0,${.75 * dk})`);
@@ -819,16 +835,17 @@ shot(48.6, { type: 'dip', d: .7 }, (g, t) => {
 // R — «не обратил внимания»: Ильмир на переднем плане, перевод фокуса
 shot(51.7, { type: 'cut' }, (g, t) => {
   const rack = ss(53.2, 53.95, t);
-  corridorShot(g, t, [990, 520, 1.6], { figZ: 5.2 }, lerp(9, 0, rack));
+  corridorShot(g, t, PORT ? [975, 640, 1.9] : [990, 520, 1.6], { figZ: 5.2 }, lerp(9, 0, rack));
   const k = t - 51.7;
-  head(g, 'three4', 1420 - k * 6, 230, 980, .02, 1, `blur(${lerp(0, 8, rack)}px) brightness(.72) saturate(.85)`);
-  phoneGlow(g, 1500, 1200, .6);
+  if (PORT) head(g, 'three4', 1010 - k * 4, 610, 1000, .02, 1, `blur(${lerp(0, 8, rack)}px) brightness(.72) saturate(.85)`);
+  else head(g, 'three4', 1420 - k * 6, 230, 980, .02, 1, `blur(${lerp(0, 8, rack)}px) brightness(.72) saturate(.85)`);
+  phoneGlow(g, PORT ? 1000 : 1500, 1200, .6);
 });
 // S — «Пока он… не повернул голову»
 shot(54.15, { type: 'cut' }, (g, t) => {
   const A = figureAnchor(5.2), hy = A.y - A.h * .905;
   const turn = eio(ss(55.35, 56.5, t));
-  corridorShot(g, t, [A.x, hy + A.h * .12, lerp(6.6, 7.6, ss(54.15, 56.8, t))], { figZ: 5.2, turn });
+  corridorShot(g, t, PORT ? [A.x, hy + A.h * .2, lerp(5.2, 6.0, ss(54.15, 56.8, t))] : [A.x, hy + A.h * .12, lerp(6.6, 7.6, ss(54.15, 56.8, t))], { figZ: 5.2, turn });
 });
 // T — «Прямо в мою сторону»
 shot(56.82, { type: 'cut' }, (g, t) => {
@@ -839,7 +856,7 @@ shot(56.82, { type: 'cut' }, (g, t) => {
   corridorShot(g, t, [A.x, hy, z], { figZ: 5.2, turn: 1, eyeMul: 1 + ss(56.9, 57.4, t) * .6 });
   g.restore();
   // хроматический сдвиг
-  g.save(); g.globalCompositeOperation = 'screen'; g.globalAlpha = .25 * Math.exp(-Math.max(0, t - 56.9) * 4); g.drawImage(B1, 8, 0); g.restore();
+  g.save(); g.globalCompositeOperation = 'screen'; g.globalAlpha = .25 * Math.exp(-Math.max(0, t - 56.9) * 4); blit(g, B1, 8 * BS, 0); g.restore();
 });
 // U — «Я посмотрел на телефон»
 shot(58.66, { type: 'cut' }, (g, t) => {
@@ -890,12 +907,20 @@ shot(65.95, { type: 'cut' }, (g, t) => {
   g.save(); g.textAlign = 'center'; g.textBaseline = 'middle';
   const gl = k < 1.1 || (k > 2.2 && k < 2.35);
   const f = Math.floor(t * 24);
-  g.font = '210px "Rubik Glitch"';
-  if (gl) { g.globalAlpha = a * .8; g.fillStyle = '#00e5ff'; g.fillText('ПАУЗА', 960 - 10 * rnd(f), 500); g.fillStyle = '#ff2a2a'; g.fillText('ПАУЗА', 960 + 10 * rnd(f + 1), 500 + 4); }
-  g.globalAlpha = a; g.fillStyle = '#f3f3f3'; g.fillText('ПАУЗА', 960, 500);
-  if (gl && rnd(f + 5) > .5) { const y = 400 + rnd(f + 2) * 200; g.drawImage(g.canvas, 0, y, W, 24, (rnd(f + 3) - .5) * 60, y, W, 24); }
-  g.globalAlpha = a * ss(.9, 1.3, k); g.font = '500 40px Rubik'; g.letterSpacing = '14px'; g.fillStyle = '#ff4a4a'; g.fillText('ЭЛЬМИР  ·  СЕРИЯ 1', 960, 660);
-  g.globalAlpha = a * ss(1.6, 2.1, k); g.font = '400 30px Rubik'; g.letterSpacing = '4px'; g.fillStyle = '#9a9a9a'; g.fillText('продолжение следует…', 960, 740);
+  const TS = PORT ? 150 : 210, TY = PORT ? 470 : 500;
+  g.font = `${TS}px "Rubik Glitch"`;
+  if (gl) { g.globalAlpha = a * .8; g.fillStyle = '#00e5ff'; g.fillText('ПАУЗА', 960 - 10 * rnd(f), TY); g.fillStyle = '#ff2a2a'; g.fillText('ПАУЗА', 960 + 10 * rnd(f + 1), TY + 4); }
+  g.globalAlpha = a; g.fillStyle = '#f3f3f3'; g.fillText('ПАУЗА', 960, TY);
+  if (gl && rnd(f + 5) > .5) { const y = (TY - 100 + rnd(f + 2) * 200) * BS; g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(g.canvas, 0, y, OW, 40, (rnd(f + 3) - .5) * 80, y, OW, 40); g.restore(); }
+  g.globalAlpha = a * ss(.9, 1.3, k); g.fillStyle = '#ff4a4a';
+  if (PORT) {
+    g.font = '900 44px Rubik'; g.letterSpacing = '3px'; g.fillStyle = '#fff'; g.fillText('ИЛЬМИР', 960, 600); g.fillText('ИЛЬДАРОВИЧ', 960, 650);
+    g.globalAlpha = a * ss(1.2, 1.6, k); g.font = '500 24px Rubik'; g.letterSpacing = '10px'; g.fillStyle = '#ff4a4a'; g.fillText('СЕРИЯ 1', 960, 715);
+    g.globalAlpha = a * ss(1.6, 2.1, k); g.font = '400 22px Rubik'; g.letterSpacing = '3px'; g.fillStyle = '#9a9a9a'; g.fillText('продолжение следует…', 960, 790);
+  } else {
+    g.font = '500 40px Rubik'; g.letterSpacing = '12px'; g.fillText('ИЛЬМИР ИЛЬДАРОВИЧ  ·  СЕРИЯ 1', 960, 660);
+    g.globalAlpha = a * ss(1.6, 2.1, k); g.font = '400 30px Rubik'; g.letterSpacing = '4px'; g.fillStyle = '#9a9a9a'; g.fillText('продолжение следует…', 960, 740);
+  }
   g.letterSpacing = '0px'; g.restore();
 });
 
@@ -907,7 +932,7 @@ function subtitles(g, t) {
   g.save(); g.globalAlpha = a; g.font = '500 40px Rubik'; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
   g.lineWidth = 7; g.strokeStyle = 'rgba(0,0,0,.75)'; g.lineJoin = 'round'; g.fillStyle = '#fff';
   g.shadowColor = 'rgba(0,0,0,.6)'; g.shadowBlur = 12;
-  g.strokeText(s[2], 960, H - 58); g.shadowBlur = 0; g.fillText(s[2], 960, H - 58); g.restore();
+  g.strokeText(s[2], OW / 2, OH - 58); g.shadowBlur = 0; g.fillText(s[2], OW / 2, OH - 58); g.restore();
 }
 // ---------- HUD-таймер ----------
 function hud(g, t, sh) {
@@ -917,48 +942,182 @@ function hud(g, t, sh) {
   const pulse = (timerVal(t) % 1) > .85 ? 1 : 0;
   g.save(); g.globalAlpha = a; g.font = '600 44px Rubik'; g.textAlign = 'right'; g.textBaseline = 'middle';
   g.fillStyle = v <= 3 ? '#ff4040' : 'rgba(255,255,255,.9)'; g.shadowColor = 'rgba(0,0,0,.6)'; g.shadowBlur = 10;
-  g.fillText('00:' + String(v).padStart(2, '0'), W - 70, 70);
-  g.fillStyle = '#ff3b3b'; g.beginPath(); g.arc(W - 70 - 150, 70, 9 + pulse * 3, 0, TAU); g.fill();
+  const hy = PORT ? 110 : 70;
+  g.fillText('00:' + String(v).padStart(2, '0'), OW - 60, hy);
+  g.fillStyle = '#ff3b3b'; g.beginPath(); g.arc(OW - 60 - 150, hy, 9 + pulse * 3, 0, TAU); g.fill();
   g.restore();
 }
 const SHOT_NAMES = 'A B D E F G H I J K L M N O P Q R S T U V W X Y Z'.split(' ');
 
+// =====================================================================
+//     КИНЕТИЧЕСКИЕ СУБТИТРЫ (вертикальный формат)
+//  *слово* — крупно белым, !слово! — крупно красным, ~слово~ — глитч
+//  зона: top / bot; слова появляются по слогам в такт речи
+// =====================================================================
+const KSUBS = [
+  [0.0, 2.55, 'bot', 'Представь, что *однажды утром* на твоём *телефоне*'],
+  [2.6, 6.6, 'top', 'появляется *приложение,* которое ты !никогда! не устанавливал.'],
+  [6.93, 9.15, 'bot', 'Ни *названия.* Ни *инструкции.*'],
+  [9.37, 12.3, 'top', 'Только *одна кнопка* с надписью ~«ПАУЗА»~'],
+  [12.49, 15.2, 'bot', 'И маленькая *цифра* сверху — !три.!'],
+  [15.47, 17.7, 'bot', 'Я подумал, что это какой-то *розыгрыш.*'],
+  [17.84, 19.75, 'top', 'Но *любопытство* взяло *верх.*'],
+  [19.91, 20.9, 'top', 'Я !нажал.!'],
+  [21.05, 22.8, 'bot', 'И в *следующую секунду…*'],
+  [23.03, 24.5, 'top', '…всё !остановилось.!'],
+  [24.66, 25.85, 'bot', '*Часы* замерли.'],
+  [26.02, 28.0, 'top', '*Капли кофе* зависли в *воздухе.*'],
+  [28.21, 30.85, 'bot', 'Даже *птица* за окном перестала *двигаться.*'],
+  [31.11, 32.62, 'top', 'А я мог *ходить.*'],
+  [32.75, 33.5, 'top', '*Дышать.*'],
+  [33.62, 34.85, 'bot', '!Двигать! предметы.'],
+  [35.02, 37.95, 'top', 'На экране телефона появился *обратный отсчёт.*'],
+  [38.18, 39.5, 'bot', '!Тридцать! *секунд.*'],
+  [39.73, 41.45, 'bot', 'Сначала мне стало *смешно.*'],
+  [41.62, 45.45, 'bot', 'Я даже успел подумать, *сколько всего* можно сделать с !такой штукой.!'],
+  [45.71, 48.45, 'bot', 'Но потом я заметил *кое-что странное.*'],
+  [48.71, 51.6, 'top', 'В самом конце *коридора* стоял !человек.!'],
+  [51.8, 54.05, 'top', 'Сначала я *не обратил* на него внимания.'],
+  [54.26, 56.7, 'bot', 'Пока он… не *повернул* *голову.*'],
+  [56.9, 58.5, 'bot', '*Прямо* в !мою сторону.!'],
+  [58.77, 60.4, 'top', 'Я посмотрел на *телефон.*'],
+  [60.57, 61.6, 'bot', '!Три! секунды.'],
+  [61.78, 62.6, 'top', '!Две.!'],
+  [62.76, 63.6, 'top', '!Одна.!'],
+  [63.75, 65.85, 'bot', 'И тут он сделал ~шаг~ *ко мне.*'],
+];
+const syl = w => Math.max(1, (w.match(/[аеёиоуыэюяАЕЁИОУЫЭЮЯ]/g) || []).length);
+const KLAY = [];
+const ALIGNS = [['left', 'right', 'center', 'left'], ['right', 'left', 'right', 'center'], ['center', 'left', 'right', 'left'], ['left', 'center', 'right', 'right']];
+function kLayout(g, idx) {
+  if (KLAY[idx]) return KLAY[idx];
+  const [s, e, zone, text] = KSUBS[idx];
+  const toks = [];
+  for (const m of text.matchAll(/\*([^*]+)\*|!([^!]+)!|~([^~]+)~|(\S+)/g)) {
+    const type = m[1] ? 'big' : m[2] ? 'red' : m[3] ? 'glitch' : 'small';
+    const str = m[1] || m[2] || m[3] || m[4];
+    toks.push({ type, str: type === 'small' ? str : str.toUpperCase(), n: str.split(/\s+/).reduce((a, w) => a + syl(w), 0) });
+  }
+  // время появления каждого слова — пропорционально слогам
+  const total = toks.reduce((a, t) => a + t.n, 0), dur = Math.max(.4, (e - s) * .88);
+  let acc = 0; for (const t of toks) { t.t = s + acc / total * dur; acc += t.n; }
+  const MAXW = OW - 150, SMALL = PORT ? 58 : 46;
+  const font = (type, size) => type === 'small' ? `500 ${size}px Rubik` : type === 'glitch' ? `${size}px "Rubik Glitch"` : `900 ${size}px Rubik`;
+  const lines = []; let cur = null;
+  for (const t of toks) {
+    if (t.type === 'small') {
+      g.font = font('small', SMALL); t.w = g.measureText(t.str).width;
+      const sp = g.measureText(' ').width;
+      if (!cur || cur.type !== 'small' || cur.w + sp + t.w > MAXW) { cur = { type: 'small', size: SMALL, toks: [], w: 0 }; lines.push(cur); }
+      t.x = cur.w ? cur.w + sp : 0; cur.w = t.x + t.w; cur.toks.push(t);
+    } else {
+      // крупное слово подбирается по ширине, но не больше 190px
+      g.font = font(t.type, 100); const w100 = g.measureText(t.str).width;
+      const size = Math.min(t.str.length <= 5 ? 250 : t.type === 'glitch' ? 210 : 185, Math.floor(100 * MAXW / w100));
+      g.font = font(t.type, size); t.w = g.measureText(t.str).width; t.x = 0;
+      cur = { type: t.type, size, toks: [t], w: t.w }; lines.push(cur); cur = null;
+    }
+  }
+  const pat = ALIGNS[idx % ALIGNS.length];
+  let y = 0;
+  lines.forEach((l, i) => {
+    l.align = pat[i % pat.length];
+    l.x = l.align === 'left' ? 75 : l.align === 'right' ? OW - 75 - l.w : (OW - l.w) / 2;
+    const lh = l.type === 'small' ? l.size * 1.3 : l.size * .98;
+    l.y = y + lh * (l.type === 'small' ? .8 : .82); y += lh;
+    l.rot = l.type === 'small' ? 0 : ((i + idx) % 2 ? 1 : -1) * .025;
+  });
+  const top = zone === 'top' ? 190 : OH - 190 - y;
+  lines.forEach(l => l.y += top);
+  return KLAY[idx] = { lines, zone, s, e, h: y, top };
+}
+function kinetic(g, t) {
+  const idx = KSUBS.findIndex(s => t >= s[0] - .02 && t < s[1] + .25); if (idx < 0) return;
+  const L = kLayout(g, idx);
+  const out = ss(L.e, L.e + .25, t);
+  g.save();
+  // мягкая подложка для читаемости
+  const gy0 = L.zone === 'top' ? 0 : OH, gy1 = L.zone === 'top' ? L.top + L.h + 160 : L.top - 160;
+  const gr = g.createLinearGradient(0, gy0, 0, gy1); gr.addColorStop(0, `rgba(0,0,0,${.55 * (1 - out)})`); gr.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = gr; g.fillRect(0, Math.min(gy0, gy1), OW, Math.abs(gy1 - gy0));
+  g.globalAlpha = 1 - out;
+  const lift = (L.zone === 'top' ? -1 : 1) * out * 30;
+  g.textBaseline = 'alphabetic'; g.textAlign = 'left';
+  for (const l of L.lines) {
+    g.save(); g.translate(l.x + l.w / 2, l.y + lift); g.rotate(l.rot); g.translate(-l.w / 2, 0);
+    // красный акцент-штрих у мелких строк, выровненных влево
+    if (l.type === 'small' && l.align === 'left' && t >= l.toks[0].t) { g.fillStyle = '#ff3b3b'; g.fillRect(-26, -l.size * .72, 8, l.size * .82 * eout(clamp((t - l.toks[0].t) / .25))); }
+    for (const tk of l.toks) {
+      if (t < tk.t) continue;
+      const k = clamp((t - tk.t) / (tk.type === 'small' ? .2 : .28));
+      g.save();
+      if (tk.type === 'small') {
+        g.globalAlpha *= k; g.translate(tk.x, (1 - eout(k)) * 22);
+        g.font = `500 ${l.size}px Rubik`; g.shadowColor = 'rgba(0,0,0,.8)'; g.shadowBlur = 14; g.fillStyle = 'rgba(255,255,255,.93)';
+        g.fillText(tk.str, 0, 0);
+      } else {
+        const sc = lerp(1.45, 1, back(k)); g.globalAlpha *= clamp(k * 2.5);
+        g.translate(tk.x + tk.w / 2, -l.size * .35); g.scale(sc, sc); g.translate(-tk.w / 2, l.size * .35);
+        const glitch = tk.type === 'glitch';
+        g.font = glitch ? `${l.size}px "Rubik Glitch"` : `900 ${l.size}px Rubik`;
+        // объёмная тень
+        g.fillStyle = 'rgba(0,0,0,.55)'; g.fillText(tk.str, l.size * .03, l.size * .06);
+        if (glitch) {
+          const f = Math.floor(t * 20), j = (k < 1 || rnd(f) > .7) ? 1 : 0;
+          g.globalCompositeOperation = 'screen';
+          g.fillStyle = '#00e5ff'; g.fillText(tk.str, -8 * j * rnd(f + 1), 0);
+          g.fillStyle = '#ff2a2a'; g.fillText(tk.str, 8 * j * rnd(f + 2), 3);
+          g.globalCompositeOperation = 'source-over';
+          g.fillStyle = '#fff'; g.fillText(tk.str, 0, 0);
+        } else {
+          g.shadowColor = tk.type === 'red' ? 'rgba(255,40,40,.55)' : 'rgba(0,0,0,.6)'; g.shadowBlur = 26;
+          g.fillStyle = tk.type === 'red' ? '#ff3b3b' : '#ffffff'; g.fillText(tk.str, 0, 0);
+        }
+      }
+      g.restore();
+    }
+    g.restore();
+  }
+  g.restore();
+}
+
 // ---------- пост-эффекты ----------
 const GRAIN = [0, 1, 2, 3].map(k => { const c = mk(480, 270), x = c.getContext('2d'), d = x.createImageData(480, 270); for (let i = 0; i < d.data.length; i += 4) { const v = rnd(i * .37 + k * 1000.3) * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
-let VIG;
 function post(g, t) {
+  g.setTransform(1, 0, 0, 1, 0, 0);
   g.save(); g.globalCompositeOperation = 'overlay'; g.globalAlpha = .07; g.imageSmoothingEnabled = false;
-  g.drawImage(GRAIN[Math.floor(t * 24) % 4], 0, 0, W, H); g.restore();
-  if (!VIG) { VIG = mk(); const x = VIG.getContext('2d'); const gr = x.createRadialGradient(960, 540, 450, 960, 540, 1150); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.55)'); x.fillStyle = gr; x.fillRect(0, 0, W, H); }
+  g.drawImage(GRAIN[Math.floor(t * 24) % 4], 0, 0, OW, OH); g.restore();
+  if (!VIG) { VIG = mk(OW, OH); const x = VIG.getContext('2d'); const cx = OW / 2, cy = OH / 2, R = Math.hypot(cx, cy); const gr = x.createRadialGradient(cx, cy, R * .4, cx, cy, R); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.55)'); x.fillStyle = gr; x.fillRect(0, 0, OW, OH); }
   g.drawImage(VIG, 0, 0);
-  // каше
-  g.fillStyle = '#000'; const bar = 54; g.fillRect(0, 0, W, bar); g.fillRect(0, H - bar, W, bar);
+  // каше только в горизонтальном формате
+  if (!PORT) { g.fillStyle = '#000'; const bar = 54; g.fillRect(0, 0, OW, bar); g.fillRect(0, OH - bar, OW, bar); }
   // вход из черноты
-  if (t < .8) { g.fillStyle = `rgba(0,0,0,${1 - ss(0, .8, t)})`; g.fillRect(0, 0, W, H); }
+  if (t < .8) { g.fillStyle = `rgba(0,0,0,${1 - ss(0, .8, t)})`; g.fillRect(0, 0, OW, OH); }
 }
 
 // ---------- кадр ----------
-const T1 = mk(), t1 = T1.getContext('2d'), T2 = mk(), t2 = T2.getContext('2d');
 function drawShot(i, g, t) { clear(g); g.save(); S[i].fn(g, t); g.restore(); }
 function render(ctx, t) {
   t = clamp(t, 0, DUR - 1e-3);
   performanceT = t;
   let i = 0; while (i + 1 < S.length && t >= S[i + 1].s) i++;
   const sh = S[i], d = sh.tin.d || 0, k = d ? (t - sh.s) / d : 1;
-  clear(ctx);
+  clear(ctx); ctx.setTransform(1, 0, 0, 1, 0, 0);
   if (k < 1 && i > 0 && sh.tin.type === 'fade') {
     drawShot(i - 1, t1, t); drawShot(i, t2, t);
     ctx.drawImage(T1, 0, 0); ctx.globalAlpha = eio(k); ctx.drawImage(T2, 0, 0); ctx.globalAlpha = 1;
   } else if (k < 1 && i > 0 && sh.tin.type === 'dip') {
     const half = k < .5; drawShot(half ? i - 1 : i, t1, t); ctx.drawImage(T1, 0, 0);
-    ctx.fillStyle = `rgba(0,0,0,${half ? k * 2 : 2 - k * 2})`; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = `rgba(0,0,0,${half ? k * 2 : 2 - k * 2})`; ctx.fillRect(0, 0, OW, OH);
   } else {
     drawShot(i, t1, t); ctx.drawImage(T1, 0, 0);
-    if (k < 1 && sh.tin.type === 'flash') { ctx.fillStyle = `rgba(255,255,255,${1 - k})`; ctx.fillRect(0, 0, W, H); }
+    if (k < 1 && sh.tin.type === 'flash') { ctx.fillStyle = `rgba(255,255,255,${1 - k})`; ctx.fillRect(0, 0, OW, OH); }
   }
   post(ctx, t);
-  if (render.subs !== false) subtitles(ctx, t);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  if (render.subs !== false) (PORT ? kinetic : subtitles)(ctx, t);
   hud(ctx, t, SHOT_NAMES[i]);
 }
-window.PAUZA = { W, H, DUR, load, render };
+setMode('portrait');
+window.PAUZA = { DUR, load, render, setMode, size: () => [OW, OH] };
 })();
