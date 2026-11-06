@@ -832,10 +832,10 @@ function voidClocks(g, t) {
   cl.sort((a, b) => a[2] - b[2]);
   for (const [x, y, z, i] of cl) {
     g.save(); g.globalAlpha = .25 + .55 * (z / 1.55);
-    g.filter = z < .7 ? 'blur(3px) saturate(.4)' : 'saturate(.5)';
     drawClock(g, x + drift * z * (i % 2 ? 1 : -1), y - drift * .3 * z, 46 * z, 1000 + i * 1337);
-    g.filter = 'none'; g.restore();
+    g.restore();
   }
+  g.fillStyle = 'rgba(10,20,45,.35)'; g.fillRect(0, 0, W, H);
 }
 
 // A — двойник начал исчезать
