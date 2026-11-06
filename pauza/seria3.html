@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ПАУЗА — серия 3</title>
+<style>
+  @font-face { font-family: 'Rubik'; font-weight: 300 900; src: url(fonts/Rubik-cyrillic.woff2) format('woff2'); unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; }
+  @font-face { font-family: 'Rubik'; font-weight: 300 900; src: url(fonts/Rubik-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20BD, U+2212, U+2215; }
+  @font-face { font-family: 'Rubik Glitch'; src: url(fonts/RubikGlitch-cyrillic.woff2) format('woff2'); unicode-range: U+0400-045F; }
+  @font-face { font-family: 'Caveat'; font-weight: 700; src: url(fonts/Caveat-cyrillic.woff2) format('woff2'); unicode-range: U+0400-045F; }
+  @font-face { font-family: 'Caveat'; font-weight: 700; src: url(fonts/Caveat-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+2000-206F; }
+  @font-face { font-family: 'Rubik Glitch'; src: url(fonts/RubikGlitch-latin.woff2) format('woff2'); unicode-range: U+0000-00FF; }
+  :root { --bg: #0a0b0d; --fg: #eee; --accent: #ff3b3b; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: Rubik, system-ui, sans-serif; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 16px; }
+  .stage { position: relative; --ar: 9 / 16; --k: .5625; width: min(100%, calc((100vh - 110px) * var(--k))); aspect-ratio: var(--ar); background: #000; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+  canvas { width: 100%; height: 100%; display: block; }
+  .play { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: rgba(0,0,0,.55); border: 0; color: #fff; cursor: pointer; font: inherit; }
+  .play b { width: 96px; height: 96px; border-radius: 50%; border: 4px solid var(--accent); display: grid; place-items: center; box-shadow: 0 0 40px rgba(255,59,59,.6); }
+  .play b::after { content: ''; border-left: 30px solid #fff; border-top: 18px solid transparent; border-bottom: 18px solid transparent; margin-left: 8px; }
+  .play span { font-weight: 900; letter-spacing: .3em; font-size: clamp(18px, 3vw, 30px); }
+  .landscape .stage { --ar: 16 / 9; --k: 1.7778; }
+  .landscape .bar { width: min(100%, calc((100vh - 110px) * 1.7778)); }
+  .bar { flex-wrap: wrap; width: min(100%, max(360px, calc((100vh - 110px) * .5625))); display: flex; gap: 12px; align-items: center; font-size: 14px; }
+  .bar button { background: #1c1e22; color: #fff; border: 1px solid #333; border-radius: 8px; padding: 8px 14px; font: inherit; cursor: pointer; }
+  .bar input[type=range] { flex: 1; accent-color: var(--accent); }
+  .bar a { color: #aaa; }
+  .hidden { display: none; }
+  @media (max-width: 600px) { .bar { flex-wrap: wrap; } }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <canvas id="c" width="1080" height="1920"></canvas>
+    <button class="play" id="play"><b></b><span>ПАУЗА · СЕРИЯ 3</span></button>
+  </div>
+  <div class="bar" id="bar">
+    <button id="pp">▶</button>
+    <input type="range" id="seek" min="0" max="88" step="0.01" value="0">
+    <span id="time">0:00</span>
+    <label><input type="checkbox" id="subs" checked> субтитры</label>
+    <a id="dl" href="pauza3_vertical.mp4" download>скачать mp4</a>
+    <a id="fmt" href="?format=landscape">16:9</a>
+  </div>
+  <audio id="au" src="pauza3_audio.mp3" preload="auto"></audio>
+<script src="anim3.js"></script>
+<script>
+(async () => {
+  const q = new URLSearchParams(location.search);
+  const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+  const landscape = q.get('format') === 'landscape';
+  PAUZA.setMode(landscape ? 'landscape' : 'portrait');
+  [cv.width, cv.height] = PAUZA.size();
+  if (landscape) { document.body.classList.add('landscape'); document.getElementById('dl').href = 'pauza3.mp4'; const f = document.getElementById('fmt'); f.href = '?'; f.textContent = '9:16'; }
+  await PAUZA.load('');
+  if (q.has('render')) {
+    document.querySelector('.play').remove(); document.getElementById('bar').remove();
+    document.body.style.padding = 0;
+    Object.assign(document.querySelector('.stage').style, { width: cv.width + 'px', height: cv.height + 'px', borderRadius: 0 });
+    window.renderAt = t => PAUZA.render(ctx, t);
+    window.READY = true; return;
+  }
+  const au = document.getElementById('au'), seek = document.getElementById('seek'), time = document.getElementById('time');
+  const pp = document.getElementById('pp'), play = document.getElementById('play'), subs = document.getElementById('subs');
+  let t0 = null, offset = 0, playing = false;
+  // пока звучит аудио — время берём из него (точная синхронизация), после конца — из часов
+  const now = () => !playing ? offset : (!au.paused && !au.ended) ? au.currentTime : offset + (performance.now() - t0) / 1000;
+  function start() { playing = true; play.classList.add('hidden'); pp.textContent = '❚❚'; t0 = performance.now(); if (offset < (au.duration || 81)) { au.currentTime = offset; au.play(); } }
+  function stop() { offset = now(); playing = false; au.pause(); pp.textContent = '▶'; }
+  au.addEventListener('ended', () => { offset = au.duration; t0 = performance.now(); });
+  au.addEventListener('playing', () => { offset = au.currentTime; t0 = performance.now(); });
+  play.onclick = start; pp.onclick = () => playing ? stop() : start();
+  seek.oninput = () => { offset = +seek.value; t0 = performance.now(); if (playing) { if (offset < au.duration) { au.currentTime = offset; au.play(); } else au.pause(); } };
+  subs.onchange = () => { PAUZA.render.subs = subs.checked; };
+  function loop() {
+    let t = now();
+    if (t >= PAUZA.DUR) { stop(); offset = 0; t = 0; play.classList.remove('hidden'); }
+    PAUZA.render(ctx, t);
+    seek.value = t; time.textContent = Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
+</body>
+</html>
