@@ -1,6 +1,15 @@
 // ================= PartnerZ — low-poly 3D cartoon =================
 const W = 1080, H = 1920, PI = Math.PI;
 const T = THREE;
+const Q = new URLSearchParams(location.search), SMOOTH = Q.has('smooth'), CLEAN = Q.has('clean');
+if (SMOOTH) {
+  const Cy = T.CylinderGeometry, Co = T.ConeGeometry, Sp = T.SphereGeometry, To = T.TorusGeometry;
+  T.CylinderGeometry = class extends Cy { constructor(a, b, h, n = 8, hs = 1, o, ts, tl) { super(a, b, h, Math.max(n, 32), hs, o, ts, tl); } };
+  T.ConeGeometry = class extends Co { constructor(r, h, n = 8, hs, o, ts, tl) { super(r, h, Math.max(n, 20), hs, o, ts, tl); } };
+  T.SphereGeometry = class extends Sp { constructor(r, w = 32, h = 16, ps, pl, ts, tl) { super(r, Math.max(w, 40), Math.max(h, 24), ps, pl, ts, tl); } };
+  T.IcosahedronGeometry = class extends Sp { constructor(r = 1) { super(r, 40, 28); } };
+  T.TorusGeometry = class extends To { constructor(r, t, rs = 8, ts = 12, a) { super(r, t, Math.max(rs, 12), Math.max(ts, 28), a); } };
+}
 const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
 const lerp = (a, b, t) => a + (b - a) * t;
 const k = (t, a, b) => clamp((t - a) / (b - a));
@@ -26,9 +35,10 @@ const ov = document.getElementById('ov'), g2 = ov.getContext('2d');
 
 // ---------- helpers ----------
 const mats = {};
-function mat(c, o = {}) { const key = c + JSON.stringify(o); return mats[key] || (mats[key] = new T.MeshStandardMaterial(Object.assign({ color: c, flatShading: true, roughness: .85, metalness: 0 }, o))); }
+function mat(c, o = {}) { const key = c + JSON.stringify(o); return mats[key] || (mats[key] = new T.MeshStandardMaterial(Object.assign({ color: c, flatShading: !SMOOTH, roughness: SMOOTH ? .7 : .85, metalness: 0 }, o))); }
 function shade(hex, a) { const c = new T.Color(hex); const t = a > 0 ? new T.Color('#ffffff') : new T.Color('#000000'); c.lerp(t, Math.abs(a)); return '#' + c.getHexString(); }
 function jitter(geo, amt, seed = 1) {
+  if (SMOOTH) return geo;
   const p = geo.attributes.position, R = {};
   for (let i = 0; i < p.count; i++) {
     const x = p.getX(i), y = p.getY(i), z = p.getZ(i), key = `${x.toFixed(3)},${y.toFixed(3)},${z.toFixed(3)}`;
@@ -686,6 +696,7 @@ function subtitles(t) {
 }
 function overlay(t, s) {
   g2.setTransform(1, 0, 0, 1, 0, 0); g2.clearRect(0, 0, W, H);
+  if (CLEAN) return;
   // subtle vignette
   const vg = g2.createRadialGradient(540, 900, 500, 540, 960, 1250); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(10,5,15,.45)'); g2.fillStyle = vg; g2.fillRect(0, 0, W, H);
   // dream frame for imagination
