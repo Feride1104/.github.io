@@ -344,9 +344,9 @@ function setLights(g, o) {
   // fridge
   add(g, jitter(BOX(.8, 1.9, .7), .01), '#dfe3e6', -3.0 + .4, .95, -1.0).rotation.y = PI / 2;
   // bowl, eggs, flour bag on counter
-  add(g, jitter(new T.SphereGeometry(.2, 8, 4, 0, PI * 2, PI / 2, PI / 2), .01), '#e8e2d5', -.9, 1.14, -1.95).rotation.x = PI;
-  for (let i = 0; i < 3; i++) { const e = add(g, ICO(.045, 1), '#f3e7d3', -.5 + i * .1, .98, -1.8); e.scale.y = 1.25; }
-  add(g, jitter(BOX(.22, .32, .14), .02), '#e9dfc9', -1.35, 1.1, -1.9);
+  SETS.props = []; const bw = add(g, jitter(new T.SphereGeometry(.2, 8, 4, 0, PI * 2, PI / 2, PI / 2), .01), '#e8e2d5', -.9, 1.14, -1.95); bw.rotation.x = PI; SETS.props.push(bw);
+  for (let i = 0; i < 3; i++) { const e = add(g, ICO(.045, 1), '#f3e7d3', -.5 + i * .1, .98, -1.8); e.scale.y = 1.25; SETS.props.push(e); }
+  SETS.props.push(add(g, jitter(BOX(.22, .32, .14), .02), '#e9dfc9', -1.35, 1.1, -1.9));
   // door on right wall area (back wall x=2.3), hinged; hallway behind
     const dg = grp(g, 2.2, 0, -2.36); SETS.doorPivot = grp(dg, -.5, 0, 0);
   add(SETS.doorPivot, BOX(1.0, 2.15, .06), '#c39066', .5, 1.075, 0);
@@ -362,7 +362,7 @@ function setLights(g, o) {
   add(wc, CYL(.24, .24, .05, 16), '#f6f1e7', 0, 0, 0).rotation.x = PI / 2; add(wc, new T.TorusGeometry(.24, .03, 4, 16), '#3a3330', 0, 0, .02);
   SETS.hourH = grp(wc, 0, 0, .04); add(SETS.hourH, BOX(.025, .12, .01), '#222', 0, .06, 0);
   SETS.minH = grp(wc, 0, 0, .05); add(SETS.minH, BOX(.018, .19, .01), '#222', 0, .095, 0);
-  plant(g, 2.9, .9, .9);
+  plant(g, -2.7, 1.6, .9);
   SETS.kitchenL = setLights(g, { hemi: .6, sky: '#a3b0d8', dint: 1.3, dcol: '#ffe2bd', dpos: [2.5, 5, 4], dtar: [-.5, 0, -1] });
   const ul = new T.PointLight('#ffc88a', 6, 6, 1.6); ul.position.set(-.8, 2.0, -1.4); g.add(ul);
   // mess props
@@ -442,7 +442,7 @@ function heartFX(t, t0, origin, n = 6, spread = .8) {
   for (let i = 0; i < n; i++) { const tt = t0 + i * .25; const h = hearts[i]; if (t < tt) continue; const ph = t - tt, R = rng(i + 7); h.visible = ph < 2.4; const s = Math.min(1, pop(t, tt)) * (1 - k(ph, 1.8, 2.4)); h.scale.setScalar(Math.max(s, .001)); h.position.set(origin[0] + (R() - .5) * spread + Math.sin(ph * 3 + i) * .08, origin[1] + ph * .45, origin[2] + (R() - .5) * .3); h.rotation.set(0, Math.sin(ph * 2 + i) * .6, Math.sin(ph * 3) * .2); }
 }
 function puffFX(t, t0, origin, n, spread, size = 1, life = 2.5) {
-  for (let i = 0; i < n; i++) { const p = puffs.find(p => !p.visible); if (!p) return; const R = rng(i * 13 + Math.floor(t0 * 10)); const tt = t0 + R() * .4; if (t < tt) continue; const ph = t - tt; if (ph > life) continue; p.visible = true; const s = (.3 + R() * .7) * size * eo(Math.min(1, ph * 2.5)) * (1 + ph * .3); p.scale.setScalar(Math.max(s, .001)); p.position.set(origin[0] + (R() - .5) * spread * (1 + ph), origin[1] + R() * spread * .5 + ph * .35, origin[2] + (R() - .5) * spread * .6); p.material.opacity = clamp(1 - ph / life) * .95; }
+  for (let i = 0; i < n; i++) { const p = puffs.find(p => !p.visible); if (!p) return; const R = rng(i * 13 + Math.floor(t0 * 10)); const tt = t0 + R() * .4; if (t < tt) continue; const ph = t - tt; if (ph > life) continue; p.visible = true; const s = (.3 + R() * .7) * size * eo(Math.min(1, ph * 2.5)) * (1 + ph * .3); p.scale.setScalar(Math.max(s, .001)); p.position.set(origin[0] + (R() - .5) * spread * (1 + ph), origin[1] + R() * spread * .5 + ph * .35, origin[2] + (R() - .5) * spread * .6); p.material.opacity = clamp(1 - ph / life) * .7; }
 }
 const S = []; // [t0, t1, fn]
 // 1a exterior: all asleep
@@ -470,7 +470,7 @@ S.push([2.42, 4.56, t => {
   const blink = (t > 2.95 && t < 3.05) ? 'closed' : 'open';
   pose(dad, { x: -.35, z: -.2, yaw: .15, eyes: t < 3.3 ? blink : 'open', mouth: t < 3.3 ? 'flat' : 'grin', look: [.3, 0], brows: .5, armR: [.3, 1.2, .4] });
   pose(kid, { x: .45, z: .1, yaw: -.2, eyes: t < 3.3 ? blink : 'open', mouth: t < 3.3 ? 'flat' : 'grin', look: [-.4, 0], bob: t > 3.4 ? Math.abs(Math.sin((t - 3.4) * 9)) * .08 * (1 - k(t, 3.4, 4.3)) : 0, armL: [.5 + lit * 1.8, 0, .2], armR: [.5 + lit * 1.8, 0, .2] });
-  const z = eio(k(t, 2.42, 4.5)); camAt([lerp(.25, .15, z), 1.15, lerp(3.4, 3.0, z)], [.1, .85, -.2]);
+  const z = eio(k(t, 2.42, 4.5)); camAt([lerp(.25, .15, z), 1.3, lerp(4.4, 4.0, z)], [.1, 1.0, -.2], [0, 0, 0], 40);
 }]);
 // 2 clock 3:17, then dad & son plan the surprise
 S.push([4.56, 10.49, t => {
@@ -492,7 +492,7 @@ S.push([4.56, 10.49, t => {
   pose(kid, { x: .35, z: .15, yaw: -.4, bob: kidJump + yay, mouth: t > 9.3 ? 'grin' : 'smile', eyes: t > 9.6 ? 'happy' : 'open', look: [-.3, .2], hp: -.15,
     armL: t > 9.6 ? [2.6, 0, .2] : [.2, 0, .1], armR: t > 9.6 ? [2.6, 0, .2] : [.2, 0, .1] });
   heartFX(t, 9.5, [0, 1.4, 0], 5, .7);
-  const p = eio(k(t, 6.35, 10.49)); camAt([lerp(.6, .1, p), lerp(1.35, 1.2, p), lerp(4.2, 3.4, p)], [0, .95, -.1]);
+  const p = eio(k(t, 6.35, 10.49)); camAt([lerp(.6, .1, p), lerp(1.4, 1.3, p), lerp(4.6, 3.9, p)], [0, 1.05, -.1], [0, 0, 0], 40);
 }]);
 // 3 the plan: kitchen lights on, quick mom-asleep insert
 S.push([10.49, 14.02, t => {
@@ -505,7 +505,7 @@ S.push([10.49, 14.02, t => {
   const lt = t - 10.49;
   pose(dad, { x: 60 + .9, z: .2, yaw: -.3, mouth: 'grin', armR: t > 11.7 ? [1.0, 1.2, 1.2] : [.15, 0, .1], armL: [.2, 0, .1], brows: .3, look: [-.2, 0] });
   pose(kid, { x: 60 + 1.6, z: .5, yaw: -.5, mouth: 'grin', eyes: 'open', bob: Math.abs(Math.sin(lt * 6)) * .04, armL: [.3, 1.4, .3], look: [-.3, .2] });
-  const p = eio(k(t, 10.49, 12.85)); camAt([60 + lerp(2.6, 2.2, p), lerp(1.7, 1.5, p), lerp(3.6, 3.2, p)], [60 - .3, .9, -1.2]);
+  const p = eio(k(t, 10.49, 12.85)); camAt([60 + lerp(1.6, 1.4, p), lerp(1.6, 1.5, p), lerp(5.0, 4.4, p)], [60 + .6, 1.0, -.6], [0, 0, 0], 40);
 }]);
 // 4 problem: mom wakes from the tiniest sound
 S.push([14.02, 20.18, t => {
@@ -531,7 +531,7 @@ S.push([20.18, 23.77, t => {
   camAt([x - .2, 1.5, 5.2], [x - .3, .95, 0]);
 }]);
 // kitchen common state
-function kitchenBase() { show('kitchen'); SETS.kitchenL.hemi.intensity = .6; SETS.kitchenL.dl.intensity = 1.3; SETS.hallLight.intensity = 0; SETS.doorPivot.rotation.y = 0; SETS.mess.visible = false; SETS.pinInDrawer.visible = true; SETS.hourH.rotation.z = -(3 + 17 / 60) / 12 * PI * 2; SETS.minH.rotation.z = -17 / 60 * PI * 2; }
+function kitchenBase() { show('kitchen'); SETS.props.forEach(p => p.visible = true); SETS.kitchenL.hemi.intensity = .6; SETS.kitchenL.dl.intensity = 1.3; SETS.hallLight.intensity = 0; SETS.doorPivot.rotation.y = 0; SETS.mess.visible = false; SETS.pinInDrawer.visible = true; SETS.hourH.rotation.z = -(3 + 17 / 60) / 12 * PI * 2; SETS.minH.rotation.z = -17 / 60 * PI * 2; }
 const DX = () => 60 + SETS.drawerX;
 // 6 rolling pin needed
 S.push([23.77, 26.4, t => {
@@ -539,7 +539,7 @@ S.push([23.77, 26.4, t => {
   const lt = t - 23.77;
   pose(dad, { x: DX() + .9, z: -.7, yaw: -.2, mouth: 'flat', brows: .4, look: [-.3, .3], hp: .15, armR: [.4, 1.6, 2.4], armL: [.15, 0, .1], ht: Math.sin(lt * 4) * .05 });
   pose(kid, { x: DX() + .1, z: -.9, yaw: .2, mouth: 'grin', eyes: 'open', hp: .2, armR: [.4, 1.2, .1], armL: [.2, 0, .1], look: [0, -.3] });
-  const p = eio(k(t, 23.77, 26.4)); camAt([DX() + lerp(1.4, 1.0, p), lerp(1.5, 1.3, p), lerp(2.9, 2.2, p)], [DX() + .45, .9, -1.0]);
+  const p = eio(k(t, 23.77, 26.4)); camAt([DX() + lerp(1.3, 1.0, p), lerp(1.55, 1.45, p), lerp(3.6, 3.1, p)], [DX() + .5, 1.0, -1.0], [0, 0, 0], 42);
 }]);
 // 7 kid opens drawer and lets go
 function drawerOpenAt(t) { if (t < 27.8) return .45 * eio(k(t, 26.6, 27.8)); if (t < 29.6) return .45; if (t < 30.82) return lerp(.45, .06, ei(k(t, 29.6, 30.35))); return .06; }
@@ -547,19 +547,19 @@ S.push([26.4, 30.82, t => {
   kitchenBase(); const o = drawerOpenAt(t); SETS.drawer.position.z = o;
   const shocked = t > 29.65;
   const pull = t < 29.6;
-  pose(kid, { x: DX() + .15, z: -1.25 + o * .9 + (pull ? 0 : .05), yaw: PI, lean: pull ? -.15 : 0, mouth: shocked ? 'O' : 'grin', eyes: shocked ? 'wide' : 'open', brows: shocked ? .9 : 0,
+  const back = eo(k(t, 29.65, 30.3)); pose(kid, { x: DX() + .15 - back * .4, z: -1.25 + o * .9 + back * .15, yaw: PI, lean: pull ? -.15 : 0, mouth: shocked ? 'O' : 'grin', eyes: shocked ? 'wide' : 'open', brows: shocked ? .9 : 0,
     armL: pull ? [.15, 1.35, 0] : (shocked ? [2.7, 0, .3] : [.3, .3, .2]), armR: pull ? [.15, 1.35, 0] : (shocked ? [2.7, 0, .3] : [.3, .3, .2]) });
   kid.root.rotation.y = shocked ? lerp(PI, PI + .9, k(t, 29.65, 29.9)) : PI;
   pose(dad, { x: DX() - .9, z: -.6, yaw: .6, mouth: shocked ? 'O' : 'smile', eyes: shocked ? 'wide' : 'open', look: [-.4, 0] });
-  if (t < 28.9) camAt([DX() + 1.9, 1.3, -.4], [DX() + .1, .75, -1.25]);
-  else { const p = eio(k(t, 28.9, 29.5)); camAt([DX() + lerp(1.9, 1.3, p), lerp(1.3, 1.05, p), lerp(-.4, -.7, p)], [DX() + .05, .74, -1.4]); if (shocked) shakeCam(.01, t); }
+  if (t < 28.9) camAt([DX() + 1.6, 1.45, 1.4], [DX() + .05, .8, -1.2], [0, 0, 0], 48);
+  else { const p = eio(k(t, 28.9, 29.5)); camAt([DX() + lerp(1.6, 1.3, p), lerp(1.45, 1.3, p), lerp(1.4, 1.0, p)], [DX() - .05, .8, -1.2], [0, 0, 0], 48); if (shocked) shakeCam(.01, t); }
 }]);
 // 8 dad horror + imagined house waking
 S.push([30.82, 33.97, t => {
   if (t < 31.75) {
     kitchenBase(); SETS.drawer.position.z = .06;
     pose(dad, { x: DX() + 1.2, z: -.3, yaw: -.3, eyes: 'wide', mouth: 'O', brows: 1, armL: [.6, 1.7, 2.4], armR: [.6, 1.7, 2.4], ht: Math.sin(t * 40) * .02 });
-    const p = eio(k(t, 30.82, 31.75)); camAt([DX() + 1.2 - .3 + .0, 1.68, lerp(1.4, 1.05, p)], [DX() + 1.2 - .25, 1.62, -.3]); return;
+    const p = eio(k(t, 30.82, 31.75)); camAt([DX() + 1.0, 1.65, lerp(2.3, 1.9, p)], [DX() + 1.05, 1.45, -.3], [0, 0, 0], 40); return;
   }
   show('ext');
   SETS.extWins.forEach((w, i) => { const on = k(t, 31.95 + i * .4, 32.05 + i * .4); w.material.emissiveIntensity = on * 1.6; });
@@ -569,10 +569,10 @@ S.push([30.82, 33.97, t => {
 S.push([33.97, 37.19, t => {
   kitchenBase(); const o = lerp(.06, 0, eo(k(t, 34.0, 35.8))); SETS.drawer.position.z = o;
   const relief = t > 35.9;
-  pose(kid, { x: DX() + .15, z: -1.15, yaw: PI + .9, mouth: relief ? 'grin' : 'O', eyes: relief ? 'happy' : 'wide', brows: relief ? 0 : .9, armL: relief ? [.2, 0, .1] : [2.7, 0, .3], armR: relief ? [.2, 0, .1] : [2.7, 0, .3] });
-  pose(dad, { x: DX() + 1.2, z: -.3, yaw: -.4, eyes: relief ? 'happy' : 'wide', mouth: relief ? 'grin' : 'O', brows: relief ? 0 : 1, armR: relief ? [.5, 2.1, 2.2] : [.6, 1.7, 2.4], armL: relief ? [.2, 0, .1] : [.6, 1.7, 2.4], lean: relief ? -.1 : 0 });
-  if (t < 35.9) { const p = eio(k(t, 33.97, 35.9)); camAt([DX() + 1.3, lerp(1.05, .98, p), lerp(-.7, -.8, p)], [DX() + .05, .74, -1.4]); }
-  else { const p = eio(k(t, 35.9, 37.19)); camAt([DX() + lerp(1.3, 1.1, p), 1.5, lerp(3.2, 2.9, p)], [DX() + .7, 1.0, -.8]); }
+  pose(kid, { x: DX() - .45, z: -.75, yaw: PI + .9, mouth: relief ? 'grin' : 'O', eyes: relief ? 'happy' : 'wide', brows: relief ? 0 : .9, armL: relief ? [.2, 0, .1] : [2.7, 0, .3], armR: relief ? [.2, 0, .1] : [2.7, 0, .3] });
+  pose(dad, { x: relief ? DX() + .85 : DX() + 2.4, z: -1.25, yaw: -.4, eyes: relief ? 'happy' : 'wide', mouth: relief ? 'grin' : 'O', brows: relief ? 0 : 1, armR: relief ? [.5, 2.1, 2.2] : [.6, 1.7, 2.4], armL: relief ? [.2, 0, .1] : [.6, 1.7, 2.4], lean: relief ? -.1 : 0 });
+  if (t < 35.9) { const p = eio(k(t, 33.97, 35.9)); camAt([DX() + 1.3, lerp(1.3, 1.2, p), lerp(1.0, .8, p)], [DX() - .05, .78, -1.3], [0, 0, 0], 48); }
+  else { const p = eio(k(t, 35.9, 37.19)); camAt([DX() + lerp(.9, .7, p), 1.55, lerp(3.6, 3.3, p)], [DX() + .25, 1.05, -.8], [0, 0, 0], 46); }
 }]);
 // 10 high five
 S.push([37.19, 39.01, t => {
@@ -581,7 +581,7 @@ S.push([37.19, 39.01, t => {
   pose(dad, { x: DX() + 1.0, z: -.4, yaw: -.7, eyes: t > 37.95 ? 'happy' : 'open', mouth: 'grin', crouch: .1, legL: [.3, .5], legR: [.1, .3], armL: [lerp(.6, 1.9, hit), 0, .2] });
   pose(kid, { x: DX() + .25, z: -.15, yaw: .9, eyes: t > 37.95 ? 'happy' : 'open', mouth: 'grin', armR: [lerp(.6, 2.7, hit), .1, .1], bob: t > 37.95 ? Math.abs(Math.sin((t - 37.95) * 8)) * .1 * (1 - k(t, 37.95, 38.9)) : 0 });
   if (t > 37.95 && t < 38.6) puffFX(t, 37.95, [DX() + .6, 1.45, -.3], 6, .25, .25, .6);
-  camAt([DX() + .7, 1.35, 3.0], [DX() + .65, 1.0, -.3]);
+  camAt([DX() + .7, 1.5, 3.7], [DX() + .65, 1.1, -.3], [0, 0, 0], 42);
 }]);
 // 11 twenty minutes later: catastrophe
 S.push([39.01, 44.59, t => {
@@ -596,15 +596,15 @@ S.push([39.01, 44.59, t => {
   pose(kid, { x: DX() + .2, z: -.6, yaw: .3, eyes: 'happy', mouth: 'grin', flour: t > 41.6, armL: [2.4 + Math.sin(lt * 11) * .3, 0, .3], armR: [2.4 + Math.cos(lt * 11) * .3, 0, .3], bob: Math.abs(Math.sin(lt * 7)) * .08 });
   puffFX(t, 40.3, [DX() + .6, 1.1, -1.8], 8, .6, .5, 2.2);
   puffFX(t, 41.4, [DX() - .2, 1.0, -1.7], 8, .6, .55, 2.2);
-  if (t > 43.0) puffFX(t, 43.0, [DX() + .6, .9, -.7], 22, 1.6, 1.25, 1.8);
-  const p = eio(k(t, 40.1, 44.59)); camAt([DX() + lerp(.9, .7, p), lerp(1.6, 1.5, p), lerp(3.6, 3.1, p)], [DX() + .6, 1.0, -1.1]);
+  if (t > 43.0) puffFX(t, 43.0, [DX() + .6, 1.0, -1.0], 22, 1.6, .8, 1.5);
+  const p = eio(k(t, 40.1, 44.59)); camAt([DX() + lerp(.9, .7, p), lerp(1.65, 1.55, p), lerp(4.2, 3.7, p)], [DX() + .6, 1.1, -1.1], [0, 0, 0], 42);
   if (t > 43.0) shakeCam(.04 * Math.exp(-(t - 43) * 2.5), t);
 }]);
 // 12 breakfast ready
 S.push([44.59, 46.66, t => {
   kitchenBase(); SETS.drawer.position.z = 0; SETS.mess.visible = true; SETS.splats.forEach(s => { s.visible = true; s.scale.setScalar(1); });
-  trayG.visible = true; trayG.position.set(DX() + .7, .94, -1.85); trayG.rotation.y = 0; trayG.scale.setScalar(1);
-  heartFX(t, 45.0, [DX() + .7, 1.25, -1.85], 4, .4);
+  SETS.props.forEach(p => p.visible = false); trayG.visible = true; trayG.position.set(DX() + .7, .94, -1.85); trayG.rotation.y = 0; trayG.scale.setScalar(1);
+  heartFX(t, 45.0, [DX() + .7, 1.35, -1.85], 4, .5);
   const a = lerp(-.5, .5, eio(k(t, 44.59, 46.66)));
   camAt([DX() + .7 + Math.sin(a) * 1.15, 1.6, -1.85 + Math.cos(a) * 1.15], [DX() + .7, 1.02, -1.85]);
 }]);
@@ -613,48 +613,47 @@ S.push([46.66, 55.94, t => {
   kitchenBase(); SETS.drawer.position.z = 0; SETS.mess.visible = true; SETS.splats.forEach(s => { s.visible = true; s.scale.setScalar(1); });
   const doorX = 60 + 2.2;
   const arrive = eio(k(t, 46.66, 48.9));
-  const dX = lerp(DX() + .8, doorX - .75, arrive), dZ = lerp(-.4, -1.3, arrive);
-  const kX = lerp(DX() + .1, doorX - .2, arrive), kZ = lerp(.0, -1.45, arrive);
+  const dX = lerp(DX() + .8, doorX - .6, arrive), dZ = lerp(-.3, -.75, arrive);
+  const kX = lerp(DX() + .1, doorX + .45, arrive), kZ = lerp(.2, -1.0, arrive);
   const wk = arrive < 1 ? walkP(t, 7, .4) : {};
   const open = eo(k(t, 51.5, 52.3));
-  SETS.doorPivot.rotation.y = -open * 1.6; SETS.hallLight.intensity = 8 * open;
+  SETS.doorPivot.rotation.y = open * 1.5; SETS.hallLight.intensity = 8 * open;
   const surprised = t > 52.0 && t < 54.6;
   const fwd = Math.atan2(doorX - dX, -2.4 - dZ) * 0;
-  pose(dad, Object.assign({}, wk, { x: dX, z: dZ, yaw: arrive < 1 ? PI * .75 : PI, eyes: surprised ? 'wide' : 'open', mouth: surprised ? 'O' : (t > 49 ? 'flat' : 'grin'), brows: surprised ? .9 : 0, armL: [.25, 1.25, .5], armR: [.25, 1.25, .5] }));
+  pose(dad, Object.assign({}, wk, { x: dX, z: dZ, yaw: lerp(PI / 2, PI, k(t, 48.3, 49.0)), eyes: surprised ? 'wide' : 'open', mouth: surprised ? 'O' : (t > 49 ? 'flat' : 'grin'), brows: surprised ? .9 : 0, armL: [.25, 1.25, .5], armR: [.25, 1.25, .5] }));
   trayG.visible = true; trayG.scale.setScalar(1);
   const yawD = dad.root.rotation.y; /* tray follows dad */ trayG.rotation.y = yawD; trayG.position.set(dX + Math.sin(yawD) * .38, 1.0 + (wk.bob || 0), dZ + Math.cos(yawD) * .38);
-  pose(kid, Object.assign({}, wk, { x: kX, z: kZ, yaw: arrive < 1 ? PI * .7 : PI, eyes: surprised ? 'wide' : 'open', mouth: surprised ? 'O' : 'grin', brows: surprised ? .9 : 0, armR: t > 49.3 && t < 51.6 ? [.3, 1.5, .1] : [.2, 0, .1] }));
+  pose(kid, Object.assign({}, wk, { x: kX, z: kZ, yaw: lerp(PI / 2, PI, k(t, 48.5, 49.2)), eyes: surprised ? 'wide' : 'open', mouth: surprised ? 'O' : 'grin', brows: surprised ? .9 : 0, armR: t > 49.3 && t < 51.6 ? [.3, 1.5, .1] : [.2, 0, .1] }));
   // mom behind door
   const momBlink = (t % 3.3) < .12 ? 'closed' : 'open';
-  pose(mom, { x: doorX, z: -3.05, yaw: 0, eyes: t > 54.5 ? 'happy' : momBlink, mouth: t > 54.5 ? 'grin' : 'smile', brows: t > 53.4 && t < 54.5 ? .8 : 0, hy: t > 53.4 && t < 54.4 ? .15 : 0, armL: [.35, 1.35, 1.9, .9], armR: [.35, 1.35, 1.9, -.9], look: [0, 0] });
+  pose(mom, { x: doorX + .1, z: -3.0, yaw: 0, eyes: t > 54.5 ? 'happy' : momBlink, mouth: t > 54.5 ? 'grin' : 'smile', brows: t > 53.4 && t < 54.5 ? .8 : 0, hy: t > 53.4 && t < 54.4 ? .15 : 0, armL: [.35, 1.35, 1.9, .9], armR: [.35, 1.35, 1.9, -.9], look: [0, 0] });
   if (t > 54.6) heartFX(t, 54.7, [doorX, 1.85, -2.9], 3, .4);
-  if (t < 48.97) { const p = eio(k(t, 46.66, 48.97)); camAt([lerp(DX() + 1.4, doorX + 1.0, p), 1.55, lerp(3.0, 1.9, p)], [lerp(DX() + .6, doorX - .3, p), 1.05, lerp(-.8, -1.8, p)], [0, 0, 0], 46); }
-  else if (t < 51.47) { const p = eio(k(t, 48.97, 51.47)); camAt([doorX + lerp(1.0, .8, p), lerp(1.55, 1.4, p), lerp(1.9, 1.1, p)], [doorX - .2, 1.1, -2.2], [0, 0, 0], 46); }
-  else if (t < 53.6) { const p = eio(k(t, 51.47, 52.4)); camAt([doorX + lerp(.8, .9, p), lerp(1.4, 1.45, p), lerp(1.1, .9, p)], [doorX - .1, lerp(1.1, 1.3, p), lerp(-2.2, -2.8, p)], [0, 0, 0], 46); }
-  else { const p = eio(k(t, 53.6, 55.94)); camAt([doorX + lerp(.4, .3, p), 1.5, lerp(-.6, -.9, p)], [doorX, 1.45, -3.05], [0, 0, 0], 40); }
+  if (t < 48.97) { const p = eio(k(t, 46.66, 48.97)); camAt([lerp(DX() + 1.0, doorX - .2, p), 1.55, lerp(3.6, 2.6, p)], [lerp(DX() + .6, doorX - .1, p), 1.1, lerp(-.6, -1.4, p)], [0, 0, 0], 44); }
+  else if (t < 51.47) { const p = eio(k(t, 48.97, 51.47)); camAt([doorX + lerp(1.0, .8, p), lerp(1.6, 1.5, p), lerp(2.5, 1.9, p)], [doorX - .35, 1.15, -1.5], [0, 0, 0], 44); }
+  else if (t < 53.6) { const p = eio(k(t, 51.47, 52.4)); camAt([doorX + lerp(.8, -.05, p), lerp(1.45, 1.8, p), lerp(1.6, .7, p)], [doorX + .05, lerp(1.1, 1.25, p), lerp(-1.6, -3.0, p)], [0, 0, 0], 42); }
+  else { const p = eio(k(t, 53.6, 55.94)); camAt([doorX - .05, 1.45, lerp(-1.05, -1.3, p)], [doorX + .1, 1.25, -3.0], [0, 0, 0], 44); }
 }]);
 // 16 best surprise: family hug
 S.push([55.94, 59.46, t => {
   kitchenBase(); SETS.drawer.position.z = 0; SETS.mess.visible = true; SETS.splats.forEach(s => { s.visible = true; s.scale.setScalar(1); });
-  SETS.doorPivot.rotation.y = -1.6; SETS.hallLight.intensity = 8;
+  SETS.doorPivot.rotation.y = 1.5; SETS.hallLight.intensity = 8;
   const doorX = 60 + 2.2, cx = doorX - .1, cz = -1.6;
   const sway = Math.sin(t * 2.4) * .05;
   pose(mom, { x: cx + .42, z: cz, yaw: -.45, crouch: .18, legL: [.5, .9], legR: [.2, .5], lean: .15, eyes: 'happy', mouth: 'grin', tilt: sway, ht: .12, armL: [1.0, .9, 1.2], armR: [.4, .6, .8] });
   pose(kid, { x: cx, z: cz + .2, yaw: 0, eyes: 'happy', mouth: 'grin', armL: [2.4, 0, .3], armR: [2.4, 0, .3], tilt: -sway, bob: Math.abs(Math.sin(t * 4)) * .05 });
   pose(dad, { x: cx - .45, z: cz - .05, yaw: .45, crouch: .2, legL: [.3, .5], legR: [.5, .9], lean: .15, eyes: 'happy', mouth: 'grin', tilt: sway * .5, ht: -.12, armR: [1.0, .9, 1.2], armL: [.4, .6, .8] });
-  trayG.visible = true; trayG.position.set(cx + .9, .94, -2.0 + .2); trayG.rotation.y = .3;
-  heartFX(t, 56.1, [cx, 1.6, cz], 8, 1.2);
+    heartFX(t, 56.1, [cx, 1.6, cz], 8, 1.2);
   const a = lerp(-.35, .35, eio(k(t, 55.94, 59.46)));
-  camAt([cx + Math.sin(a) * 2.9, 1.4, cz + Math.cos(a) * 2.9], [cx, 1.0, cz]);
+  camAt([cx + Math.sin(a) * 3.3, 1.45, cz + Math.cos(a) * 3.3], [cx, 1.05, cz], [0, 0, 0], 40);
 }]);
 // 17 end card
 S.push([59.46, 64.5, t => {
   show('end');
   const op = Math.sin(k(t, 60.6, 62.6) * PI); SETS.chestDr.forEach((d, j) => d.position.z = .28 + (j === 1 ? op * .32 : 0));
-  pose(dad, { x: 120 - 1.05, z: -.2, yaw: .4, eyes: 'happy', mouth: 'smile', armR: [.6, .8, .6] });
-  pose(mom, { x: 120 + 1.05, z: -.2, yaw: -.4, eyes: 'happy', mouth: 'smile' });
+  pose(dad, { x: 120 - .9, z: -.1, yaw: .4, eyes: 'happy', mouth: 'smile', armR: [.6, .8, .6] });
+  pose(mom, { x: 120 + .9, z: -.1, yaw: -.4, eyes: 'happy', mouth: 'smile' });
   pose(kid, { x: 120 + .45, z: .15, yaw: -.3, eyes: 'happy', mouth: 'grin', armR: [2.5, 0, .3], bob: Math.abs(Math.sin(t * 5)) * .06 });
-  const p = eio(k(t, 59.46, 63.95)); camAt([120 + lerp(.4, 0, p), lerp(1.6, 1.5, p), lerp(7.2, 6.6, p)], [120, 1.0, -.6]);
+  const p = eio(k(t, 59.46, 63.95)); camAt([120 + lerp(.4, 0, p), lerp(1.6, 1.5, p), lerp(7.0, 6.4, p)], [120, 1.0, -.6], [0, 0, 0], 40);
 }]);
 
 // ================= OVERLAY =================
