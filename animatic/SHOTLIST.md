@@ -30,9 +30,9 @@
 
 ## Локации
 
-- **LIVING ROOM** — grey-blue walls, large window with orange curtains, night city skyline with lit windows outside, beige sofa, round striped rug, floor lamp, potted plant, light wooden plank floor.
-- **BEDROOM** — blue-grey walls, window with blue curtains, wooden bed with blue blanket and white pillows, nightstand with red digital clock.
-- **KITCHEN** — sage-green walls, white cabinets with wooden handles, wooden countertop, white tile backsplash, window with red-orange curtains, wall clock, fridge, wooden door to a warmly lit hallway.
+- **LIVING ROOM** — upscale modern apartment, deep blue-grey walls with classic wall panel moldings, tall window with rust velvet curtains, night city skyline outside, emerald velvet sofa on brass legs, round marble coffee table with brass base, framed abstract art in brass frames, walnut sideboard, brass floor lamp, round neutral rug, light oak chevron parquet.
+- **BEDROOM** — elegant bedroom, soft blue walls with panel moldings, tall upholstered sage-green headboard with brass buttons, crisp white bedding with linen duvet and terracotta throw, walnut nightstand with brass handles and red digital clock, brass wall sconces, chevron parquet.
+- **KITCHEN** — luxury kitchen: deep forest-green shaker cabinets with brass handles, white marble countertops and marble backsplash, glass-front upper cabinets with warm interior lighting, plaster range hood, black glass built-in oven tower, walnut floating shelves with ceramics, kitchen island with marble top, two brass dome pendant lights and walnut bar stools with brass legs, copper kettle, fresh flowers and fruit bowl, light oak chevron parquet, brass-rimmed wall clock, tall walnut door with brass lever to a warmly lit hallway.
 
 ## Шоты
 
@@ -62,6 +62,6 @@
 | 22 | 0:51.47–0:53.60 | 2.1 | Мама уже десять минут… | Дверь открывается в коридор — там стоит мама, руки у лица | The door swings open into a warmly lit hallway revealing MOM standing there, hands near her face, touched smile; over-the-shoulder from behind DAD and SON. |
 | 23 | 0:53.60–0:55.94 | 2.3 | …стояла за дверью и наблюдала за ними. | Крупно мама: подняла бровь, улыбается, сердечки | Close-up of MOM in the hallway, she raises an eyebrow knowingly, then smiles warmly with happy closed eyes, little hearts appear. |
 | 24 | 0:55.94–0:59.46 | 3.5 | И это был лучший сюрприз в её жизни. | Семья обнимается, сын поднял руки, сердечки, камера медленно облетает | Family hug in the KITCHEN doorway: MOM and DAD crouch and hug SON who raises his arms happily, hearts float up, slow orbit, warm light. |
-| 25 | 0:59.46–1:03.95 | 4.5 | PartnerZ. Мебель, с которой начинаются семейные истории. | Финал: уютная комната, деревянный комод, средний ящик выдвигается и мягко закрывается; семья рядом машет | Cozy warm room with a wooden chest of drawers, the middle drawer slides out and closes softly, the family stands around it smiling and waving, space at the top for the logo. |
+| 25 | 0:59.46–1:03.95 | 4.5 | PartnerZ. Мебель, с которой начинаются семейные истории. | Финал: уютная комната, деревянный комод, средний ящик выдвигается и мягко закрывается; семья рядом машет | Elegant warm room with panel-molded walls and chevron parquet, a walnut chest of drawers with brass handles, the middle drawer slides out and closes softly, the family stands around it smiling and waving, space at the top for the logo. |
 
 Логотип **PartnerZ** в финале и субтитры накладываются при монтаже: генераторы плохо рисуют текст.
