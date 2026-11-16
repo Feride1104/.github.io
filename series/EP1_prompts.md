@@ -75,26 +75,27 @@ AUDIO (Russian, sound ON):
 NEGATIVE: English speech, mumbling, wrong words, text, subtitles, logos, watermark, photorealistic, distorted faces, extra fingers, extra limbs, flicker.
 ```
 
-## Часть 5 (40–50 с) · references: ilmir, mom, son, daughter
+## Часть 5 (40–50 с) · references: ilmir, mom, son, daughter · v2 (упрощено до 2 шотов)
+
+Совет: загрузите последний кадр части 4 как стартовый. Если и так не выйдет — делайте Shot 1 и Shot 2 отдельными клипами по 5 с.
 
 ```
 Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic suspense with a cliffhanger ending, expressive faces, big glossy eyes, warm kitchen lighting, smooth natural animation. Characters must match the reference images exactly. No text, no captions, no logos.
 
-CHARACTERS (identical in every shot, match the reference images): ILMIR (dad): friendly man, very short dark buzz-cut hair, neat short dark beard and mustache, warm brown eyes, beige knit long-sleeve polo, navy trousers, dark loafers. MOM: young woman, long straight dark-brown hair half pulled back, big brown eyes, soft smile, beige knit midi dress, beige flats. SON: little boy, short messy brown hair, light freckles, big brown eyes, brown hoodie with a small mountain logo, dark brown pants. BABY DAUGHTER: chubby cheerful baby girl, beige knit headband with a big bow, beige knit romper, rosy cheeks, two tiny front teeth.
+CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo, navy trousers. MOM: long straight dark-brown hair, beige knit dress. SON: short messy brown hair, brown hoodie. BABY DAUGHTER: beige bow headband, beige knit romper, in a wooden high chair.
 
-SETTING: the same warm modern kitchen. One clearly visible object matters: a tall cream-white upper kitchen cabinet with a single round brass knob, hanging on the wall right next to the window. It is closed.
+Only two shots, no other cuts.
 
-Shot 1 (0–3s): the BABY DAUGHTER in her high chair silently raises her chubby finger and points straight at the tall cream-white cabinet with the brass knob, smiling proudly. Quick whip-pan following her finger to that exact closed cabinet, slight push-in on it.
-Shot 2 (3–5s): MOM silently mouths "no-no-no" in horror, the little SON covers his face with both hands.
-Shot 3 (5–7s): ILMIR follows the baby's finger, walks straight to that same cream-white cabinet, puts his hand on the round brass knob and slowly pulls the door open toward himself.
-Shot 4 (7–10s): camera placed INSIDE the cabinet looking out at Ilmir: the open cabinet door frames his face, a warm golden glow from inside the cabinet lights up his face. His eyes go wide, his jaw drops. He slowly turns his head toward the family in total disbelief. Freeze-frame on his shocked face. We never see what is inside the cabinet.
+Shot 1 (0–4s): one wide static shot of the kitchen. On the left the baby in her high chair, mom and son standing next to her. On the right, a single small white kitchen wall cabinet with a round brass knob at adult head height. The baby happily points her finger at that white wall cabinet. Mom gasps and covers her mouth, the son covers his eyes with both hands.
 
-Narrator: warm, slightly ironic male voice, clear Russian speech, calm storytelling pace.
-AUDIO (Russian voiceover, sound ON):
-0–5s narrator: «И тут дочка решила помочь папе.» Baby's happy giggle, mom's silent gasp.
-5–10s narrator: «Но то, что он нашёл в шкафчике… не смог объяснить даже он.» Creaking cabinet door at 6s, dramatic suspense sting on the freeze-frame.
+Shot 2 (4–10s): one continuous medium shot from the side. Ilmir walks to that same small white wall cabinet, takes the brass knob and opens the door toward the camera. The open door hides the inside of the cabinet from us. Warm golden light from inside the cabinet falls on Ilmir's face. His eyes go wide, his mouth drops open, he slowly turns his shocked face to the camera. Hold on his face.
 
-NEGATIVE: English speech, mumbling, wrong words, text, subtitles, logos, watermark, photorealistic, distorted faces, extra fingers, extra limbs, flicker, showing what is inside the cabinet, opening a drawer, opening the fridge, opening the oven, opening a different cabinet.
+Narrator: warm, slightly ironic male voice, clear Russian speech.
+AUDIO (Russian, sound ON):
+0–4s narrator: «И тут дочка решила помочь папе.» Baby giggles.
+4–10s narrator: «Но то, что он нашёл в шкафчике… не смог объяснить даже он.» Cabinet door creak, dramatic suspense sting at the end.
+
+NEGATIVE: extra people, duplicate characters, people in the background, tall pantry cabinet, fridge, dark door, opening a drawer, showing the inside of the cabinet, camera inside the cabinet, English speech, text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ## Озвучка для ElevenLabs (одним блоком)
