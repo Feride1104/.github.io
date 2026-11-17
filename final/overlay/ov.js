@@ -4,6 +4,10 @@ const eo = x => 1 - Math.pow(1 - x, 3);
 const spring = x => x <= 0 ? 0 : 1 - Math.exp(-5 * x) * Math.cos(10 * x);
 const pop = (t, t0, sp = 2.2) => t < t0 ? 0 : spring((t - t0) * sp);
 const END = 59.46;
+(() => { let cap = true; for (const c of SUBS) for (const w of c.words) {
+  let x = w.w.toLowerCase(); if (x.startsWith('partnerz')) x = 'PartnerZ' + x.slice(8);
+  if (cap) x = x.charAt(0).toUpperCase() + x.slice(1);
+  w.w = x; cap = /[.!?…]$/.test(x); } })();
 function lineLayout(words, size) {
   g.font = `900 ${size}px U`; g.letterSpacing = `${-size * .03}px`;
   const ws = words.map(w => g.measureText(w.w).width), sp = size * .32;
@@ -11,36 +15,34 @@ function lineLayout(words, size) {
 }
 function subtitles(t, cy) {
   const c = SUBS.find(c => t >= c.t && t < c.end); if (!c) return;
-  if (c.words.length === 1 && c.words[0].w.startsWith('PARTNERZ')) return; // logo covers it
-  const words = c.words, acc = words.some(w => w.a);
-  // try one line, else split into two lines
-  let size = Math.min(acc ? 175 : 155, 1000 / lineLayout(words, 100).total * 100);
-  let lines = [words];
-  if (size < 112 && words.length > 1) {
-    const m = Math.ceil(words.length / 2); lines = [words.slice(0, m), words.slice(m)];
-    size = Math.min(acc ? 175 : 150, ...lines.map(l => 1000 / lineLayout(l, 100).total * 100));
-  }
-  const out = t > c.end - .06 ? 1 - k(t, c.end - .06, c.end) : 1;
-  const life = k(t, c.t, c.end), breathe = 1 + .04 * eo(life);
-  const lh = size * 1.12, y0 = cy - (lines.length - 1) * lh / 2;
-  g.save(); g.translate(540, cy); g.scale(breathe, breathe); g.translate(-540, -cy);
-  lines.forEach((ln, li) => {
-    const L = lineLayout(ln, size); let x = 540 - L.total / 2;
-    ln.forEach((w, i) => {
-      const ww = L.ws[i];
+  if (c.words.length === 1 && c.words[0].w.startsWith('PartnerZ')) return;
+  const words = c.words, size = 62, sp = size * .3;
+  g.font = `700 ${size}px M`; g.letterSpacing = '0.5px';
+  const ws = words.map(w => g.measureText(w.w).width);
+  // wrap into max 2 lines of width <= 900
+  let lines = [[0, words.length]];
+  const tot = ws.reduce((a, b) => a + b, 0) + sp * (words.length - 1);
+  if (tot > 900 && words.length > 1) { const m = Math.ceil(words.length / 2); lines = [[0, m], [m, words.length]]; }
+  const out = t > c.end - .12 ? 1 - k(t, c.end - .12, c.end) : 1;
+  const lh = size * 1.25, y0 = cy - (lines.length - 1) * lh / 2;
+  g.save(); g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineJoin = 'round';
+  lines.forEach(([i0, i1], li) => {
+    const lw = ws.slice(i0, i1).reduce((a, b) => a + b, 0) + sp * (i1 - i0 - 1);
+    let x = 540 - lw / 2; const y = y0 + li * lh;
+    for (let i = i0; i < i1; i++) {
+      const w = words[i], ww = ws[i];
       if (t >= w.t) {
-        const p = pop(t, w.t, 3.0), a = clamp((t - w.t) / .05) * out;
-        const s = .2 + .8 * Math.min(p, 1) + Math.max(0, p - 1) * .5;
-        g.save(); g.translate(x + ww / 2, y0 + li * lh + (1 - Math.min(p, 1)) * 60);
-        g.rotate((w.a ? -.06 : -.025) * Math.exp(-(t - w.t) * 6) * Math.cos((t - w.t) * 14)); g.scale(s, s);
-        g.globalAlpha = a; g.font = `900 ${size}px U`; g.letterSpacing = `${-size * .03}px`; g.textAlign = 'center'; g.textBaseline = 'middle';
-        g.lineJoin = 'round'; g.lineWidth = size * .22; g.strokeStyle = '#120c14';
-        g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = size * .35; g.shadowOffsetY = size * .08; g.strokeText(w.w, 0, 0); g.shadowColor = 'transparent';
-        g.fillStyle = w.a ? '#ffd23a' : '#ffffff'; g.fillText(w.w, 0, 0);
+        const p = eo(k(t, w.t, w.t + .22)), a = p * out;
+        g.save(); g.translate(x + ww / 2, y + (1 - p) * 18); const s = .9 + .1 * p; g.scale(s, s);
+        g.globalAlpha = a; g.font = `700 ${size}px M`; g.letterSpacing = '0.5px';
+        g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 18; g.shadowOffsetY = 3;
+        g.lineWidth = 6; g.strokeStyle = 'rgba(20,14,18,.85)'; g.strokeText(w.w, 0, 0);
+        g.shadowColor = 'transparent';
+        g.fillStyle = w.a ? '#ffd76a' : '#ffffff'; g.fillText(w.w, 0, 0);
         g.restore();
       }
-      x += ww + L.sp;
-    });
+      x += ww + sp;
+    }
   });
   g.restore(); g.letterSpacing = '0px';
 }
@@ -71,7 +73,7 @@ function endCard(t) {
 function render(t) {
   g.clearRect(0, 0, W, H);
   endCard(t);
-  subtitles(t, t >= END ? 1240 : 1330);
+  subtitles(t, t >= END ? 1240 : 1440);
 }
 window.render = render;
-window.ready = (async () => { await document.fonts.load('900 50px U', 'АБВ abc 0123'); render(0); return true; })();
+window.ready = (async () => { await document.fonts.load('900 50px U', 'АБВ abc 0123'); await document.fonts.load('700 50px M', 'АБВ abc 0123'); render(0); return true; })();
