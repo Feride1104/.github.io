@@ -114,6 +114,22 @@ AUDIO: quiet night ambience, soft footsteps, a playful mysterious music sting at
 NEGATIVE: color, on-screen text, timestamps, numbers, interface, adults, extra people, falling, crying, scary or horror mood, distorted faces, extra fingers.
 ```
 
+### Часть 6 (10 с) · references: ilmir, daughter — концовка
+
+```
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, warm morning kitchen light, comedic standoff ending, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+
+CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo. BABY DAUGHTER: chubby baby girl, beige knit headband with a big bow, beige knit romper, sitting in a wooden high chair.
+
+Only two shots, nobody else in the kitchen.
+Shot 1 (0–5s): ILMIR slowly lowers the baby monitor and slowly turns his head toward the BABY sitting in her high chair holding a baby biscuit. The BABY looks back at him super innocently, blinking her big eyes.
+Shot 2 (5–10s): a funny western-style standoff: quick alternating close-ups of their eyes. Ilmir slowly narrows his eyes suspiciously. The BABY slowly narrows her eyes too and gives a tiny sly smirk. Freeze on the baby's smirk.
+
+AUDIO: western standoff whistle music, a comedic sting on the smirk.
+
+NEGATIVE: extra people, duplicate characters, extra hands, English speech, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+```
+
 ## Озвучка для ElevenLabs
 
 ```
@@ -132,6 +148,8 @@ NEGATIVE: color, on-screen text, timestamps, numbers, interface, adults, extra p
 В три семнадцать малышка проснулась. Встала. Перелезла через кроватку. И пошла. Сама.
 
 А у двери… посмотрела прямо в камеру.
+
+Папа медленно посмотрел на дочку. А она — на папу.
 
 Куда она уходит по ночам — в следующей серии.
 ```
