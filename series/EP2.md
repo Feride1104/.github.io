@@ -84,16 +84,18 @@ AUDIO: soft quiet night ambience, gentle tiptoe steps, quiet suspense music.
 NEGATIVE: readable text, extra people, duplicate characters, English speech, subtitles, logos, watermark, distorted faces, extra fingers, scary mood.
 ```
 
-### Часть 5A (≈5 с) · references: ilmir
+### Часть 5A (10 с) · references: ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 5 seconds, warm morning kitchen light, comedic reaction, expressive faces, big glossy eyes, smooth natural animation. Character must match the reference image exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, warm morning kitchen light, comedic reaction, expressive faces, big glossy eyes, smooth natural animation. Character must match the reference image exactly. No readable text, no captions, no logos.
 
 CHARACTER (match the reference image): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo, sleepy morning look.
 
-One single shot, medium close-up. ILMIR sits alone at the kitchen table, holding a small white baby monitor with BOTH of his own hands, a coffee mug stands on the table next to him. He watches the screen sleepily, then suddenly freezes, his eyes go huge, his jaw drops, and with his elbow he accidentally knocks over the coffee mug.
+Only two shots. ILMIR is alone in the kitchen, nobody else in the frame.
+Shot 1 (0–5s): medium close-up. ILMIR sits at the kitchen table holding a small white baby monitor with BOTH of his own hands, a coffee mug stands on the table next to him. He yawns and watches the screen sleepily, then suddenly freezes, his eyes go huge, his jaw drops, and with his elbow he accidentally knocks over the coffee mug, coffee spills across the table.
+Shot 2 (5–10s): close-up. Ignoring the spilled coffee, ILMIR brings the baby monitor right up to his face, rubs his eyes with one hand, looks again in total disbelief, slowly shakes his head, eyebrows up, mouth open.
 
-AUDIO: quiet morning, then a coffee splash.
+AUDIO: quiet morning, a yawn, then a coffee splash, then a dramatic suspense sting.
 
 NEGATIVE: extra hands, third hand, hands from outside the frame, other people, readable text, screen content visible, English speech, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
