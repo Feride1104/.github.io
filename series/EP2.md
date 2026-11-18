@@ -12,7 +12,7 @@
 | 2 | 10–20 с | Ильмир медленно оборачивается. Подходят мама и сын, видят свои фото на доске и бледнеют. Все трое медленно поворачивают головы к малышке | На доске были все тайники. Носки. Хлопья. Цветочный горшок. И фотографии… мамы и сына. |
 | 3 | 20–30 с | Малышка в стульчике невинно улыбается и хлопает. Семья с подозрением смотрит, потом отворачивается. За их спинами малышка хитро прищуривается прямо в камеру | Все посмотрели на единственную, кто молчал всё это время. Ей годик. Она даже не ходит. …Или так они думали. |
 | 4 | 30–40 с | Ночь. Детская. Ильмир на цыпочках ставит на полку камеру-видеоняню, наводит на кроватку, где мирно спит малышка, и тихо выходит | Ночью папа поставил в детской камеру. |
-| 5 | 40–50 с | **Обрыв.** Утро. Ильмир с кофе смотрит запись на экране видеоняни. Перематывает… замирает, кофе проливается. На экране кроватка пуста, под одеялом подушка, уложенная в форме спящей малышки | Утром он посмотрел запись. В три семнадцать кроватка была пуста. Куда она уходит по ночам — в следующей серии. |
+| 5 | 40–55 с | Утро. Ильмир смотрит запись видеоняни, замирает, роняет кофе. **Развязка:** запись ночью — малышка просыпается, встаёт, перелезает через кроватку на гору игрушек и уверенно идёт к двери сама. У двери оборачивается, машет в камеру и хитро улыбается | Утром он посмотрел запись. В три семнадцать малышка проснулась. Встала. Перелезла через кроватку. И пошла. Сама. А у двери… посмотрела прямо в камеру. Куда она уходит по ночам — в следующей серии. |
 
 На монтаже добавляю: время «03:17» и красный «REC» на экране видеоняни, звуки, субтитры в стиле Pixar, финальную плашку «Серия 2».
 
@@ -84,20 +84,32 @@ AUDIO: soft quiet night ambience, gentle tiptoe steps, quiet suspense music.
 NEGATIVE: readable text, extra people, duplicate characters, English speech, subtitles, logos, watermark, distorted faces, extra fingers, scary mood.
 ```
 
-### Часть 5 (40–50 с) · references: ilmir
+### Часть 5A (≈5 с) · references: ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic mystery cliffhanger, warm morning kitchen light, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 5 seconds, warm morning kitchen light, comedic reaction, expressive faces, big glossy eyes, smooth natural animation. Character must match the reference image exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo, sleepy morning look.
+CHARACTER (match the reference image): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo, sleepy morning look.
 
-Only two shots.
-Shot 1 (0–6s): morning in the kitchen. ILMIR, sleepy, holds a cup of coffee and watches the night recording on a small baby monitor screen, scrolling through it. Suddenly he freezes, his eyes go huge, the coffee slowly tilts and spills from his cup.
-Shot 2 (6–10s): close-up of the baby monitor screen showing a black-and-white night view of the nursery: the crib is empty, only a pillow under the blanket arranged in the shape of a sleeping baby. Funny, mysterious, not scary.
+One single shot, medium close-up. ILMIR sits alone at the kitchen table, holding a small white baby monitor with BOTH of his own hands, a coffee mug stands on the table next to him. He watches the screen sleepily, then suddenly freezes, his eyes go huge, his jaw drops, and with his elbow he accidentally knocks over the coffee mug.
 
-AUDIO: morning ambience, a coffee splash, dramatic suspense sting at the end.
+AUDIO: quiet morning, then a coffee splash.
 
-NEGATIVE: readable text, extra people, duplicate characters, English speech, subtitles, logos, watermark, distorted faces, extra fingers, scary or horror mood.
+NEGATIVE: extra hands, third hand, hands from outside the frame, other people, readable text, screen content visible, English speech, subtitles, logos, watermark, distorted faces, extra fingers.
+```
+
+### Часть 5B (10 с) · references: daughter — «что он увидел»
+
+```
+Black-and-white night-vision baby monitor footage of a cozy nursery, grainy, slightly fisheye, static high camera angle from a shelf, vertical 9:16, 10 seconds. Pixar-style 3D animated characters, cute and funny, not scary. Character must match the reference image exactly. No on-screen text, no numbers, no interface.
+
+CHARACTER (match the reference image): BABY DAUGHTER: chubby baby girl with a headband with a big bow, knit romper.
+
+One continuous static shot. The BABY sleeps in her crib. Suddenly she opens her eyes, sits up and looks around like a secret agent. She stands up holding the crib rail, carefully climbs over the rail and slides down softly onto a big pile of plush toys next to the crib. Then she confidently walks on her own two feet across the nursery to the door. At the door she stops, turns around, looks straight into the camera, gives a tiny wave and a sly smile, and quietly walks out of the room.
+
+AUDIO: quiet night ambience, soft footsteps, a playful mysterious music sting at the wave.
+
+NEGATIVE: color, on-screen text, timestamps, numbers, interface, adults, extra people, falling, crying, scary or horror mood, distorted faces, extra fingers.
 ```
 
 ## Озвучка для ElevenLabs
@@ -113,7 +125,11 @@ NEGATIVE: readable text, extra people, duplicate characters, English speech, sub
 
 Ночью папа поставил в детской камеру.
 
-Утром он посмотрел запись. В три семнадцать кроватка была пуста.
+Утром он посмотрел запись.
+
+В три семнадцать малышка проснулась. Встала. Перелезла через кроватку. И пошла. Сама.
+
+А у двери… посмотрела прямо в камеру.
 
 Куда она уходит по ночам — в следующей серии.
 ```
