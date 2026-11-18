@@ -114,20 +114,18 @@ AUDIO: quiet night ambience, soft footsteps, a playful mysterious music sting at
 NEGATIVE: color, on-screen text, timestamps, numbers, interface, adults, extra people, falling, crying, scary or horror mood, distorted faces, extra fingers.
 ```
 
-### Часть 6 (10 с) · references: ilmir, daughter — концовка
+### Часть 6 (10 с) · references: daughter — продолжение записи
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, warm morning kitchen light, comedic standoff ending, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Black-and-white night-vision baby monitor footage of a cozy nursery, grainy, slightly fisheye, static high camera angle from a shelf, vertical 9:16, 10 seconds. Pixar-style 3D animated character, cute and funny, not scary. Character must match the reference image exactly. No on-screen text, no numbers, no interface.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo. BABY DAUGHTER: chubby baby girl, beige knit headband with a big bow, beige knit romper, sitting in a wooden high chair.
+CHARACTER (match the reference image): BABY DAUGHTER: chubby baby girl with a headband with a big bow, knit romper.
 
-Only two shots, nobody else in the kitchen.
-Shot 1 (0–5s): ILMIR slowly lowers the baby monitor and slowly turns his head toward the BABY sitting in her high chair holding a baby biscuit. The BABY looks back at him super innocently, blinking her big eyes.
-Shot 2 (5–10s): a funny western-style standoff: quick alternating close-ups of their eyes. Ilmir slowly narrows his eyes suspiciously. The BABY slowly narrows her eyes too and gives a tiny sly smirk. Freeze on the baby's smirk.
+One continuous static shot, the same nursery as before. The room is empty for a moment, the door is half open. Then the BABY quietly walks back in through the door, climbs up the big pile of plush toys and back into her crib, lies down and pulls the blanket over herself. Right before closing her eyes she looks straight into the camera and puts her finger to her lips: "shh". Then she closes her eyes and sleeps peacefully.
 
-AUDIO: western standoff whistle music, a comedic sting on the smirk.
+AUDIO: quiet night ambience, soft tiny footsteps, a short mysterious music sting on the "shh".
 
-NEGATIVE: extra people, duplicate characters, extra hands, English speech, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: color, on-screen text, timestamps, numbers, interface, adults, extra people, falling, crying, scary or horror mood, distorted faces, extra fingers.
 ```
 
 ## Озвучка для ElevenLabs
@@ -149,7 +147,7 @@ NEGATIVE: extra people, duplicate characters, extra hands, English speech, reada
 
 А у двери… посмотрела прямо в камеру.
 
-Папа медленно посмотрел на дочку. А она — на папу.
+Через двадцать минут она вернулась. Легла в кроватку. И перед тем как уснуть… показала папе: «Тсс».
 
-Куда она уходит по ночам — в следующей серии.
+Где она была эти двадцать минут — в следующей серии.
 ```
