@@ -4,9 +4,9 @@ const eo = x => 1 - Math.pow(1 - x, 3), eio = x => x < .5 ? 2 * x * x : 1 - Math
 const spring = x => x <= 0 ? 0 : 1 - Math.exp(-5 * x) * Math.cos(10 * x);
 const pop = (t, t0, sp = 2.4) => t < t0 ? 0 : spring((t - t0) * sp);
 const rnd = i => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
-const CUTS = [3.5, 5.0, 8.5, 12.033, 13.767, 17.933, 20.1, 24.833, 26.8, 30.533, 33.533, 36.9, 39.533];
-const BIG = [3.5, 13.767, 20.1, 26.8, 33.533];
-const FREEZE = 41.933, CARD = 43.6;
+const CUTS = [3.5, 5.0, 8.5, 12.033, 13.767, 17.933, 20.1, 24.833, 26.8, 30.533, 33.9, 36.533];
+const BIG = [3.5, 13.767, 20.1, 26.8, 30.533];
+const FREEZE = 38.933, CARD = 41.0;
 
 // ---------- Pixar-style text ----------
 function fancyText(txt, x, y, size, accent, alpha = 1) {
@@ -195,8 +195,7 @@ function render(t) {
     if (t < 3.5) { nightCam(t, 0, 73); earlier(t); }
     else vignette(t < 13.767 ? .5 : .4);
     twinkle(t, 16.6, 640, 820, 70);           // thumbs-up
-    twinkle(t, 31.9, 540, 980, 90);           // high five
-    comicBurst(t, 34.4, 760, 520, '!');      // flashlight hits dad
+    comicBurst(t, 31.4, 760, 520, '!');      // flashlight hits dad
     if (t >= FREEZE) { g.fillStyle = `rgba(20,8,0,${.3 * k(t, FREEZE, FREEZE + .2)})`; g.fillRect(0, 0, W, H); }
     questionPop(t);
     transition(t);
