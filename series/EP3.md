@@ -1,24 +1,23 @@
-# «Семья стоматолога» — Серия 3. «Слежка»
+# «Семья стоматолога» — Серия 3. «Она не одна»
 
-Вертикальный 9:16, около 70 секунд (7 × 10 с), 3D в стиле Pixar, только голос диктора.
+Вертикальный 9:16, около 60 секунд (6 × 10 с), 3D в стиле Pixar, только голос диктора.
 
-**Идея:** папа сам выходит в ночную засаду, чтобы выследить малышку. Шпионская комедия с напряжением: он чуть не выдаёт себя. Узнаёт, что дочь по ночам меняет сладкое на зубные щётки, и гордится ею. А потом оказывается, что на кухне есть кто-то ещё, и папа узнаёт этого человека.
+**Идея:** папа устраивает ночную засаду и выясняет, что малышка действует не одна. В три семнадцать она будит брата, и они вдвоём, как спецназ, конфискуют сладкое и заменяют его зубными щётками. Сын, «агент» маминой сладкой сети из первой серии, оказался двойным агентом: он работал на сестру. Наклейка «агент» на его фото на доске из второй серии получает объяснение. В конце дети замечают папу.
 
 ## Сценарий
 
 | # | Время | Кадр | Озвучка |
 |---|---|---|---|
-| 1 | 0–10 с | **Хук.** Тёмный коридор, 3:16. Ильмир в засаде за креслом, на лбу фонарик, в руках бинокль и кружка кофе, глаза слипаются | Папа решил не спать. В три шестнадцать он занял позицию. |
-| 2 | 10–20 с | 3:17. Дверь детской медленно открывается, выходит малышка с крошечным фонариком. Папа пригибается за креслом | Ровно в три семнадцать дверь детской открылась. |
-| 3 | 20–30 с | Папа крадётся следом на цыпочках и наступает на резиновую уточку: ПИСК! Малышка замирает и светит фонариком назад. Папа застывает за вешалкой с куртками | Главное — не шуметь… Почти получилось. |
-| 4 | 30–40 с | Спальня. Малышка достаёт из маминого ящика с носками шоколадку и кладёт на её место зубную щётку. Папа подглядывает в щель двери, в недоумении | Она открыла мамин тайник. Забрала шоколадку. И положила… зубную щётку. |
-| 5 | 40–50 с | Кухня. В хлопьях и цветочном горшке она тоже меняет сладкое на щётки. По башне из подушек залезает в штаб, ссыпает всё в банку, зачёркивает крестики. Папа выглядывает из-за угла и медленно, гордо улыбается | Хлопья. Цветочный горшок. Всё — в штаб. Она не воровала сладкое. Она охраняла зубы. Совсем как папа. |
-| 6 | 50–60 с | Папа уже делает шаг, чтобы выйти и обнять дочь, но малышка вдруг замирает и наводит фонарик на холодильник. Дверца приоткрыта, льётся свет, слышно чавканье. Папа застывает | Папа уже хотел выйти… Но малышка замерла. На кухне был кто-то ещё. |
-| 7 | 60–70 с | **Обрыв.** У холодильника силуэт в пушистом халате и бигуди ест торт прямо руками. Медленно оборачивается: видны только бигуди и крем на щеке. Глаза папы округляются, он узнал | Кто-то ел торт. В темноте. Папа узнал эти бигуди. Но она должна была прилететь только в пятницу… Кто это — в следующей серии. |
+| 1 | 0–10 с | **Хук.** 3:16, тёмный коридор. Ильмир в засаде за креслом: фонарик на лбу, бинокль, кружка кофе. Клюёт носом, вздрагивает | Папа решил выяснить всё сам. Три шестнадцать. Засада. |
+| 2 | 10–20 с | 3:17. Дверь детской открывается, выходит малышка с крошечным фонариком. Папа выключает фонарик и пригибается | Ровно в три семнадцать дверь детской открылась. |
+| 3 | 20–30 с | Малышка идёт в комнату брата и легонько хлопает его по щеке. Брат мгновенно открывает глаза, садится, отдаёт честь, надевает налобный фонарик. Папа подглядывает в щель двери, челюсть отвисает | Но пошла она не на кухню. А к брату. И брат проснулся сразу. Как по команде. |
+| 4 | 30–40 с | Спальня родителей, мама спит. Брат на стрёме показывает жестами «чисто», малышка достаёт из ящика с носками шоколадку и кладёт зубную щётку. Папа в дверях в шоке | Они работали как команда. Один на стрёме. Вторая забирает сладкое. И кладёт зубную щётку. |
+| 5 | 40–50 с | Кухня. Брат бережно подсаживает малышку к открытому шкафчику-штабу, она ссыпает сладкое в банку, брат зачёркивает крестик на плане. Дают друг другу «пять» | Так вот кто был агентом. Сын играл за маму… а работал на сестру. |
+| 6 | 50–60 с | **Обрыв.** Брат оборачивается, луч его фонарика упирается прямо в лицо папы в дверном проёме. Все трое замирают. Брат медленно наклоняется к сестре и что-то шепчет, малышка медленно поворачивает голову | И тут фонарик брата осветил… папу. «Нас раскрыли», — прошептал брат. Что они сделают с единственным свидетелем — в следующей серии. |
 
-**Подпись к Reels:** Папа устроил ночную засаду 🕵️‍♂️ Узнал, куда уходит малышка… и кое-что ещё 😳 Кто ел торт в темноте? Ваши версии 👇 #семьястоматолога #стоматолог #семья #юмор
+**Подпись к Reels:** Ночью в 3:17 в нашем доме работает спецназ 🕵️‍♂️🕵️‍♀️ И меня раскрыли 😳 Что они со мной сделают? Ваши версии 👇 #семьястоматолога #стоматолог #семья #юмор
 
-## Промпты (7 × 10 с)
+## Промпты (6 × 10 с)
 
 Настройки: References (картинки героев из `series/characters/`), 9:16, 10 s. На монтаже берём только озвучку ElevenLabs.
 
@@ -31,7 +30,7 @@ CHARACTER (match the reference image): ILMIR (dad): very short dark buzz-cut hai
 
 Only two shots, nobody else in the frame.
 Shot 1 (0–5s): wide shot of a dark cozy hallway at night: ILMIR hides behind an armchair like a secret agent, a small headlamp on his forehead, binoculars around his neck and a big mug of coffee in his hand, watching the closed nursery door.
-Shot 2 (5–10s): close-up: his eyes are slowly closing from sleepiness, his head nods down, he jerks awake, shakes his head and takes a big sip of coffee, then stares at the door again with serious detective eyes.
+Shot 2 (5–10s): close-up: his eyes slowly close from sleepiness, his head nods down, he jerks awake, shakes his head, takes a big sip of coffee and stares at the door again with serious detective eyes.
 
 AUDIO: quiet night, clock ticking, a slurp of coffee, playful spy music.
 
@@ -54,106 +53,88 @@ AUDIO: door creak, tiny footsteps, suspense spy music.
 NEGATIVE: extra people, duplicate characters, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
-### Часть 3 · references: ilmir, daughter
+### Часть 3 · references: daughter, son, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic spy chase at night, dark cozy hallway in soft moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy mood at night, cozy kids' bedroom in soft blue moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo, navy trousers. BABY DAUGHTER: beige bow headband, beige knit romper, tiny toy flashlight.
+CHARACTERS (match the reference images): BABY DAUGHTER: beige knit headband with a big bow, beige knit romper, tiny toy flashlight. SON: little boy, short messy brown hair, light freckles, brown hoodie. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard.
 
 Only two shots.
-Shot 1 (0–5s): ILMIR tiptoes after the baby in an exaggerated cartoon sneak, knees high, and accidentally steps on a yellow rubber duck toy on the floor. He freezes mid-step in horror.
-Shot 2 (5–10s): the BABY stops and slowly turns around, pointing her tiny flashlight back down the hallway. ILMIR instantly hides among the coats on the coat rack, standing perfectly still with a frozen face. The flashlight beam slides past him. The baby shrugs and walks on. Ilmir exhales in relief.
+Shot 1 (0–6s): the BABY walks into her brother's cozy bedroom and gently pats the sleeping SON on the cheek. The SON instantly opens his eyes, sits up straight, gives her a serious military salute, and puts on a small headlamp, ready for a mission.
+Shot 2 (6–10s): close-up of ILMIR peeking through the narrow gap of the half-open door, his jaw slowly drops in total disbelief.
 
-AUDIO: a loud rubber duck squeak, dead silence, then a relieved exhale and playful music.
+AUDIO: quiet night, a soft pat, playful spy music sting on the salute.
 
-NEGATIVE: extra people, duplicate characters, falling, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: extra people, duplicate characters, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
-### Часть 4 · references: daughter, ilmir, mom
+### Часть 4 · references: son, daughter, mom, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy mood at night, parents' cozy bedroom in soft moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, parents' cozy bedroom in soft moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): BABY DAUGHTER: beige bow headband, beige knit romper. MOM: long straight dark-brown hair, peacefully asleep in bed in the background. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard.
+CHARACTERS (match the reference images): SON: short messy brown hair, brown hoodie, small headlamp. BABY DAUGHTER: beige bow headband, beige knit romper. MOM: long straight dark-brown hair, peacefully asleep in bed in the background. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard.
 
 Only two shots.
-Shot 1 (0–6s): in the bedroom, MOM sleeps peacefully in the background. The BABY quietly opens the lowest drawer of a dresser full of socks, takes out a chocolate bar hidden under the socks and carefully puts a small toothbrush in its place.
-Shot 2 (6–10s): close-up of ILMIR's face peeking through the narrow gap of the half-open bedroom door, one eyebrow raised, totally puzzled.
+Shot 1 (0–6s): in the bedroom, MOM sleeps peacefully in the background. The SON stands guard by the bed and shows "all clear" with spy hand signals. The BABY quietly opens the lowest dresser drawer full of socks, takes out a hidden chocolate bar and carefully puts a small toothbrush in its place.
+Shot 2 (6–10s): ILMIR in the dark doorway watches them, eyes wide, slowly covering his mouth with his hand in shock.
 
-AUDIO: soft drawer slide, quiet night, a curious comedic music sting.
+AUDIO: soft drawer slide, quiet night, playful spy music.
 
 NEGATIVE: extra people, duplicate characters, mom waking up, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
-### Часть 5 · references: daughter, ilmir
+### Часть 5 · references: son, daughter
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy mood at night, cozy kitchen in soft moonlight and warm light from an open cabinet, heartwarming and funny, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, cozy kitchen in soft moonlight and warm light from an open cabinet, heartwarming and funny, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): BABY DAUGHTER: beige bow headband, beige knit romper. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo.
+CHARACTERS (match the reference images): SON: short messy brown hair, light freckles, brown hoodie, small headlamp. BABY DAUGHTER: beige bow headband, beige knit romper.
 
 Only two shots.
-Shot 1 (0–6s): quick fun montage in the kitchen: the BABY swaps gummy candies in a cereal box for a toothbrush, then pulls candies out of a flower pot and sticks a toothbrush into the soil like a flag, then climbs a soft safe tower of cushions and plush toys to the open wall cabinet and drops all the candies into a big glass jar.
-Shot 2 (6–10s): ILMIR peeks from behind the kitchen doorway, watching his daughter. His puzzled face slowly turns into a warm proud smile, his eyes shine.
+Shot 1 (0–6s): the SON carefully and safely lifts his baby sister up to the open small white kitchen wall cabinet. She drops the confiscated chocolates and candies into a big glass jar, while the son crosses out a mark on a child-like crayon floor plan pinned inside the cabinet door.
+Shot 2 (6–10s): he gently puts her down and the two of them give each other a tiny proud high five, smiling like a real spy team.
 
-AUDIO: playful spy music turning into warm gentle music, candies clinking into the jar.
+AUDIO: candies clinking into the jar, crayon scribble, warm playful music, a soft high-five clap.
 
 NEGATIVE: falling, danger, extra people, duplicate characters, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
-### Часть 6 · references: ilmir, daughter
+### Часть 6 · references: son, daughter, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, sudden comedic suspense at night, dark kitchen lit by the fridge light and a tiny flashlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic cliffhanger at night, dark kitchen lit by the small headlamp beams, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo. BABY DAUGHTER: beige bow headband, beige knit romper, tiny toy flashlight.
+CHARACTERS (match the reference images): SON: short messy brown hair, brown hoodie, small headlamp. BABY DAUGHTER: beige bow headband, beige knit romper. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo.
 
 Only two shots.
-Shot 1 (0–4s): ILMIR smiles and takes one step out from behind the doorway to go hug his daughter.
-Shot 2 (4–10s): the BABY suddenly freezes and slowly points her tiny flashlight across the dark kitchen at the fridge: the fridge door is half open, warm light spills onto the floor, and loud munching sounds come from behind the door. Ilmir freezes mid-step, eyes wide, and slowly steps back into the shadow.
+Shot 1 (0–5s): the SON turns around and the beam of his headlamp lands right on ILMIR's face in the dark kitchen doorway. Ilmir freezes like a deer in headlights, with an awkward guilty smile. The kids freeze too.
+Shot 2 (5–10s): close-up of the kids: the SON slowly leans to his sister and whispers something in her ear, never taking his eyes off dad. The BABY slowly turns her head toward the camera with a sly squint. Freeze-frame.
 
-AUDIO: warm music cuts off abruptly, fridge hum, loud munching, suspense sting.
+AUDIO: music cuts out, dead silence, a whisper, a dramatic comedic sting on the freeze.
 
-NEGATIVE: person visible at the fridge, extra people, duplicate characters, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
-```
-
-### Часть 7 · references: ilmir
-
-```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic mystery cliffhanger at night, dark kitchen lit only by the fridge light and a tiny flashlight beam, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Character must match the reference image exactly. No readable text, no captions, no logos.
-
-CHARACTERS: ILMIR (dad, match the reference image): very short dark buzz-cut hair, neat short dark beard. THE MYSTERY FIGURE: shown only as a silhouette in the fridge light — a plump woman in a fluffy bathrobe with big hair curlers on her head.
-
-Only two shots.
-Shot 1 (0–6s): at the open fridge stands the mystery silhouette in a fluffy bathrobe with big hair curlers, happily eating cake straight from the plate with her hands. The tiny flashlight beam reaches her and she slowly turns around: we only see the curlers and a smudge of white cream on her cheek, her face stays in shadow.
-Shot 2 (6–10s): close-up of ILMIR in the dark: his eyes go huge with recognition, he slowly mouths a silent "no way", freeze on his shocked face.
-
-AUDIO: fridge hum, munching stops, a dramatic suspense sting on the freeze.
-
-NEGATIVE: full face of the mystery figure visible, extra people, duplicate characters, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: extra people, duplicate characters, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ## Озвучка диктора (ElevenLabs, голос Nikolay)
 
 ```
-Папа решил не спать. В три шестнадцать он занял позицию.
+Папа решил выяснить всё сам. Три шестнадцать. Засада.
 
 Ровно в три семнадцать дверь детской открылась.
 
-Главное — не шуметь… Почти получилось.
+Но пошла она не на кухню. А к брату.
 
-Она открыла мамин тайник. Забрала шоколадку. И положила… зубную щётку.
+И брат проснулся сразу. Как по команде.
 
-Хлопья. Цветочный горшок. Всё — в штаб.
+Они работали как команда. Один на стрёме. Вторая забирает сладкое. И кладёт зубную щётку.
 
-Она не воровала сладкое. Она охраняла зубы. Совсем как папа.
+Так вот кто был агентом. Сын играл за маму… а работал на сестру.
 
-Папа уже хотел выйти… Но малышка замерла. На кухне был кто-то ещё.
+И тут фонарик брата осветил… папу.
 
-Кто-то ел торт. В темноте.
+«Нас раскрыли», — прошептал брат.
 
-Папа узнал эти бигуди. Но она должна была прилететь только в пятницу…
-
-Кто это — в следующей серии.
+Что они сделают с единственным свидетелем — в следующей серии.
 ```
