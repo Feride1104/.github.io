@@ -88,19 +88,19 @@ NEGATIVE: mom waking up, duplicate characters, extra people, white shirt, turban
 ### Часть 5 · references: son, daughter
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, cozy kitchen in soft moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, cozy kitchen in soft moonlight with warm light from an open cabinet, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
 CHARACTERS (match the reference images): SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie, he is only a little taller than his baby sister. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper.
 
-THE SECRET HQ CABINET (must be clearly shown): a small white kitchen wall cabinet just above the counter, door closed at the start. On the inside of its door hangs a child-like crayon floor plan with red crosses and two small photos connected with red string. On its shelf stands one big glass jar with a wooden lid, already half full of colorful candies.
+THE SECRET HQ CABINET: a small white kitchen wall cabinet just above the counter. On the inside of its door hangs a child-like crayon floor plan with red crosses and two small photos connected with red string. Inside the cabinet there is ONLY ONE big glass jar with a wooden lid, half full of colorful candies; the rest of the cabinet is empty.
 
-Only two shots. Nobody lifts or carries anyone.
-Shot 1 (0–6s): one continuous shot. The SON stands on a sturdy little wooden kids' step stool and opens the closed white wall cabinet: warm light reveals the crayon map with red string on the inside of the door and the big glass jar of candies on the shelf. He lifts the wooden lid of the jar. The BABY stands on the floor next to the stool and hands up a chocolate bar to her brother, and he drops it into the jar.
-Shot 2 (6–10s): the SON closes the cabinet, steps down from the stool, crouches to his sister's height, and the two of them give each other a tiny proud high five, smiling like a real spy team.
+Static camera, the same angle for the whole video, no cuts.
+0–6s: the SON stands on a small wooden kids' step stool in front of the open HQ cabinet. The BABY stands on the floor next to the stool and hands up a chocolate bar. The SON takes it, lifts the wooden lid and drops the chocolate into the only jar, then closes the lid.
+6–10s: the SON looks down at his sister and gives her a proud thumbs-up, the BABY happily claps her hands. Both smile like a real spy team.
 
-AUDIO: soft cabinet door creak, candies clinking into the jar, warm playful music, a soft high-five clap.
+AUDIO: candies clinking into the jar, warm playful music, a little baby giggle.
 
-NEGATIVE: jar appearing from nowhere, jar on the counter, jar in someone's hands at the start, lifting the baby, carrying the baby, boy as tall as an adult, falling, danger, duplicate characters, extra people, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: many jars, shelves full of jars, candy shop, camera cut, changing angle, high five, sitting on the stool, lifting the baby, carrying the baby, boy as tall as an adult, falling, duplicate characters, extra people, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 6 · references: son, daughter, ilmir
