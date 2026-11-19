@@ -24,97 +24,97 @@
 ### Часть 1 · references: ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic spy stakeout at night, dark cozy hallway lit by soft blue moonlight and a small headlamp, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Character must match the reference image exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic spy stakeout at night, cozy hallway in soft blue moonlight with a warm night-light glow, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTER (match the reference image): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, warm brown eyes, beige knit long-sleeve polo, navy trousers.
+CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, warm brown eyes, BEIGE knit long-sleeve polo (not white), navy trousers, a small headlamp on his forehead that is switched OFF.
 
-Only two shots, nobody else in the frame.
-Shot 1 (0–5s): wide shot of a dark cozy hallway at night: ILMIR hides behind an armchair like a secret agent, a small headlamp on his forehead, binoculars around his neck and a big mug of coffee in his hand, watching the closed nursery door.
+Only two shots, only Ilmir in the frame.
+Shot 1 (0–5s): wide shot of the cozy night hallway: ILMIR sits on the floor hidden behind a grey armchair like a secret agent, binoculars around his neck, a big mug of coffee in his hand, watching a closed white door at the end of the hallway.
 Shot 2 (5–10s): close-up: his eyes slowly close from sleepiness, his head nods down, he jerks awake, shakes his head, takes a big sip of coffee and stares at the door again with serious detective eyes.
 
 AUDIO: quiet night, clock ticking, a slurp of coffee, playful spy music.
 
-NEGATIVE: extra people, duplicate characters, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: headlamp turned on, duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
-### Часть 2 · references: ilmir, daughter
+### Часть 2 · references: daughter, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic spy stakeout at night, dark cozy hallway in soft blue moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic spy stakeout at night, cozy hallway in soft blue moonlight with a warm night-light glow, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo, small headlamp on his forehead. BABY DAUGHTER: chubby baby girl, beige knit headband with a big bow, beige knit romper.
+CHARACTERS (match the reference images): BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper, tiny toy flashlight. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, warm brown eyes, BEIGE knit long-sleeve polo (not white), navy trousers, his small headlamp is switched OFF.
 
-Only two shots.
-Shot 1 (0–5s): the nursery door slowly creaks open and the BABY confidently walks out into the dark hallway holding a tiny glowing toy flashlight, looking left and right like a little spy.
-Shot 2 (5–10s): behind the armchair ILMIR quickly switches off his headlamp and ducks down, only his wide eyes peeking over the top of the armchair, watching his daughter walk past.
+Only two shots. Only one baby and one dad in the whole video.
+Shot 1 (0–5s): the white nursery door slowly opens and the BABY confidently walks out into the hallway, her tiny flashlight beam on the floor, looking left and right like a little spy.
+Shot 2 (5–10s): ILMIR hides behind the grey armchair, only the top of his head and his wide surprised eyes peeking over it, softly lit by moonlight. The headlamp on his forehead stays dark. He slowly sinks lower behind the armchair.
 
 AUDIO: door creak, tiny footsteps, suspense spy music.
 
-NEGATIVE: extra people, duplicate characters, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: headlamp turned on, second baby, duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 3 · references: daughter, son, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy mood at night, cozy kids' bedroom in soft blue moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy mood at night, cozy kids' bedroom in soft blue moonlight with a warm night-light, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): BABY DAUGHTER: beige knit headband with a big bow, beige knit romper, tiny toy flashlight. SON: little boy, short messy brown hair, light freckles, brown hoodie. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard.
+CHARACTERS (match the reference images): BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper, tiny toy flashlight. SON: little boy, short messy brown hair, light freckles, brown hoodie. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, warm brown eyes, BEIGE knit long-sleeve polo (not white), navy trousers.
 
 Only two shots.
-Shot 1 (0–6s): the BABY walks into her brother's cozy bedroom and gently pats the sleeping SON on the cheek. The SON instantly opens his eyes, sits up straight, gives her a serious military salute, and puts on a small headlamp, ready for a mission.
-Shot 2 (6–10s): close-up of ILMIR peeking through the narrow gap of the half-open door, his jaw slowly drops in total disbelief.
+Shot 1 (0–6s): one continuous shot. The SON sleeps in his bed. The BABY walks up and gently taps him on the shoulder. The SON instantly opens his eyes, sits up, sees his sister and gives her a serious thumbs-up, ready for the mission.
+Shot 2 (6–10s): ILMIR peeks through the narrow gap of the half-open bedroom door, his face softly lit by moonlight, his jaw slowly drops in disbelief.
 
-AUDIO: quiet night, a soft pat, playful spy music sting on the salute.
+AUDIO: quiet night, a soft tap, playful spy music sting on the thumbs-up.
 
-NEGATIVE: extra people, duplicate characters, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: saluting, hands on face, duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 4 · references: son, daughter, mom, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, parents' cozy bedroom in soft moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, parents' cozy bedroom in soft blue moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): SON: short messy brown hair, brown hoodie, small headlamp. BABY DAUGHTER: beige bow headband, beige knit romper. MOM: long straight dark-brown hair, peacefully asleep in bed in the background. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard.
+CHARACTERS (match the reference images): SON: little boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper. MOM: long straight dark-brown hair, asleep in bed under a cream duvet. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, warm brown eyes, BEIGE knit long-sleeve polo (not white), navy trousers.
 
 Only two shots.
-Shot 1 (0–6s): in the bedroom, MOM sleeps peacefully in the background. The SON stands guard by the bed and shows "all clear" with spy hand signals. The BABY quietly opens the lowest dresser drawer full of socks, takes out a hidden chocolate bar and carefully puts a small toothbrush in its place.
-Shot 2 (6–10s): ILMIR in the dark doorway watches them, eyes wide, slowly covering his mouth with his hand in shock.
+Shot 1 (0–6s): wide shot of the bedroom. MOM sleeps peacefully in the bed in the background. The SON stands guard next to a low wooden dresser and gives a thumbs-up toward his sister. The BABY opens the lowest drawer full of folded socks, takes out one chocolate bar hidden under the socks and puts a small toothbrush in its place.
+Shot 2 (6–10s): ILMIR stands in the dark bedroom doorway, softly lit by moonlight, watching them with wide eyes, slowly covering his mouth with one hand.
 
 AUDIO: soft drawer slide, quiet night, playful spy music.
 
-NEGATIVE: extra people, duplicate characters, mom waking up, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: mom waking up, duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 5 · references: son, daughter
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, cozy kitchen in soft moonlight and warm light from an open cabinet, heartwarming and funny, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, cozy kitchen in soft moonlight and warm light from an open cabinet, heartwarming, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): SON: short messy brown hair, light freckles, brown hoodie, small headlamp. BABY DAUGHTER: beige bow headband, beige knit romper.
+CHARACTERS (match the reference images): SON: little boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper.
 
 Only two shots.
-Shot 1 (0–6s): the SON carefully and safely lifts his baby sister up to the open small white kitchen wall cabinet. She drops the confiscated chocolates and candies into a big glass jar, while the son crosses out a mark on a child-like crayon floor plan pinned inside the cabinet door.
-Shot 2 (6–10s): he gently puts her down and the two of them give each other a tiny proud high five, smiling like a real spy team.
+Shot 1 (0–6s): in the kitchen a small white wall cabinet stands open at a low height above the counter, with a big glass jar inside. The SON carefully holds his baby sister up in his arms, and she drops a chocolate bar and a few candies into the glass jar.
+Shot 2 (6–10s): the SON gently puts her down on the floor and the two of them give each other a tiny proud high five, smiling like a real spy team.
 
-AUDIO: candies clinking into the jar, crayon scribble, warm playful music, a soft high-five clap.
+AUDIO: candies clinking into the jar, warm playful music, a soft high-five clap.
 
-NEGATIVE: falling, danger, extra people, duplicate characters, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: falling, danger, duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 6 · references: son, daughter, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic cliffhanger at night, dark kitchen lit by the small headlamp beams, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic cliffhanger at night, dark cozy kitchen lit by moonlight and the small glowing flashlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): SON: short messy brown hair, brown hoodie, small headlamp. BABY DAUGHTER: beige bow headband, beige knit romper. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, beige knit polo.
+CHARACTERS (match the reference images): SON: little boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper, tiny toy flashlight. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, warm brown eyes, BEIGE knit long-sleeve polo (not white), navy trousers.
 
 Only two shots.
-Shot 1 (0–5s): the SON turns around and the beam of his headlamp lands right on ILMIR's face in the dark kitchen doorway. Ilmir freezes like a deer in headlights, with an awkward guilty smile. The kids freeze too.
-Shot 2 (5–10s): close-up of the kids: the SON slowly leans to his sister and whispers something in her ear, never taking his eyes off dad. The BABY slowly turns her head toward the camera with a sly squint. Freeze-frame.
+Shot 1 (0–5s): the SON turns around and the beam of the flashlight lands right on ILMIR standing in the kitchen doorway. Ilmir freezes with an awkward guilty smile, like caught red-handed. The kids freeze too.
+Shot 2 (5–10s): close-up of the two kids side by side: the SON slowly leans to his sister and whispers something in her ear, keeping his eyes on dad. The BABY slowly turns her head to the camera with a sly squint. Freeze-frame.
 
-AUDIO: music cuts out, dead silence, a whisper, a dramatic comedic sting on the freeze.
+AUDIO: music cuts out, dead silence, a whisper, a comedic dramatic sting on the freeze.
 
-NEGATIVE: extra people, duplicate characters, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ## Озвучка диктора (ElevenLabs, голос Nikolay)
