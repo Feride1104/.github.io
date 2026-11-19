@@ -12,7 +12,7 @@
 | 2 | 10–20 с | 3:17. Дверь детской открывается, выходит малышка с крошечным фонариком. Папа выключает фонарик и пригибается | Ровно в три семнадцать дверь детской открылась. |
 | 3 | 20–30 с | Малышка идёт в комнату брата и легонько хлопает его по щеке. Брат мгновенно открывает глаза, садится, отдаёт честь, надевает налобный фонарик. Папа подглядывает в щель двери, челюсть отвисает | Но пошла она не на кухню. А к брату. И брат проснулся сразу. Как по команде. |
 | 4 | 30–40 с | Спальня родителей, мама спит. Брат на стрёме показывает жестами «чисто», малышка достаёт из ящика с носками шоколадку и кладёт зубную щётку. Папа в дверях в шоке | Они работали как команда. Один на стрёме. Вторая забирает сладкое. И кладёт зубную щётку. |
-| 5 | 40–50 с | Кухня. Брат бережно подсаживает малышку к открытому шкафчику-штабу, она ссыпает сладкое в банку, брат зачёркивает крестик на плане. Дают друг другу «пять» | Так вот кто был агентом. Сын играл за маму… а работал на сестру. |
+| 5 | 40–50 с | Кухня. Брат встаёт на детский табурет у шкафчика-штаба, малышка снизу подаёт ему сладкое, он ссыпает всё в банку. Дают друг другу «пять» | Так вот кто был агентом. Сын играл за маму… а работал на сестру. |
 | 6 | 50–60 с | **Обрыв.** Брат оборачивается, луч его фонарика упирается прямо в лицо папы в дверном проёме. Все трое замирают. Брат медленно наклоняется к сестре и что-то шепчет, малышка медленно поворачивает голову | И тут фонарик брата осветил… папу. «Нас раскрыли», — прошептал брат. Что они сделают с единственным свидетелем — в следующей серии. |
 
 **Подпись к Reels:** Ночью в 3:17 в нашем доме работает спецназ 🕵️‍♂️🕵️‍♀️ И меня раскрыли 😳 Что они со мной сделают? Ваши версии 👇 #семьястоматолога #стоматолог #семья #юмор
@@ -90,15 +90,15 @@ NEGATIVE: mom waking up, duplicate characters, extra people, white shirt, turban
 ```
 Pixar-style 3D animated short, vertical 9:16, 10 seconds, playful spy-team mission at night, cozy kitchen in soft moonlight and warm light from an open cabinet, heartwarming, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): SON: little boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper.
+CHARACTERS (match the reference images): SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie, he is only a little taller than his baby sister. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper.
 
-Only two shots.
-Shot 1 (0–6s): in the kitchen a small white wall cabinet stands open at a low height above the counter, with a big glass jar inside. The SON carefully holds his baby sister up in his arms, and she drops a chocolate bar and a few candies into the glass jar.
-Shot 2 (6–10s): the SON gently puts her down on the floor and the two of them give each other a tiny proud high five, smiling like a real spy team.
+Only two shots. Nobody lifts or carries anyone.
+Shot 1 (0–6s): in the kitchen a small white wall cabinet stands open just above the counter, with a big glass jar inside. The SON stands on a sturdy little wooden kids' step stool to reach it. The BABY stands on the floor next to the stool and hands up a chocolate bar and candies to her brother one by one, and he drops them into the glass jar.
+Shot 2 (6–10s): the SON steps down from the stool, crouches to his sister's height, and the two of them give each other a tiny proud high five, smiling like a real spy team.
 
 AUDIO: candies clinking into the jar, warm playful music, a soft high-five clap.
 
-NEGATIVE: falling, danger, duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: lifting the baby, carrying the baby, holding the baby in the air, boy as tall as an adult, falling, danger, duplicate characters, extra people, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 6 · references: son, daughter, ilmir
