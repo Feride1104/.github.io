@@ -106,17 +106,17 @@ NEGATIVE: jar appearing from nowhere, jar on the counter, jar in someone's hands
 ### Часть 6 · references: son, daughter, ilmir
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic cliffhanger at night, dark cozy kitchen lit by moonlight and the small glowing flashlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic cliffhanger at night, dark cozy kitchen in soft blue moonlight, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): SON: little boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper, tiny toy flashlight. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, warm brown eyes, BEIGE knit long-sleeve polo (not white), navy trousers.
+CHARACTERS (match the reference images): SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie, he holds a small toy flashlight. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper, empty hands. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit long-sleeve polo (not white), navy trousers, empty hands.
 
-Only two shots.
-Shot 1 (0–5s): the SON turns around and the beam of the flashlight lands right on ILMIR standing in the kitchen doorway. Ilmir freezes with an awkward guilty smile, like caught red-handed. The kids freeze too.
-Shot 2 (5–10s): close-up of the two kids side by side: the SON slowly leans to his sister and whispers something in her ear, keeping his eyes on dad. The BABY slowly turns her head to the camera with a sly squint. Freeze-frame.
+Only three characters in the whole video. Only two shots.
+Shot 1 (0–5s): camera behind the two kids, we see their backs in the foreground. The SON turns his flashlight toward the kitchen doorway and the beam lands right on ILMIR standing there with empty hands. Ilmir freezes like a deer in headlights, eyes wide, with an awkward guilty smile, one hand slowly rising in a small "hi" wave.
+Shot 2 (5–10s): close-up of the two kids side by side against a plain dark empty kitchen background. The SON slowly leans to his sister and whispers something in her ear, keeping his eyes on dad. The BABY slowly turns her head straight to the camera with a sly squint. Freeze-frame.
 
 AUDIO: music cuts out, dead silence, a whisper, a comedic dramatic sting on the freeze.
 
-NEGATIVE: duplicate characters, extra people, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: food in hands, eating, cake, people in the background, silhouettes, shadows of people, mom, extra people, duplicate characters, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ## Озвучка диктора (ElevenLabs, голос Nikolay)
