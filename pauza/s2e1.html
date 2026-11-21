@@ -53,7 +53,7 @@
   const landscape = q.get('format') === 'landscape';
   PAUZA.setMode(landscape ? 'landscape' : 'portrait');
   [cv.width, cv.height] = PAUZA.size();
-  if (landscape) { document.body.classList.add('landscape'); document.getElementById('dl').href = 's2e1.mp4'; const f = document.getElementById('fmt'); f.href = '?'; f.textContent = '9:16'; }
+  if (landscape) { document.body.classList.add('landscape'); document.getElementById('dl').href = 's2e1_vertical.mp4'; const f = document.getElementById('fmt'); f.href = '?'; f.textContent = '9:16'; }
   await PAUZA.load('');
   if (q.has('render')) {
     document.querySelector('.play').remove(); document.getElementById('bar').remove();

@@ -42,7 +42,7 @@ const timerInt = t => Math.max(0, Math.ceil(timerVal(t) - 1e-6));
 
 // ---------- ресурсы ----------
 const IMG = {};
-const SPR = ['body', 'walk', 'front', 'profile', 'three4', 'think', 'skeptic', 'sarcastic', 'happy', 'surprise', 'old_front', 'old_body', 'old_smile', 'coat_body', 'coat_walk', 'coat_front', 'coat_profile', 'coat_three4', 'coat_think', 'coat_skeptic', 'coat_sarcastic', 'coat_happy', 'coat_surprise', 'dbl_body', 'dbl_walk', 'dbl_front', 'dbl_profile', 'dbl_three4', 'dbl_think', 'dbl_skeptic', 'dbl_sarcastic', 'dbl_happy', 'dbl_surprise'];
+const SPR = ['body', 'walk', 'front', 'profile', 'three4', 'think', 'skeptic', 'sarcastic', 'happy', 'surprise', 'old_front', 'old_body', 'old_smile', 'coat_body', 'coat_walk', 'coat_front', 'coat_profile', 'coat_three4', 'coat_think', 'coat_skeptic', 'coat_sarcastic', 'coat_happy', 'coat_surprise', 'old_body', 'old_front', 'old_smile', 'old_walk'];
 function load(base) {
   return Promise.all([
     ...SPR.map(n => new Promise((res, rej) => { const i = new Image(); i.onload = () => { IMG[n] = i; res(); }; i.onerror = rej; i.src = base + 'sprites/' + n + '.webp'; })),
@@ -906,7 +906,7 @@ function stoneElmir(g, t, stone, x = EL.x, feet = EL.feet, h = EL.h) {
     if (stone < 1) { g.save(); g.globalCompositeOperation = 'screen'; g.fillStyle = 'rgba(200,220,255,.5)'; g.fillRect(x - h * .2, line - 3, h * .4, 6); g.restore(); }
   }
 }
-function oldWalker(g, x, feet, h, phase, name = 'dbl_walk', flip = 1) {
+function oldWalker(g, x, feet, h, phase, name = 'old_walk', flip = 1) {
   const im = IMG[name], s = h / im.height, w = im.width * s;
   g.save(); g.translate(x, feet);
   g.fillStyle = 'rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(0, 0, w * .42, 14, 0, 0, TAU); g.fill();
@@ -992,18 +992,18 @@ function drawClinic(g, t, o) {
 
 // A — он стоял в дверях
 shot(0, { type: 'cut' }, (g, t) => {
-  officeShot(g, t, [1690, 640, 1.55], { door: 1, inDoor: gg => { const im = IMG.dbl_body, h = 720, w = im.width * h / im.height; gg.filter = 'blur(5px) brightness(2.2) saturate(0)'; gg.globalAlpha = .35; gg.drawImage(im, 1690 - w / 2 - 4, 1000 - h, w + 8, h); gg.globalAlpha = 1; gg.filter = 'brightness(.18) saturate(.3)'; gg.drawImage(im, 1690 - w / 2, 1004 - h, w, h); gg.filter = 'none'; } });
+  officeShot(g, t, [1690, 640, 1.55], { door: 1, inDoor: gg => { const im = IMG.old_body, h = 720, w = im.width * h / im.height; gg.filter = 'blur(5px) brightness(2.2) saturate(0)'; gg.globalAlpha = .35; gg.drawImage(im, 1690 - w / 2 - 4, 1000 - h, w + 8, h); gg.globalAlpha = 1; gg.filter = 'brightness(.18) saturate(.3)'; gg.drawImage(im, 1690 - w / 2, 1004 - h, w, h); gg.filter = 'none'; } });
 });
 // B — смотрел прямо на меня
 shot(1.6, { type: 'cut' }, (g, t) => {
   g.fillStyle = '#030405'; g.fillRect(0, 0, W, H); const k = t - 1.6;
-  head(g, 'dbl_front', 960, 60 - k * 18, 1200 + k * 45, 0, 1, 'brightness(.18) contrast(1.2) saturate(.4)');
-  g.save(); const hh = 1200 + k * 45, tp = 60 - k * 18; g.beginPath(); g.rect(0, tp + hh * .4, W, hh * .12); g.clip(); head(g, 'dbl_front', 960, tp, hh, 0, .75, 'brightness(.65) contrast(1.2) saturate(.5)'); g.restore();
+  head(g, 'old_front', 960, 60 - k * 18, 1200 + k * 45, 0, 1, 'brightness(.18) contrast(1.2) saturate(.4)');
+  g.save(); const hh = 1200 + k * 45, tp = 60 - k * 18; g.beginPath(); g.rect(0, tp + hh * .4, W, hh * .12); g.clip(); head(g, 'old_front', 960, tp, hh, 0, .75, 'brightness(.65) contrast(1.2) saturate(.5)'); g.restore();
 });
 // C — и улыбался
 shot(3.7, { type: 'cut' }, (g, t) => {
   g.fillStyle = '#020304'; g.fillRect(0, 0, W, H); const k = t - 3.7, lit = ss(3.85, 4.6, t);
-  head(g, 'dbl_sarcastic', 960, 60 - k * 14, 1000 + k * 30, 0, 1, `brightness(${lerp(.25, .8, lit)}) contrast(1.15) saturate(.7)`);
+  head(g, 'old_smile', 960, 60 - k * 14, 1000 + k * 30, 0, 1, `brightness(${lerp(.25, .8, lit)}) contrast(1.15) saturate(.7)`);
   phoneGlow(g, 960, 1250, lit * .8, '255,60,60');
 });
 // D — попытался сделать шаг назад
@@ -1028,7 +1028,7 @@ shot(10.5, { type: 'cut' }, (g, t) => {
 // G — подошёл к столу
 shot(13.1, { type: 'cut' }, (g, t) => {
   const c = [1150, 640, 1.6]; officeShot(g, t, c, { door: 1 });
-  g.save(); cam(g, ...c); g.beginPath(); g.rect(-W, -H, W * 3, DESK.top + H); g.clip(); standSprite(g, 'dbl_body', 1150, 1070, 800); g.restore();
+  g.save(); cam(g, ...c); g.beginPath(); g.rect(-W, -H, W * 3, DESK.top + H); g.clip(); standSprite(g, 'old_body', 1150, 1070, 800); g.restore();
   g.save(); cam(g, ...c); g.fillStyle = '#4b3829'; g.restore();
 });
 // H — взял мой телефон
@@ -1051,7 +1051,7 @@ shot(15.9, { type: 'cut' }, (g, t) => {
 // J1 — скан лица
 shot(18.2, { type: 'cut' }, (g, t) => {
   g.fillStyle = '#04060a'; g.fillRect(0, 0, W, H); const k = t - 18.2;
-  head(g, 'dbl_front', 960, 90 - k * 10, 1000 + k * 30, 0, 1, 'brightness(.55) saturate(.6)');
+  head(g, 'old_front', 960, 90 - k * 10, 1000 + k * 30, 0, 1, 'brightness(.55) saturate(.6)');
   phoneGlow(g, 960, 1250, .9);
   g.save(); g.globalCompositeOperation = 'screen'; const sy = 180 + (lin(18.4, 19.5, t) * 2 % 1) * 700;
   g.strokeStyle = 'rgba(90,220,255,.35)'; g.lineWidth = 1.5;
@@ -1090,7 +1090,7 @@ shot(27.1, { type: 'cut' }, (g, t) => {
     g.save(); cam(g, 960, 560, 1.15); drawHandBack(g); drawPhone(g, t, sg => gallery(sg, t, scroll, -1)); drawHandFront(g); g.restore();
   } else {
     g.fillStyle = '#020304'; g.fillRect(0, 0, W, H); const k = t - 29.0;
-    head(g, 'dbl_sarcastic', 960, 80 - k * 10, 1000 + k * 30, 0, 1, 'brightness(.62) saturate(.6)');
+    head(g, 'old_smile', 960, 80 - k * 10, 1000 + k * 30, 0, 1, 'brightness(.62) saturate(.6)');
     phoneGlow(g, 960, 1200, .9);
   }
 });
@@ -1106,7 +1106,7 @@ shot(30.7, { type: 'cut' }, (g, t) => {
 const walkMirror = t => lerp(1240, 330, eio(lin(34.4, 36.7, t)));
 shot(34.2, { type: 'cut' }, (g, t) => {
   const x = walkMirror(t), c = [PORT ? lerp(1150, 450, ss(34.4, 36.7, t)) : 820, 600, PORT ? 1.15 : 1.0];
-  officeShot(g, t, c, { door: 1, noPhone: true });
+  officeShot(g, t, c, { door: 1, phoneLit: .7 * (1 - ss(35.5, 36.8, t)) });
   g.save(); cam(g, ...c); stoneElmir(g, t, 1); oldWalker(g, x, 1055, 800, (t - 34.4) * 7.5); g.restore();
 });
 // P — похолодело внутри (иней)
@@ -1128,8 +1128,8 @@ function mirrorShot(g, t, young, emptyFocus) {
   g.save(); g.translate(mx + mw / 2, 0); g.scale(-1, 1); g.translate(-(mx + mw / 2), 0); g.filter = 'brightness(.75) saturate(.7)'; g.drawImage(blurred('officeB'), 0, 0); g.filter = 'none';
   const hx = mx + mw * (PORT ? .5 : .38), hh = 820;
   const f = 'brightness(.85) saturate(.75)';
-  if (young < 1) head(g, 'dbl_front', hx, 210, hh, 0, 1, f);
-  if (young > 0) { g.save(); g.beginPath(); g.rect(0, 0, W, 210 + hh * young); g.clip(); head(g, 'coat_front', hx, 210, hh, 0, 1, f); g.restore();
+  if (young < 1) head(g, 'old_front', hx, 210, hh, 0, 1, f);
+  if (young > 0) { g.save(); g.beginPath(); g.rect(0, 0, W, 210 + hh * young); g.clip(); head(g, 'front', hx, 210, hh, 0, 1, f); g.restore();
     if (young < 1) { g.save(); g.globalCompositeOperation = 'screen'; g.fillStyle = 'rgba(190,225,255,.8)'; g.fillRect(0, 210 + hh * young - 3, W, 6); g.restore(); } }
   g.restore();
   g.fillStyle = 'rgba(255,255,255,.08)'; g.beginPath(); g.moveTo(mx + 60, my); g.lineTo(mx + 170, my); g.lineTo(mx + 20, my + mh); g.lineTo(mx - 90, my + mh); g.fill();
@@ -1144,20 +1144,27 @@ shot(40.7, { type: 'cut' }, (g, t) => {
 });
 shot(43.8, { type: 'cut' }, (g, t) => { g.save(); const z = lerp(1.1, 1.35, lin(43.8, 45.5, t)); cam(g, PORT ? 1080 : 1100, 480, z); mirrorShot(g, t, 0, ss(44, 44.6, t)); g.restore(); });
 shot(45.5, { type: 'cut' }, (g, t) => mirrorShot(g, t, eio(lin(45.7, 47.1, t)), 0));
-// T — надел мой халат
+// T — надел мой халат: халат срывается с вешалки → склейка → двойник уже в халате
 shot(47.4, { type: 'cut' }, (g, t) => {
-  const c = [1380, 600, PORT ? 1.25 : 1.1]; officeShot(g, t, c, { door: 1, noPhone: true, noCoat: t > 47.6 });
-  const k = eio(lin(47.6, 48.9, t)), h = 820, feet = 1060, x = 1330;
-  g.save(); cam(g, ...c);
-  standSprite(g, 'dbl_body', x, feet, h);
-  if (k > 0) { g.save(); g.beginPath(); g.rect(-W, feet - h, W * 3, h * k); g.clip(); standSprite(g, 'coat_body', x, feet, h); g.restore();
-    if (k < 1) { g.save(); g.globalCompositeOperation = 'screen'; g.fillStyle = 'rgba(255,255,255,.5)'; g.fillRect(x - 260, feet - h + h * k - 4, 520, 8); g.restore(); } }
-  g.restore();
+  if (t < 48.3) {
+    const c = [1470, 560, PORT ? 1.6 : 1.3], lift = eio(ss(47.65, 48.25, t));
+    officeShot(g, t, c, { door: 1, noCoat: true });
+    g.save(); cam(g, ...c); g.translate(1471 - lift * 260, 345 - lift * 220); g.rotate(-lift * .5 + Math.sin(t * 14) * .05 * lift);
+    g.fillStyle = '#e9ecef'; g.beginPath(); g.moveTo(-25, 0); g.quadraticCurveTo(0, -10, 25, 0); g.lineTo(41 + lift * 30, 355); g.lineTo(-41 - lift * 30, 355); g.closePath(); g.fill();
+    g.strokeStyle = 'rgba(120,130,140,.6)'; g.lineWidth = 3; g.beginPath(); g.moveTo(0, 15); g.lineTo(0, 355); g.stroke();
+    tooth(g, 16, 110, 7, '#2b6cd8'); g.restore();
+  } else {
+    const c = [1380, 600, PORT ? 1.25 : 1.1]; officeShot(g, t, c, { door: 1, noCoat: true });
+    const k = t - 48.3, pop = 1 + .03 * Math.exp(-k * 6) * Math.sin(k * 20);
+    g.save(); cam(g, ...c); g.fillStyle = 'rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(1330, 1060, 120, 14, 0, 0, TAU); g.fill();
+    g.translate(1330, 1060); g.scale(pop, pop); g.translate(-1330, -1060); standSprite(g, 'coat_body', 1330, 1060, 820); g.restore();
+    const fl = Math.exp(-k * 9); g.fillStyle = `rgba(255,255,255,${fl * .7})`; g.fillRect(0, 0, W, H);
+  }
 });
 // U — взял ключи
 shot(49.4, { type: 'cut' }, (g, t) => {
   const c = [1320, DESK.top - 30, 4.4]; const take = ss(49.5, 49.9, t), up = ss(49.95, 50.5, t) * 160;
-  officeShot(g, t, c, { door: 1, noPhone: true, noKeys: true });
+  officeShot(g, t, c, { door: 1, noKeys: true });
   g.save(); cam(g, ...c); g.fillStyle = `rgba(0,0,0,${.4 * take})`; g.beginPath(); g.ellipse(1340, DESK.top + 4, 120 * take, 14, 0, 0, TAU); g.fill();
   drawKeys(g, 1320, DESK.top - 6, 1, up + Math.sin(t * 30) * 2 * (up > 0));
   g.restore();
