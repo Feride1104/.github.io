@@ -74,17 +74,20 @@ NEGATIVE: extra people, duplicate characters, eating the candy, mom, white shirt
 ### Часть 4 · references: ilmir, son, daughter
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic secret-agent ceremony at night, cozy kitchen in soft blue moonlight, heartwarming and funny, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic secret-agent ceremony at night, the same dark cozy kitchen as before, lit only by soft blue moonlight from the window and the small toy flashlight lying on the table, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit polo (not white). SON: small 5-year-old boy, short messy brown hair, brown hoodie. BABY DAUGHTER: beige bow headband, beige knit romper, in a wooden high chair.
+CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit long-sleeve polo (not white), navy trousers. SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper.
 
-Only three characters. Only two shots.
-Shot 1 (0–4s): the SON leans to his sister and they whisper to each other for a second, then both nod seriously.
-Shot 2 (4–10s): a solemn ceremony: ILMIR, still sitting at the table, puts his right hand on a big toothbrush lying on the table, like taking an oath, with a serious face. The SON stands up and sticks a small blank paper badge on dad's chest. The BABY claps her hands. Ilmir smiles proudly.
+The same positions as in the interrogation: ILMIR sits on a chair at the kitchen table, the SON stands next to the table on dad's left, the BABY sits in her wooden high chair across the table facing dad. Only three characters.
 
-AUDIO: whispering, then a short solemn fanfare, a little baby clap.
+One continuous shot, static camera, no cuts.
+0–3s: the SON and the BABY look at each other across the table and slowly nod together, like a secret decision.
+3–7s: the SON places a normal-sized children's toothbrush on the table in front of dad. ILMIR solemnly puts his right hand on the toothbrush like taking an oath, with a serious face.
+7–10s: the SON sticks a small round blank paper badge on dad's chest. The BABY happily claps her hands. Ilmir smiles proudly.
 
-NEGATIVE: text on the badge, extra people, duplicate characters, mom, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+AUDIO: a short solemn fanfare, a little baby clap.
+
+NEGATIVE: bright lights, fairy lights, daytime, giant toothbrush, oversized objects, camera cut, changing positions, whispering close-up, text on the badge, extra people, duplicate characters, mom, white shirt, turban, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 5 · references: ilmir, son, daughter
