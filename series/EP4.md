@@ -2,7 +2,7 @@
 
 Вертикальный 9:16, около 80 секунд (8 × 10 с), 3D в стиле Pixar, только голос диктора.
 
-**Идея:** дети ночью на кухне допрашивают папу-свидетеля, как в кино. Он пытается откупиться конфетой, взятку конфискуют и выдают ему щётку. Потом дети его вербуют: клятва на зубной щётке и наклейка «агент». Первое задание — последний, мамин тайник. В этот момент на кухне включается свет: в дверях стоит мама. Развязка: мама всё знала с самого начала, сама отдаёт свой тайник в общую банку, и вся семья ночью вместе чистит зубы. Конец первого сезона.
+**Идея:** дети ночью допрашивают папу-свидетеля, он пытается откупиться конфетой, взятку конфискуют, папу «вербуют» и дают задание найти последний тайник — мамин. Включается свет, в дверях мама… и подмигивает детям. Поворот: последний тайник под папиной подушкой. Всё это время охотились не за сладким, а за папой. Главный сладкоежка в доме стоматолога — сам стоматолог. Финал сезона.
 
 ## Сценарий
 
@@ -13,11 +13,11 @@
 | 3 | 20–30 с | Папа хитро достаёт из кармана конфету и протягивает детям. Дети ахают. Малышка невозмутимо забирает конфету и вкладывает папе в руку зубную щётку | Тогда папа попробовал договориться. Плохая идея. Взятку конфисковали. Выдали щётку. |
 | 4 | 30–40 с | Дети шепчутся. Сын торжественно встаёт, папа кладёт ладонь на большую зубную щётку, как на клятву. Сын клеит ему на грудь бумажный значок (надпись «АГЕНТ» — на монтаже) | Совещание длилось три секунды. Решение: свидетель… вербуется. Папа дал клятву на зубной щётке. |
 | 5 | 40–50 с | Малышка разворачивает на столе план мелками. Все крестики зачёркнуты, кроме одного, у кровати родителей. Папа медленно понимает, глаза округляются | Первое задание агента-папы — последний тайник. Самый охраняемый. Мамин. |
-| 6 | 50–60 с | На кухне резко включается свет. Все трое замирают и медленно оборачиваются: в дверях стоит мама в халате, руки скрещены, бровь поднята | И тут на кухне включился свет. В дверях стояла мама. |
-| 7 | 60–70 с | **Развязка.** Мама медленно улыбается, достаёт из кармана халата шоколадку — свой последний тайник — и сама кладёт её в банку штаба. Дети и папа ахают | Мама знала всё. С самого начала. Она молча достала свой последний тайник… и сама положила его в банку. |
-| 8 | 70–80 с | **Финал.** Ночь, ванная. Вся семья у раковины вместе чистит зубы: папа, мама, сын на табурете, малышка у мамы на руках. Все смеются в пене, малышка подмигивает в камеру | В ту ночь сладкая война закончилась. Сладкое — можно. Но только вместе. И только потом — щётки. Так и живёт семья стоматолога. Хотите второй сезон? Пишите в комментариях. |
+| 6 | 50–60 с | Включается свет, в дверях мама в халате, руки скрещены. Папа набирает воздух, чтобы оправдываться… но мама подмигивает детям, сын тайком даёт ей «пять». Папа ничего не понимает | И тут на кухне включился свет. В дверях стояла мама. Папа приготовился объясняться… Но мама подмигнула детям. |
+| 7 | 60–70 с | **Поворот.** Спальня. Мама поднимает папину подушку, под ней огромный тайник: ириски, шоколадки, мармелад. Мама и дети медленно поворачиваются к папе со щёткой в руке | Последний тайник был не мамин. Он был под папиной подушкой. Всё это время охотились не за сладким. Охотились за папой. |
+| 8 | 70–80 с | **Финал.** Папа виновато улыбается и медленно поднимает руки, как пойманный. Мама вкладывает ему в руку зубную щётку. Малышка подмигивает в камеру | Операция «Папа» завершена. Помните: «Кто-то в этой семье врёт»? Врал главный сладкоежка дома. Сам стоматолог. Хотите второй сезон? Пишите в комментариях. |
 
-**Подпись к Reels:** Финал первого сезона 🎬 Дети устроили мне допрос в 3 часа ночи, завербовали… а потом пришла мама 😅 Чем закончилась сладкая война — смотрите до конца. Хотите второй сезон? Пишите «ДА» 👇 #семьястоматолога #стоматолог #семья #юмор
+**Подпись к Reels:** Финал сезона 🎬 Я думал, что это я расследую… а охотились за мной 😅 Кто врал в доме стоматолога — смотрите до конца. Хотите второй сезон? Пишите «ДА» 👇 #семьястоматолога #стоматолог #семья #юмор
 
 ## Промпты (8 × 10 с)
 
@@ -103,18 +103,18 @@ AUDIO: spy briefing music, paper unrolling, a suspense sting on his realization.
 NEGATIVE: readable text, letters on the map, extra people, duplicate characters, mom, white shirt, turban, scary or horror mood, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
-### Часть 6 · references: ilmir, son, daughter, mom
+### Часть 6 · references: ilmir, mom, son, daughter
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic suspense, the kitchen suddenly brightly lit by the ceiling light, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, comedic twist, the kitchen suddenly brightly lit by the ceiling light, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit polo (not white). SON: small 5-year-old boy, short messy brown hair, brown hoodie. BABY DAUGHTER: beige bow headband, beige knit romper, in a high chair. MOM: long straight dark-brown hair, a cozy beige bathrobe, arms crossed.
+CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit long-sleeve polo (not white), navy trousers. MOM: long straight dark-brown hair, cozy beige bathrobe. SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper. The baby sits in a wooden high chair.
 
 Only four characters. Only two shots.
-Shot 1 (0–4s): the dark kitchen with dad and the two kids at the table. Suddenly the ceiling light switches on and floods the room with light. All three freeze in place, eyes wide, like caught red-handed.
-Shot 2 (4–10s): reverse shot: MOM stands in the kitchen doorway in her beige bathrobe, arms crossed, one eyebrow slowly rising, a calm knowing look.
+Shot 1 (0–4s): dad and the two kids sit at the dark kitchen table. Suddenly the ceiling light switches on. All three freeze. MOM stands in the doorway in her beige bathrobe, arms crossed, one eyebrow raised. Dad opens his mouth to start explaining, hands up.
+Shot 2 (4–10s): MOM looks past dad and gives the kids a sly wink. Behind dad's back the SON secretly gives mom a quick high five, the BABY giggles. Dad looks back and forth between them, totally confused.
 
-AUDIO: a loud light switch click, music stops, dead silence.
+AUDIO: a loud light switch click, music stops, then a playful sly music sting on the wink.
 
 NEGATIVE: extra people, duplicate characters, white shirt, turban, angry yelling, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
@@ -122,32 +122,33 @@ NEGATIVE: extra people, duplicate characters, white shirt, turban, angry yelling
 ### Часть 7 · references: mom, ilmir, son, daughter
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, heartwarming comedic twist, bright warm kitchen light at night, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, big comedic reveal, parents' cozy bedroom with warm bedside lamp light, funny not scary, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): MOM: long straight dark-brown hair, cozy beige bathrobe. ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit polo (not white). SON: small 5-year-old boy, short messy brown hair, brown hoodie. BABY DAUGHTER: beige bow headband, beige knit romper, in a high chair.
+CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit long-sleeve polo (not white), navy trousers. MOM: long straight dark-brown hair, cozy beige bathrobe. SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper. The baby stands next to her brother.
 
 Only four characters. Only two shots.
-Shot 1 (0–6s): MOM's stern face slowly melts into a warm sly smile. She pulls a chocolate bar out of her bathrobe pocket, walks to the open small white kitchen wall cabinet with the big glass jar inside, and drops the chocolate into the jar herself.
-Shot 2 (6–10s): reaction shot: dad, the son and the baby stare at her with open mouths, then burst into happy laughter together.
+Shot 1 (0–5s): in the bedroom MOM walks to the bed and lifts up the pillow on dad's side: underneath is a huge hidden pile of toffees, chocolate bars and gummy candies. Dramatic reveal.
+Shot 2 (5–10s): MOM and the two kids slowly turn their heads toward ILMIR, who stands in the bedroom doorway holding a toothbrush in his hand, frozen, sweating, caught red-handed.
 
-AUDIO: a warm surprising music turn, the chocolate clinking into the jar, family laughter.
+AUDIO: dramatic reveal sting when the pillow lifts, then dead silence, a gulp.
 
-NEGATIVE: angry, yelling, extra people, duplicate characters, white shirt, turban, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: extra people, duplicate characters, white shirt, turban, angry yelling, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ### Часть 8 · references: ilmir, mom, son, daughter — финал
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, heartwarming happy ending, cozy bright family bathroom at night with warm light, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, funny happy ending, parents' cozy bedroom with warm lamp light, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
-CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit polo (not white). MOM: long straight dark-brown hair, cozy beige bathrobe. SON: small 5-year-old boy, short messy brown hair, brown hoodie, standing on a small wooden step stool. BABY DAUGHTER: beige bow headband, beige knit romper, sitting safely in mom's arms.
+CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit long-sleeve polo (not white), navy trousers. MOM: long straight dark-brown hair, cozy beige bathrobe. SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper.
 
-Only four characters. One continuous shot, slow gentle push-in.
-The whole family stands together at the bathroom sink in front of the mirror and brushes their teeth at the same time. Dad and the son make funny faces with toothpaste foam, mom laughs, the baby holds a tiny baby toothbrush. Everyone is laughing and happy. At the very end the BABY turns to the camera and gives a sly little wink.
+Only four characters. Only two shots.
+Shot 1 (0–6s): ILMIR gives a guilty, charming grin and slowly raises both hands like a caught suspect. MOM walks up, smiles and puts the toothbrush firmly into his raised hand. The SON laughs, the whole family bursts out laughing together.
+Shot 2 (6–10s): close-up of the BABY: she turns straight to the camera and gives a sly little wink. Freeze-frame.
 
-AUDIO: warm happy finale music, brushing sounds, family laughter, a sparkle on the wink.
+AUDIO: comedic surrender music, family laughter, a sparkle on the wink.
 
-NEGATIVE: extra people, duplicate characters, reflections showing extra people, white shirt, turban, scary mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: extra people, duplicate characters, white shirt, turban, angry yelling, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ## Озвучка диктора (ElevenLabs, голос Nikolay)
@@ -169,15 +170,15 @@ NEGATIVE: extra people, duplicate characters, reflections showing extra people, 
 
 И тут на кухне включился свет. В дверях стояла мама.
 
-Мама знала всё. С самого начала.
+Папа приготовился объясняться… Но мама подмигнула детям.
 
-Она молча достала свой последний тайник… и сама положила его в банку.
+Последний тайник был не мамин. Он был под папиной подушкой.
 
-В ту ночь сладкая война закончилась.
+Всё это время охотились не за сладким. Охотились за папой.
 
-Сладкое — можно. Но только вместе. И только потом — щётки.
+Операция «Папа» завершена.
 
-Так и живёт семья стоматолога.
+Помните: «Кто-то в этой семье врёт»? Врал главный сладкоежка дома. Сам стоматолог.
 
 Хотите второй сезон? Пишите в комментариях.
 ```
