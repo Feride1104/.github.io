@@ -15,7 +15,7 @@
 | 5 | 40–50 с | Малышка разворачивает на столе план мелками. Все крестики зачёркнуты, кроме одного, у кровати родителей. Папа медленно понимает, глаза округляются | Первое задание агента-папы — последний тайник. Самый охраняемый. Мамин. |
 | 6 | 50–60 с | Включается свет, в дверях мама в халате, руки скрещены. Папа набирает воздух, чтобы оправдываться… но мама подмигивает детям, сын тайком даёт ей «пять». Папа ничего не понимает | И тут на кухне включился свет. В дверях стояла мама. Папа приготовился объясняться… Но мама подмигнула детям. |
 | 7 | 60–70 с | **Поворот.** Спальня. Мама поднимает папину подушку, под ней огромный тайник: ириски, шоколадки, мармелад. Мама и дети медленно поворачиваются к папе со щёткой в руке | Последний тайник был не мамин. Он был под папиной подушкой. Всё это время охотились не за сладким. Охотились за папой. |
-| 8 | 70–80 с | **Финал.** Папа виновато улыбается и медленно поднимает руки, как пойманный. Мама вкладывает ему в руку зубную щётку. Малышка подмигивает в камеру | Операция «Папа» завершена. Помните: «Кто-то в этой семье врёт»? Врал главный сладкоежка дома. Сам стоматолог. Хотите второй сезон? Пишите в комментариях. |
+| 8 | 70–80 с | **Финал.** Пойманный папа секунду молчит… потом спокойно достаёт из кармана стоматологическое зеркальце, поднимает бровь и наводит его на семью. Мама и дети ахают и зажимают рты: сладкое ели все. Вся семья взрывается смехом, малышка подмигивает в камеру | Операция «Папа» завершена. Врал главный сладкоежка дома — сам стоматолог. Но стоматолог не сдаётся. «Открываем рот. Будем смотреть». Ведь сладкое в этом доме ели все. Хотите второй сезон? Пишите в комментариях. |
 
 **Подпись к Reels:** Финал сезона 🎬 Я думал, что это я расследую… а охотились за мной 😅 Кто врал в доме стоматолога — смотрите до конца. Хотите второй сезон? Пишите «ДА» 👇 #семьястоматолога #стоматолог #семья #юмор
 
@@ -138,17 +138,17 @@ NEGATIVE: extra people, duplicate characters, white shirt, turban, angry yelling
 ### Часть 8 · references: ilmir, mom, son, daughter — финал
 
 ```
-Pixar-style 3D animated short, vertical 9:16, 10 seconds, funny happy ending, parents' cozy bedroom with warm lamp light, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
+Pixar-style 3D animated short, vertical 9:16, 10 seconds, funny turnaround ending, parents' cozy bedroom with warm lamp light, expressive faces, big glossy eyes, smooth natural animation. Characters must match the reference images exactly. No readable text, no captions, no logos.
 
 CHARACTERS (match the reference images): ILMIR (dad): very short dark buzz-cut hair, neat short dark beard, BEIGE knit long-sleeve polo (not white), navy trousers. MOM: long straight dark-brown hair, cozy beige bathrobe. SON: small 5-year-old boy, short messy brown hair, light freckles, brown hoodie. BABY DAUGHTER: chubby baby girl, small beige knit headband with a big bow on top (not a turban), beige knit romper.
 
 Only four characters. Only two shots.
-Shot 1 (0–6s): ILMIR gives a guilty, charming grin and slowly raises both hands like a caught suspect. MOM walks up, smiles and puts the toothbrush firmly into his raised hand. The SON laughs, the whole family bursts out laughing together.
-Shot 2 (6–10s): close-up of the BABY: she turns straight to the camera and gives a sly little wink. Freeze-frame.
+Shot 1 (0–6s): caught ILMIR stands still for a second, then calmly pulls a small silver dental mirror out of his pocket like a detective, raises one eyebrow with a sly smile and slowly points the mirror at the family. MOM and the two kids gasp and quickly cover their mouths with their hands, guilty.
+Shot 2 (6–10s): the whole family bursts out laughing together. Close-up of the BABY: she turns straight to the camera and gives a sly little wink. Freeze-frame.
 
-AUDIO: comedic surrender music, family laughter, a sparkle on the wink.
+AUDIO: a short "ting" when the mirror comes out, a suspense beat, then warm happy music and family laughter, a sparkle on the wink.
 
-NEGATIVE: extra people, duplicate characters, white shirt, turban, angry yelling, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
+NEGATIVE: raising hands, surrender pose, extra people, duplicate characters, white shirt, turban, angry yelling, scary or horror mood, readable text, subtitles, logos, watermark, distorted faces, extra fingers.
 ```
 
 ## Озвучка диктора (ElevenLabs, голос Nikolay)
@@ -179,6 +179,12 @@ NEGATIVE: extra people, duplicate characters, white shirt, turban, angry yelling
 Операция «Папа» завершена.
 
 Помните: «Кто-то в этой семье врёт»? Врал главный сладкоежка дома. Сам стоматолог.
+
+Но стоматолог не сдаётся.
+
+«Открываем рот. Будем смотреть».
+
+Ведь сладкое в этом доме ели все.
 
 Хотите второй сезон? Пишите в комментариях.
 ```
