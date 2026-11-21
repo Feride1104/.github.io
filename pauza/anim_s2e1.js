@@ -920,7 +920,8 @@ const GAL = [['face', 'coat_front', '#e8b86b'], ['face', 'coat_happy', '#6bb3e8'
   ['sunset', 1, '#e98a6b'], ['coat', 2, '#dfe9f2'], ['face', 'three4', '#e8d36b'], ['clinic', 2, '#203152'], ['coffee', 2, '#b88f6c'], ['face', 'front', '#6be8c9']];
 function thumbArt(g, kind, v, col, x, y, s) {
   g.save(); g.beginPath(); g.rect(x, y, s, s); g.clip(); g.fillStyle = col; g.fillRect(x, y, s, s);
-  if (kind === 'face') { const im = IMG[v], h = s * 1.25, w = im.width * h / im.height; g.drawImage(im, x + s / 2 - w / 2, y + s * .08, w, h); }
+  if (kind === 'canvas') { g.drawImage(v, x, y, s, s); }
+  else if (kind === 'face') { const im = IMG[v], h = s * 1.25, w = im.width * h / im.height; g.drawImage(im, x + s / 2 - w / 2, y + s * .08, w, h); }
   else if (kind === 'coat') { const im = IMG.coat_body, h = s * 2.4, w = im.width * h / im.height; g.drawImage(im, x + s / 2 - w / 2 + (v - 1) * 8, y + s * .05, w, h); }
   else if (kind === 'clinic') { g.fillStyle = '#c9d3dc'; g.fillRect(x + s * .15, y + s * .3, s * .7, s * .7); g.fillStyle = '#8fd0ff'; g.fillRect(x + s * .38, y + s * .65, s * .24, s * .35); tooth(g, x + s * .5, y + s * .46, s * .14, '#2b6cd8'); }
   else if (kind === 'coffee') { g.fillStyle = '#f4f1ec'; rr(g, x + s * .3, y + s * .38, s * .36, s * .4, 6); g.fill(); g.strokeStyle = '#f4f1ec'; g.lineWidth = 4; g.beginPath(); g.arc(x + s * .68, y + s * .56, s * .08, -1.3, 1.3); g.stroke(); g.fillStyle = '#4a2a14'; g.beginPath(); g.ellipse(x + s * .48, y + s * .4, s * .16, s * .04, 0, 0, TAU); g.fill(); }
@@ -1473,4 +1474,6 @@ function render(ctx, t) {
 }
 setMode('portrait');
 window.PAUZA = { DUR, load, render, setMode, size: () => [OW, OH] };
+// библиотека 2D-элементов для 3D-версии
+window.PAUZA_LIB = { kinetic, post, hud, homeScreen, gallery, faceIdScreen, lockNotes, statusBar, pauseIcon, tooth, tc, GAL, IMG, SW, SHh, iconPos, NEWC, NEWR, ICON, rnd, clamp, lerp, ss, lin, eio, eout, back, keys, shake, rr, get OW() { return OW; }, get OH() { return OH; }, GRAIN };
 })();
