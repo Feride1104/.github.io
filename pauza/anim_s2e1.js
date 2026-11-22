@@ -807,58 +807,81 @@ function paperInHand(g, t, k) {
 // ---------------- сцены — сезон 2, серия 1 ----------------
 const RESUME = 54.0;                                  // часы снова пошли
 const wtS = t => t < RESUME ? 10 : 10 + (t - RESUME);
-const EL = { x: 560, feet: 1040, h: 800 };            // Ильмир в кабинете
-const DESK = { x0: 880, x1: 1420, top: 730 };
-const DOOR = { x0: 1560, x1: 1820, y0: 240, y1: 1000 };
-const MIRROR = { x0: 150, x1: 440, y0: 200, y1: 690 };
+// компактная раскладка кабинета под вертикальный кадр:
+// зеркало (слева) · Ильмир · стол с окном · вешалка · дверь (справа)
+const EL = { x: 520, feet: 1040, h: 800 };
+const DESK = { x0: 680, x1: 1180, top: 740 };
+const DOOR = { x0: 1340, x1: 1600, y0: 240, y1: 1000 };
+const MIRROR = { x0: 140, x1: 390, y0: 210, y1: 700 };
+const PHX = 865, KEYX = 1120, RACKX = 1262, CLOCK = [1210, 190];
+const DBL_DESK = { x: 930, feet: 985, h: 700 };       // двойник за столом
 
 function drawOffice(g, t, o = {}) {
   let gr = g.createLinearGradient(0, 0, 0, 860); gr.addColorStop(0, '#8fa3a3'); gr.addColorStop(1, '#6f8282');
   g.fillStyle = gr; g.fillRect(-W, -H, W * 3, H * 3);
+  g.fillStyle = '#4f5f60'; g.fillRect(-W, -H, W * 3, H + 60); g.fillStyle = '#e7ece9'; g.fillRect(-W, 52, W * 3, 10);   // потолок и карниз
   g.fillStyle = '#5d6f70'; g.fillRect(-W, 640, W * 3, 220); g.fillStyle = '#4a5a5b'; g.fillRect(-W, 636, W * 3, 8);
-  gr = g.createLinearGradient(0, 860, 0, 1100); gr.addColorStop(0, '#596566'); gr.addColorStop(1, '#353d3e');
-  g.fillStyle = gr; g.fillRect(-W, 860, W * 3, 600);
-  g.strokeStyle = 'rgba(0,0,0,.15)'; g.lineWidth = 2; for (let i = -14; i < 16; i++) { g.beginPath(); g.moveTo(960 + i * 110, 860); g.lineTo(960 + i * 260, 1200); g.stroke(); }
-  for (let y = 880, k = 0; y < 1100; y += 18 + k * 8, k++) { g.beginPath(); g.moveTo(-W, y); g.lineTo(W * 2, y); g.stroke(); }
-  // окно с жалюзи (ночь)
-  g.save(); g.beginPath(); g.rect(1000, 150, 330, 330); g.clip();
-  g.fillStyle = '#0d1428'; g.fillRect(1000, 150, 330, 330);
-  for (let i = 0; i < 9; i++) { const bx = 1000 + i * 40, bh = 60 + rnd(i * 5) * 140; g.fillStyle = '#18213a'; g.fillRect(bx, 480 - bh, 34, bh); g.fillStyle = 'rgba(255,210,140,.6)'; for (let w = 0; w < 5; w++) if (rnd(i * 9 + w) > .5) g.fillRect(bx + 6 + (w % 2) * 14, 480 - bh + 10 + (w >> 1) * 22, 7, 9); }
-  g.fillStyle = 'rgba(200,210,215,.55)'; for (let y = 156; y < 480; y += 22) g.fillRect(1000, y, 330, 7);
-  g.restore(); g.strokeStyle = '#dfe5e4'; g.lineWidth = 14; g.strokeRect(1000, 150, 330, 330);
-  // дипломы
-  for (const [x, y] of [[620, 230], [760, 230]]) { g.fillStyle = '#3b2e24'; g.fillRect(x, y, 110, 140); g.fillStyle = '#efe9dc'; g.fillRect(x + 10, y + 10, 90, 120); g.fillStyle = 'rgba(80,60,40,.35)'; for (let k = 0; k < 5; k++) g.fillRect(x + 22, y + 34 + k * 16, 66 - (k % 2) * 20, 4); g.fillStyle = '#b8402f'; g.beginPath(); g.arc(x + 80, y + 112, 9, 0, TAU); g.fill(); }
-  // часы
-  drawClock(g, 1480, 190, 62, o.clockT ?? wtS(t));
+  gr = g.createLinearGradient(0, 860, 0, 1300); gr.addColorStop(0, '#596566'); gr.addColorStop(1, '#2a3031');
+  g.fillStyle = gr; g.fillRect(-W, 860, W * 3, 900);
+  g.strokeStyle = 'rgba(0,0,0,.15)'; g.lineWidth = 2; for (let i = -14; i < 16; i++) { g.beginPath(); g.moveTo(870 + i * 110, 860); g.lineTo(870 + i * 300, 1500); g.stroke(); }
+  for (let y = 880, k = 0; y < 1500; y += 18 + k * 9, k++) { g.beginPath(); g.moveTo(-W, y); g.lineTo(W * 2, y); g.stroke(); }
+  // окно над столом
+  const WX = 740, WY = 140, WW = 320, WH = 320;
+  g.save(); g.beginPath(); g.rect(WX, WY, WW, WH); g.clip();
+  g.fillStyle = '#0d1428'; g.fillRect(WX, WY, WW, WH);
+  for (let i = 0; i < 9; i++) { const bx = WX + i * 38, bh = 60 + rnd(i * 5) * 140; g.fillStyle = '#18213a'; g.fillRect(bx, WY + WH - bh, 32, bh); g.fillStyle = 'rgba(255,210,140,.6)'; for (let w = 0; w < 5; w++) if (rnd(i * 9 + w) > .5) g.fillRect(bx + 6 + (w % 2) * 13, WY + WH - bh + 10 + (w >> 1) * 22, 7, 9); }
+  g.fillStyle = 'rgba(200,210,215,.55)'; for (let y = WY + 6; y < WY + WH; y += 22) g.fillRect(WX, y, WW, 7);
+  g.restore(); g.strokeStyle = '#dfe5e4'; g.lineWidth = 14; g.strokeRect(WX, WY, WW, WH);
+  // дипломы над Ильмиром
+  for (const [x, y] of [[425, 250], [560, 250]]) { g.fillStyle = '#3b2e24'; g.fillRect(x, y, 100, 128); g.fillStyle = '#efe9dc'; g.fillRect(x + 9, y + 9, 82, 110); g.fillStyle = 'rgba(80,60,40,.35)'; for (let k = 0; k < 5; k++) g.fillRect(x + 20, y + 30 + k * 15, 60 - (k % 2) * 18, 4); g.fillStyle = '#b8402f'; g.beginPath(); g.arc(x + 73, y + 102, 8, 0, TAU); g.fill(); }
+  drawClock(g, CLOCK[0], CLOCK[1], 58, o.clockT ?? wtS(t));
   // зеркало
   g.fillStyle = '#2b2520'; rr(g, MIRROR.x0 - 18, MIRROR.y0 - 18, MIRROR.x1 - MIRROR.x0 + 36, MIRROR.y1 - MIRROR.y0 + 36, 12); g.fill();
   g.save(); rr(g, MIRROR.x0, MIRROR.y0, MIRROR.x1 - MIRROR.x0, MIRROR.y1 - MIRROR.y0, 6); g.clip();
-  if (o.mirror) o.mirror(g); else { gr = g.createLinearGradient(MIRROR.x0, MIRROR.y0, MIRROR.x1, MIRROR.y1); gr.addColorStop(0, '#9fb2b4'); gr.addColorStop(1, '#53625f'); g.fillStyle = gr; g.fillRect(MIRROR.x0, MIRROR.y0, 400, 600); }
-  g.fillStyle = 'rgba(255,255,255,.12)'; g.beginPath(); g.moveTo(MIRROR.x0 + 40, MIRROR.y0); g.lineTo(MIRROR.x0 + 110, MIRROR.y0); g.lineTo(MIRROR.x0 + 10, MIRROR.y1); g.lineTo(MIRROR.x0 - 60, MIRROR.y1); g.fill();
+  if (o.mirror) o.mirror(g); else mirrorContent(g, t, { dbl: false });
+  g.fillStyle = 'rgba(255,255,255,.12)'; g.beginPath(); g.moveTo(MIRROR.x0 + 40, MIRROR.y0); g.lineTo(MIRROR.x0 + 100, MIRROR.y0); g.lineTo(MIRROR.x0 + 10, MIRROR.y1); g.lineTo(MIRROR.x0 - 50, MIRROR.y1); g.fill();
   g.restore();
   // вешалка с халатом
-  g.fillStyle = '#3a3a3a'; g.fillRect(1466, 330, 10, 680); g.fillRect(1430, 1000, 82, 10); g.fillRect(1440, 330, 62, 8);
-  if (!o.noCoat) { g.fillStyle = '#e9ecef'; g.beginPath(); g.moveTo(1446, 345); g.quadraticCurveTo(1471, 335, 1496, 345); g.lineTo(1512, 700); g.lineTo(1430, 700); g.closePath(); g.fill(); g.strokeStyle = 'rgba(120,130,140,.6)'; g.lineWidth = 3; g.beginPath(); g.moveTo(1471, 360); g.lineTo(1471, 700); g.stroke(); }
-  // дверь
+  g.fillStyle = '#3a3a3a'; g.fillRect(RACKX - 5, 330, 10, 680); g.fillRect(RACKX - 40, 1000, 80, 10); g.fillRect(RACKX - 30, 330, 60, 8);
+  if (!o.noCoat) drawRackCoat(g, RACKX, 345, 0, 0);
   drawOfficeDoor(g, t, o.door || 0, o);
+  // монитор
+  g.fillStyle = '#2a2d31'; rr(g, 950, 560, 200, 140, 8); g.fill(); g.fillStyle = '#16181b'; g.fillRect(1037, 700, 26, 40); g.fillRect(1005, 734, 90, 8);
+  g.save(); g.beginPath(); g.rect(960, 570, 180, 120); g.clip(); (o.monitor || monitorUI)(g, t, 960, 570, 180, 120); g.restore();
   // стол
-  g.fillStyle = '#2a2d31'; rr(g, 1180, 560, 210, 140, 8); g.fill(); g.fillStyle = '#16181b'; g.fillRect(1272, 700, 26, 30); g.fillRect(1240, 724, 90, 8);
-  g.save(); g.beginPath(); g.rect(1190, 570, 190, 120); g.clip(); (o.monitor || monitorUI)(g, t, 1190, 570, 190, 120); g.restore();
   gr = g.createLinearGradient(0, DESK.top, 0, DESK.top + 30); gr.addColorStop(0, '#8a6a52'); gr.addColorStop(1, '#5c4433');
   g.fillStyle = gr; g.fillRect(DESK.x0, DESK.top, DESK.x1 - DESK.x0, 26);
-  g.fillStyle = '#4b3829'; g.fillRect(DESK.x0 + 10, DESK.top + 26, DESK.x1 - DESK.x0 - 20, 260);
-  g.fillStyle = 'rgba(0,0,0,.2)'; g.fillRect(DESK.x0 + 30, DESK.top + 60, 200, 4); g.fillRect(DESK.x1 - 230, DESK.top + 60, 200, 4);
-  // бумаги, лампа, телефон, ключи
-  g.fillStyle = '#e8e4d8'; g.save(); g.translate(960, DESK.top - 4); g.rotate(-.05); g.fillRect(-60, -6, 120, 8); g.restore();
-  g.fillStyle = '#2d2d2d'; g.fillRect(990, 600, 8, 130); g.beginPath(); g.moveTo(960, 600); g.lineTo(1040, 600); g.lineTo(1020, 570); g.lineTo(980, 570); g.fill();
-  if (!o.noPhone) { g.fillStyle = '#0c0d10'; g.fillRect(1070, DESK.top - 7, 80, 7); if (o.phoneLit) { g.fillStyle = `rgba(200,225,255,${o.phoneLit})`; g.fillRect(1072, DESK.top - 7, 76, 3); } }
-  if (!o.noKeys) drawKeys(g, 1320, DESK.top - 6, 1, 0);
-  // свет лампы
+  g.fillStyle = '#4b3829'; g.fillRect(DESK.x0 + 10, DESK.top + 26, DESK.x1 - DESK.x0 - 20, 250);
+  g.fillStyle = 'rgba(0,0,0,.2)'; g.fillRect(DESK.x0 + 30, DESK.top + 60, 180, 4); g.fillRect(DESK.x1 - 210, DESK.top + 60, 180, 4);
+  g.fillStyle = '#e8e4d8'; g.save(); g.translate(990, DESK.top - 4); g.rotate(-.05); g.fillRect(-50, -6, 100, 8); g.restore();
+  g.fillStyle = '#2d2d2d'; g.fillRect(756, 610, 8, 130); g.beginPath(); g.moveTo(726, 610); g.lineTo(806, 610); g.lineTo(786, 580); g.lineTo(746, 580); g.fill();
+  if (!o.noPhone) { g.fillStyle = '#0c0d10'; g.fillRect(PHX - 38, DESK.top - 7, 76, 7); if (o.phoneLit) { g.fillStyle = `rgba(200,225,255,${o.phoneLit})`; g.fillRect(PHX - 36, DESK.top - 7, 72, 3); } }
+  if (!o.noKeys) drawKeys(g, KEYX, DESK.top - 6, 1, 0);
   g.save(); g.globalCompositeOperation = 'screen';
-  gr = g.createRadialGradient(1000, 640, 10, 1000, 700, 420); gr.addColorStop(0, 'rgba(255,200,130,.45)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(500, 300, 1000, 800);
-  if (o.phoneLit) { gr = g.createRadialGradient(1110, DESK.top - 10, 4, 1110, DESK.top - 10, 360); gr.addColorStop(0, `rgba(140,190,255,${.6 * o.phoneLit})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(700, 350, 800, 700); }
+  gr = g.createRadialGradient(766, 650, 10, 766, 700, 420); gr.addColorStop(0, 'rgba(255,200,130,.45)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(300, 300, 1000, 800);
+  if (o.phoneLit) { gr = g.createRadialGradient(PHX, DESK.top - 10, 4, PHX, DESK.top - 10, 360); gr.addColorStop(0, `rgba(140,190,255,${.6 * o.phoneLit})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(PHX - 400, 350, 800, 700); }
   g.restore();
   g.save(); g.globalCompositeOperation = 'multiply'; g.fillStyle = 'rgb(120,130,170)'; g.fillRect(-W, -H, W * 3, H * 3); g.restore();
+}
+function drawRackCoat(g, x, y, rot, lift) {
+  g.save(); g.translate(x, y); g.rotate(rot);
+  g.fillStyle = '#e9ecef'; g.beginPath(); g.moveTo(-25, 0); g.quadraticCurveTo(0, -10, 25, 0); g.lineTo(41 + lift * 20, 355); g.lineTo(-41 - lift * 20, 355); g.closePath(); g.fill();
+  g.strokeStyle = 'rgba(120,130,140,.6)'; g.lineWidth = 3; g.beginPath(); g.moveTo(0, 15); g.lineTo(0, 355); g.stroke();
+  tooth(g, 16, 110, 7, '#2b6cd8'); g.restore();
+}
+// отражение в зеркале (мировые координаты, внутри рамки)
+function mirrorContent(g, t, o) {
+  const { x0, x1, y0, y1 } = MIRROR, cx = (x0 + x1) / 2;
+  g.save(); g.translate(cx, 0); g.scale(-1, 1); g.translate(-cx, 0);
+  g.filter = 'blur(3px) brightness(.8) saturate(.7)'; g.drawImage(blurred('officeB'), x0 - 300, y0 - 80, 900, 506); g.filter = 'none';
+  g.restore();
+  if (o.dbl) {
+    const young = o.young || 0, hx = x0 + (x1 - x0) * .42, top = y0 + 40, hh = 330, f = 'brightness(.88) saturate(.78)';
+    if (young < 1) head(g, 'old_front', hx, top, hh, 0, 1, f);
+    if (young > 0) { g.save(); g.beginPath(); g.rect(x0, y0, x1 - x0, top - y0 + hh * young); g.clip(); head(g, 'front', hx, top, hh, 0, 1, f); g.restore();
+      if (young < 1) { g.save(); g.globalCompositeOperation = 'screen'; g.fillStyle = 'rgba(190,225,255,.8)'; g.fillRect(x0, top + hh * young - 2, x1 - x0, 4); g.restore(); } }
+  }
+  if (o.empty) { g.save(); g.globalAlpha = .28 * o.empty * (.5 + .5 * Math.sin(t * 13)); g.strokeStyle = '#cfe8ff'; g.setLineDash([6, 7]); g.lineWidth = 2; g.beginPath(); g.ellipse(x0 + (x1 - x0) * .8, y0 + 230, 36, 150, 0, 0, TAU); g.stroke(); g.setLineDash([]); g.restore(); }
 }
 function drawOfficeDoor(g, t, open, o) {
   const { x0, x1, y0, y1 } = DOOR, dw = x1 - x0;
@@ -870,11 +893,11 @@ function drawOfficeDoor(g, t, open, o) {
   const a = open * 1.4, wp = dw * Math.cos(a), sk = 50 * Math.sin(a);
   g.fillStyle = '#e7e9e8'; g.beginPath(); g.moveTo(x1, y0); g.lineTo(x1 - wp, y0 - sk); g.lineTo(x1 - wp, y1 + sk); g.lineTo(x1, y1); g.fill();
   g.fillStyle = `rgba(0,0,0,${.3 * open})`; g.fill();
-  if (wp > 60) { g.fillStyle = '#9aa1a3'; rr(g, x1 - wp + 18, y0 + 380, 46 * wp / dw, 12, 6); g.fill(); g.fillStyle = 'rgba(0,0,0,.15)'; g.fillRect(x1 - wp + 30 * wp / dw, y0 + 60, 200 * wp / dw, 160); }
+  if (wp > 60) { g.fillStyle = '#9aa1a3'; rr(g, x1 - wp + 18, y0 + 380, 46 * wp / dw, 12, 6); g.fill(); g.fillStyle = 'rgba(0,0,0,.12)'; g.fillRect(x1 - wp + 30 * wp / dw, y0 + 60, 200 * wp / dw, 160); }
 }
 function monitorUI(g, t, x, y, w, h) {
   g.fillStyle = '#0f2a44'; g.fillRect(x, y, w, h);
-  g.fillStyle = '#1e5a8a'; g.fillRect(x, y, w, 16); g.fillStyle = 'rgba(255,255,255,.7)'; for (let k = 0; k < 6; k++) g.fillRect(x + 10, y + 26 + k * 14, 40 + rnd(k) * 100, 5);
+  g.fillStyle = '#1e5a8a'; g.fillRect(x, y, w, 16); g.fillStyle = 'rgba(255,255,255,.7)'; for (let k = 0; k < 6; k++) g.fillRect(x + 10, y + 26 + k * 14, 40 + rnd(k) * 90, 5);
   g.strokeStyle = '#4fd1a5'; g.lineWidth = 2; g.beginPath(); for (let i = 0; i <= 60; i++) { const xx = x + i * w / 60, ph = (i / 60 * 4 + (t < RESUME ? 0 : t)) % 1; const yy = y + h - 20 - (ph > .45 && ph < .5 ? 22 : ph > .5 && ph < .53 ? -10 : 0); i ? g.lineTo(xx, yy) : g.moveTo(xx, yy); } g.stroke();
 }
 function tooth(g, x, y, r, col) {
@@ -890,18 +913,20 @@ function drawKeys(g, x, y, s, lift) {
   g.fillStyle = '#aab0b6'; g.save(); g.translate(10, 4); g.rotate(1.1 + Math.cos(lift * .25) * .3); g.fillRect(0, -2, 22, 5); g.restore();
   g.restore();
 }
-function officeShot(g, t, c, o = {}, frozen = t < RESUME ? 1 : 0) {
+function officeShot(g, t, c, o = {}, frozen = t < RESUME ? 1 : 0, blur = 0) {
   clear(b1); b1.save(); cam(b1, ...c); drawOffice(b1, t, o); b1.restore();
-  frozenFilter(g, B1, frozen);
+  if (blur) { g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.filter = `blur(${blur}px) saturate(${1 - .6 * frozen})`; g.drawImage(B1, 0, 0); g.filter = 'none'; g.restore();
+    if (frozen) { g.save(); g.globalCompositeOperation = 'multiply'; g.fillStyle = `rgba(165,195,245,${.5 * frozen})`; g.fillRect(0, 0, W, H); g.restore(); } }
+  else frozenFilter(g, B1, frozen);
 }
-BGS.officeB = [gg => { gg.save(); cam(gg, 900, 520, 1.2); drawOffice(gg, 0, {}); gg.restore(); }, 20];
-function stoneElmir(g, t, stone, x = EL.x, feet = EL.feet, h = EL.h) {
+BGS.officeB = [gg => { gg.save(); cam(gg, 760, 520, .9); drawOffice(gg, 0, { mirror: () => {} }); gg.restore(); }, 20];
+function stoneElmir(g, t, stone, x = EL.x, feet = EL.feet, h = EL.h, name = 'coat_body') {
   const line = feet - h * stone;
   g.fillStyle = 'rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(x, feet, h * .14, 14, 0, 0, TAU); g.fill();
-  if (stone < 1) { g.save(); g.beginPath(); g.rect(-W, -H, W * 3, line + H); g.clip(); standSprite(g, 'coat_body', x, feet, h); g.restore(); }
+  if (stone < 1) { g.save(); g.beginPath(); g.rect(-W, -H, W * 3, line + H); g.clip(); standSprite(g, name, x, feet, h); g.restore(); }
   if (stone > 0) {
     g.save(); g.beginPath(); g.rect(-W, line, W * 3, H * 3); g.clip();
-    standSprite(g, 'coat_body', x, feet, h, 'grayscale(1) contrast(1.35) brightness(.78)');
+    standSprite(g, name, x, feet, h, 'grayscale(1) contrast(1.35) brightness(.78)');
     g.restore();
     if (stone < 1) { g.save(); g.globalCompositeOperation = 'screen'; g.fillStyle = 'rgba(200,220,255,.5)'; g.fillRect(x - h * .2, line - 3, h * .4, 6); g.restore(); }
   }
@@ -913,7 +938,15 @@ function oldWalker(g, x, feet, h, phase, name = 'old_walk', flip = 1) {
   g.translate(0, -Math.abs(Math.sin(phase)) * 10); g.rotate(Math.sin(phase) * .02); g.scale(flip, 1);
   g.drawImage(im, -w / 2, -h, w, h); g.restore();
 }
-function standSprite(g, name, x, feet, h, flt = 'none') { const im = IMG[name], w = im.width * h / im.height; g.save(); g.filter = flt; g.drawImage(im, x - w / 2, feet - h, w, h); g.filter = 'none'; g.restore(); }
+function standSprite(g, name, x, feet, h, flt = 'none', flip = 1) { const im = IMG[name], w = im.width * h / im.height; g.save(); g.filter = flt; g.translate(x, 0); g.scale(flip, 1); g.drawImage(im, -w / 2, feet - h, w, h); g.filter = 'none'; g.restore(); }
+function headF(g, name, x, top, h, flip = 1, flt = 'none', alpha = 1) { const im = IMG[name], w = im.width * h / im.height; g.save(); g.globalAlpha = alpha; g.filter = flt; g.translate(x, 0); g.scale(flip, 1); g.drawImage(im, -w / 2, top, w, h); g.filter = 'none'; g.restore(); }
+function behindDesk(g, fn) { g.save(); g.beginPath(); g.rect(-W, -H, W * 3, DESK.top + 2 + H); g.clip(); fn(); g.restore(); }
+// двойник: силуэт в дверях (контровой свет из коридора)
+function dblInDoor(gg, h = 700) {
+  const im = IMG.old_body, w = im.width * h / im.height, x = (DOOR.x0 + DOOR.x1) / 2;
+  gg.filter = 'blur(5px) brightness(2.2) saturate(0)'; gg.globalAlpha = .35; gg.drawImage(im, x - w / 2 - 4, DOOR.y1 - h, w + 8, h); gg.globalAlpha = 1;
+  gg.filter = 'brightness(.2) saturate(.3)'; gg.drawImage(im, x - w / 2, DOOR.y1 + 4 - h, w, h); gg.filter = 'none';
+}
 // галерея
 const GAL = [['face', 'coat_front', '#e8b86b'], ['face', 'coat_happy', '#6bb3e8'], ['coat', 0, '#cfe3ef'], ['clinic', 0, '#1b2b46'], ['face', 'coat_sarcastic', '#e86b8f'], ['coffee', 0, '#d9b08c'],
   ['coat', 1, '#d8e8e0'], ['sunset', 0, '#f0a36b'], ['face', 'coat_think', '#8fd18f'], ['clinic', 1, '#24365a'], ['coffee', 1, '#c79f7c'], ['face', 'happy', '#b48ce8'],
@@ -991,75 +1024,100 @@ function drawClinic(g, t, o) {
   if (o.dbl != null) oldWalker(g, o.dbl, 1010, 420, o.phase || 0, 'coat_walk', 1);
 }
 
-// A — он стоял в дверях
+// ================= кадры =================
+const DOORX = (DOOR.x0 + DOOR.x1) / 2;
+const dblWalkIn = t => ({ x: lerp(DOORX, DBL_DESK.x, eio(lin(10.75, 13.0, t))), feet: lerp(1000, DBL_DESK.feet, eio(lin(10.75, 13.0, t))), h: lerp(720, DBL_DESK.h, eio(lin(10.75, 13.0, t))) });
+
+// A — он стоял в дверях: через плечо Ильмира, двойник в проёме
 shot(0, { type: 'cut' }, (g, t) => {
-  officeShot(g, t, [1690, 640, 1.55], { door: 1, inDoor: gg => { const im = IMG.old_body, h = 720, w = im.width * h / im.height; gg.filter = 'blur(5px) brightness(2.2) saturate(0)'; gg.globalAlpha = .35; gg.drawImage(im, 1690 - w / 2 - 4, 1000 - h, w + 8, h); gg.globalAlpha = 1; gg.filter = 'brightness(.18) saturate(.3)'; gg.drawImage(im, 1690 - w / 2, 1004 - h, w, h); gg.filter = 'none'; } });
+  officeShot(g, t, [1380, 560, 1.0], { door: 1, inDoor: gg => dblInDoor(gg) });
+  headF(g, 'coat_profile', 760, 330 - t * 4, 860, -1, 'blur(3px) brightness(.55) saturate(.8)');
 });
-// B — смотрел прямо на меня
+// B — смотрел прямо на меня: двойник в дверном проёме, глаза на свету
 shot(1.6, { type: 'cut' }, (g, t) => {
-  g.fillStyle = '#030405'; g.fillRect(0, 0, W, H); const k = t - 1.6;
-  head(g, 'old_front', 960, 60 - k * 18, 1200 + k * 45, 0, 1, 'brightness(.18) contrast(1.2) saturate(.4)');
-  g.save(); const hh = 1200 + k * 45, tp = 60 - k * 18; g.beginPath(); g.rect(0, tp + hh * .4, W, hh * .12); g.clip(); head(g, 'old_front', 960, tp, hh, 0, .75, 'brightness(.65) contrast(1.2) saturate(.5)'); g.restore();
+  const k = t - 1.6;
+  officeShot(g, t, [DOORX, 520, 2.3 + k * .06], { door: 1, inDoor: gg => {
+    head(gg, 'old_front', DOORX, 330, 520, 0, 1, 'brightness(.3) contrast(1.2) saturate(.5)');
+    gg.save(); gg.beginPath(); gg.rect(DOOR.x0, 330 + 520 * .39, 400, 520 * .13); gg.clip(); head(gg, 'old_front', DOORX, 330, 520, 0, .85, 'brightness(.85) contrast(1.15) saturate(.6)'); gg.restore();
+  } });
 });
-// C — и улыбался
+// C — и улыбался: крупно, по краям — дверной косяк
 shot(3.7, { type: 'cut' }, (g, t) => {
-  g.fillStyle = '#020304'; g.fillRect(0, 0, W, H); const k = t - 3.7, lit = ss(3.85, 4.6, t);
-  head(g, 'old_smile', 960, 60 - k * 14, 1000 + k * 30, 0, 1, `brightness(${lerp(.25, .8, lit)}) contrast(1.15) saturate(.7)`);
-  phoneGlow(g, 960, 1250, lit * .8, '255,60,60');
+  g.fillStyle = '#05070a'; g.fillRect(0, 0, W, H); const k = t - 3.7, lit = ss(3.85, 4.6, t);
+  const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, '#9fb3c0'); gr.addColorStop(1, '#3c4850'); g.fillStyle = gr; g.globalAlpha = .55; g.fillRect(700, 0, 520, H); g.globalAlpha = 1;
+  head(g, 'old_smile', 960, 70 - k * 14, 1000 + k * 30, 0, 1, `brightness(${lerp(.3, .82, lit)}) contrast(1.15) saturate(.7)`);
+  g.fillStyle = '#b7bdbd'; g.fillRect(640, 0, 46, H); g.fillRect(1234, 0, 46, H);
+  phoneGlow(g, 960, 1250, lit * .7, '255,60,60');
 });
-// D — попытался сделать шаг назад
+// D — попытался сделать шаг назад: лицо → во весь рост, ноги не двигаются
 shot(5.1, { type: 'cut' }, (g, t) => {
-  frozenFilter(g, blurred('officeB'), 1); g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(0, 0, W, H);
-  const strain = ss(5.6, 7.2, t) * (1 - ss(7.6, 8.1, t)), [sx, sy] = shake(t, 6 * strain);
-  g.save(); g.translate(sx, sy); head(g, 'coat_surprise', 960, 110, 1000 + (t - 5.1) * 25, 0, 1, 'saturate(.8)'); g.restore();
-  const gr = g.createRadialGradient(960, 520, 250, 960, 520, 950); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, `rgba(60,0,0,${.6 * strain})`); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  if (t < 6.9) {
+    frozenFilter(g, blurred('officeB'), 1); g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(0, 0, W, H);
+    const strain = ss(5.4, 6.4, t), [sx, sy] = shake(t, 6 * strain);
+    g.save(); g.translate(sx, sy); head(g, 'coat_surprise', 960, 110, 1000 + (t - 5.1) * 25, 0, 1); g.restore();
+    const gr = g.createRadialGradient(960, 520, 250, 960, 520, 950); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, `rgba(60,0,0,${.6 * strain})`); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  } else {
+    const c = [EL.x + 40, 600, .95]; officeShot(g, t, c, { door: 1 });
+    const lean = Math.sin(clamp((t - 7.0) / .9) * Math.PI) * .045, [sx] = shake(t, t > 7.9 ? 8 * Math.exp(-(t - 7.9) * 6) : 0);
+    g.save(); cam(g, ...c); g.translate(EL.x + sx, EL.feet); g.rotate(-lean); g.translate(-EL.x, -EL.feet); stoneElmir(g, t, 0); g.restore();
+    g.save(); cam(g, ...c); g.strokeStyle = `rgba(255,80,80,${.5 * ss(7.2, 7.6, t) * (1 - ss(8.0, 8.3, t))})`; g.lineWidth = 6; g.beginPath(); g.ellipse(EL.x, EL.feet - 10, 140, 26, 0, 0, TAU); g.stroke(); g.restore();
+  }
 });
-// E — тело будто окаменело
+// E — окаменел: общий план, двойник всё ещё в дверях
 shot(8.3, { type: 'cut' }, (g, t) => {
-  const c = [PORT ? EL.x : 800, 620, PORT ? 1.25 : 1.05]; officeShot(g, t, c, { door: 1 });
+  const c = [940, 620, lerp(.5, .54, ss(8.3, 10.5, t))]; officeShot(g, t, c, { door: 1, inDoor: gg => dblInDoor(gg) });
   g.save(); cam(g, ...c); stoneElmir(g, t, eio(ss(8.4, 10.2, t))); g.restore();
 });
-// F — спокойно вошёл в кабинет
-const walkIn = t => lerp(1690, 1240, eio(lin(10.75, 13.0, t)));
+// F — спокойно вошёл: общий план, двойник проходит от двери за стол
 shot(10.5, { type: 'cut' }, (g, t) => {
-  const x = walkIn(t), c = [PORT ? lerp(1500, 1250, ss(10.7, 13, t)) : 1150, 620, PORT ? 1.15 : 1.0];
-  officeShot(g, t, c, { door: 1 });
-  g.save(); cam(g, ...c); stoneElmir(g, t, 1); oldWalker(g, x, 1030, 790, (t - 10.75) * 7.5); g.restore();
+  const c = [940, 620, .54], p = dblWalkIn(t), moving = t > 10.75 && t < 13.0;
+  officeShot(g, t, c, { door: 1, inDoor: gg => { if (t < 10.75) dblInDoor(gg); } });
+  g.save(); cam(g, ...c);
+  if (t >= 10.75) { const draw = () => moving ? oldWalker(g, p.x, p.feet, p.h, (t - 10.75) * 7.5) : standSprite(g, 'old_body', p.x, p.feet, p.h); if (p.x < DESK.x1 + 40) behindDesk(g, draw); else draw(); }
+  stoneElmir(g, t, 1);
+  g.restore();
 });
-// G — подошёл к столу
+// G — подошёл к столу: средний план, двойник за столом смотрит на телефон
 shot(13.1, { type: 'cut' }, (g, t) => {
-  const c = [1150, 640, 1.6]; officeShot(g, t, c, { door: 1 });
-  g.save(); cam(g, ...c); g.beginPath(); g.rect(-W, -H, W * 3, DESK.top + H); g.clip(); standSprite(g, 'old_body', 1150, 1070, 800); g.restore();
-  g.save(); cam(g, ...c); g.fillStyle = '#4b3829'; g.restore();
+  const c = [DBL_DESK.x - 20, 600, lerp(1.05, 1.15, lin(13.1, 14.4, t))]; officeShot(g, t, c, { door: 1, phoneLit: .25 });
+  g.save(); cam(g, ...c); behindDesk(g, () => standSprite(g, 'old_body', DBL_DESK.x, DBL_DESK.feet, DBL_DESK.h)); g.restore();
 });
-// H — взял мой телефон
+// H — взял мой телефон: деталь, двойник за столом за кадром-фоном
 shot(14.4, { type: 'cut' }, (g, t) => {
-  const c = [1110, DESK.top - 20, 4.2], up = eio(ss(15.0, 15.85, t)), shd = ss(14.5, 15.0, t);
+  const c = [PHX + 20, DESK.top - 70, 2.6], up = eio(ss(15.0, 15.85, t)), shd = ss(14.5, 15.0, t);
   officeShot(g, t, c, { door: 1, noPhone: true });
   g.save(); cam(g, ...c);
-  g.fillStyle = `rgba(0,0,0,${.45 * shd})`; g.beginPath(); g.ellipse(1150, DESK.top + 4, 160 * shd, 18, 0, 0, TAU); g.fill();
-  g.fillStyle = `rgba(0,0,0,${.35 * (1 - up)})`; g.fillRect(1072, DESK.top - 1, 76, 3);
-  const py = DESK.top - 4 - up * 170, sc = 1 + up * .5;
-  g.save(); g.translate(1110, py); g.rotate(-up * .9); g.scale(sc, sc); g.fillStyle = '#0c0d10'; g.fillRect(-40, -3.5, 80, 7); g.fillStyle = 'rgba(140,190,255,.7)'; g.fillRect(-38, -3.5, 76, 2); g.restore();
-  if (up > 0 && up < 1) { g.fillStyle = 'rgba(255,255,255,.12)'; g.fillRect(1072, py, 76, up * 120); }
+  behindDesk(g, () => standSprite(g, 'old_body', DBL_DESK.x, DBL_DESK.feet, DBL_DESK.h, 'brightness(.8)'));
+  g.fillStyle = `rgba(0,0,0,${.35 * shd})`; g.beginPath(); g.ellipse(PHX + 20, DESK.top + 4, 120 * shd, 12, 0, 0, TAU); g.fill();
+  const py = DESK.top - 4 - up * 150;
+  g.save(); g.translate(PHX, py); g.rotate(-up * .6); g.scale(1 + up * .3, 1 + up * .3); g.fillStyle = '#0c0d10'; g.fillRect(-38, -3.5, 76, 7); g.fillStyle = 'rgba(140,190,255,.7)'; g.fillRect(-36, -3.5, 72, 2); g.restore();
   g.restore();
 });
-// I — и знаете, что самое странное?
+// I — и знаете, что самое странное? каменное лицо, живые глаза
 shot(15.9, { type: 'cut' }, (g, t) => {
   frozenFilter(g, blurred('officeB'), 1); g.fillStyle = 'rgba(0,0,0,.4)'; g.fillRect(0, 0, W, H);
-  head(g, 'coat_surprise', 960, -520 - (t - 15.9) * 20, 2200 + (t - 15.9) * 60, 0, 1, 'saturate(.7) brightness(.85)');
+  const top = -520 - (t - 15.9) * 20, hh = 2200 + (t - 15.9) * 60;
+  head(g, 'coat_surprise', 960, top, hh, 0, 1, 'grayscale(1) contrast(1.35) brightness(.8)');
+  g.save(); g.beginPath(); g.rect(0, top + hh * .335, W, hh * .085); g.clip(); head(g, 'coat_surprise', 960, top, hh, 0, 1, 'saturate(.9)'); g.restore();
 });
-// J1 — скан лица
+// J1 — Face ID: телефон перед лицом двойника (вид из-за телефона)
 shot(18.2, { type: 'cut' }, (g, t) => {
-  g.fillStyle = '#04060a'; g.fillRect(0, 0, W, H); const k = t - 18.2;
-  head(g, 'old_front', 960, 90 - k * 10, 1000 + k * 30, 0, 1, 'brightness(.55) saturate(.6)');
-  phoneGlow(g, 960, 1250, .9);
-  g.save(); g.globalCompositeOperation = 'screen'; const sy = 180 + (lin(18.4, 19.5, t) * 2 % 1) * 700;
-  g.strokeStyle = 'rgba(90,220,255,.35)'; g.lineWidth = 1.5;
-  for (let i = 0; i < 18; i++) { g.beginPath(); g.moveTo(700, 200 + i * 40); g.lineTo(1220, 200 + i * 40); g.stroke(); }
-  for (let i = 0; i < 14; i++) { g.beginPath(); g.moveTo(700 + i * 40, 200); g.lineTo(700 + i * 40, 900); g.stroke(); }
-  const gr = g.createLinearGradient(0, sy - 60, 0, sy + 6); gr.addColorStop(0, 'rgba(90,220,255,0)'); gr.addColorStop(1, 'rgba(120,230,255,.7)'); g.fillStyle = gr; g.fillRect(680, sy - 60, 560, 66);
+  officeShot(g, t, [DBL_DESK.x, 560, 1.1], { door: 1, noPhone: true }, 1, 8); g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(0, 0, W, H);
+  const k = t - 18.2;
+  head(g, 'old_front', 960, 90 - k * 10, 960 + k * 30, 0, 1, 'brightness(.6) saturate(.6)');
+  phoneGlow(g, 960, 900, .9);
+  g.save(); g.globalCompositeOperation = 'screen'; const sy = 200 + (lin(18.4, 19.5, t) * 2 % 1) * 560;
+  g.strokeStyle = 'rgba(90,220,255,.3)'; g.lineWidth = 1.5;
+  for (let i = 0; i < 14; i++) { g.beginPath(); g.moveTo(720, 200 + i * 42); g.lineTo(1200, 200 + i * 42); g.stroke(); }
+  for (let i = 0; i < 12; i++) { g.beginPath(); g.moveTo(720 + i * 44, 200); g.lineTo(720 + i * 44, 760); g.stroke(); }
+  const gr = g.createLinearGradient(0, sy - 60, 0, sy + 6); gr.addColorStop(0, 'rgba(90,220,255,0)'); gr.addColorStop(1, 'rgba(120,230,255,.7)'); g.fillStyle = gr; g.fillRect(700, sy - 60, 520, 66);
   g.restore();
+  // задняя сторона телефона на переднем плане
+  g.save(); g.translate(960, 1130); g.rotate(-.04); g.fillStyle = '#121418'; rr(g, -210, -180, 420, 400, 46); g.fill(); g.fillStyle = '#23262c'; rr(g, -180, -150, 120, 120, 26); g.fill();
+  g.fillStyle = '#05060a'; for (const [x, y] of [[-150, -120], [-90, -120], [-150, -60]]) { g.beginPath(); g.arc(x, y, 18, 0, TAU); g.fill(); }
+  g.fillStyle = 'rgba(255,255,255,.05)'; g.fillRect(-210, -180, 420, 40); g.restore();
+  // пальцы
+  g.fillStyle = '#c9a189'; for (let i = 0; i < 3; i++) { rr(g, 720 + i * 8, 980 + i * 70, 70, 52, 26); g.fill(); }
 });
 // J2 — разблокировано
 shot(19.6, { type: 'cut' }, (g, t) => {
@@ -1072,7 +1130,7 @@ shot(21.0, { type: 'cut' }, (g, t) => {
   g.fillStyle = '#04060a'; g.fillRect(0, 0, W, H);
   const [px, py] = iconPos(1, 1), op = eio(lin(21.55, 22.05, t));
   g.save(); cam(g, 960, 560, 1.15);
-  drawPhone(g, t, sg => { homeScreen(sg, t, 0, 0, false); if (op > 0) { sg.save(); const x = lerp(px, 0, op), y = lerp(py, 0, op), s = lerp(ICON / SW, 1, op); sg.translate(x, y); sg.scale(s, s * (SW / SHh) / (SW / SHh)); sg.beginPath(); sg.rect(0, 0, SW, SHh); sg.clip(); gallery(sg, t, 0, -1); sg.restore(); } });
+  drawPhone(g, t, sg => { homeScreen(sg, t, 0, 0, false); if (op > 0) { sg.save(); const x = lerp(px, 0, op), y = lerp(py, 0, op), s = lerp(ICON / SW, 1, op); sg.translate(x, y); sg.scale(s, s); sg.beginPath(); sg.rect(0, 0, SW, SHh); sg.clip(); gallery(sg, t, 0, -1); sg.restore(); } });
   const tp = ss(21.2, 21.5, t) * (1 - ss(21.6, 21.9, t)); if (tp > 0) thumb(g, lerp(1300, 728 + 18 + px + 46, tp), lerp(1150, 78 + 18 + py + 60, tp), -.62);
   g.restore();
 }, { noHud: true });
@@ -1081,21 +1139,24 @@ shot(22.8, { type: 'cut' }, (g, t) => {
   g.fillStyle = '#04060a'; g.fillRect(0, 0, W, H);
   const scroll = keys(t, [[22.8, 0], [24.5, 0], [24.9, 330], [25.7, 330], [26.1, 660], [27.1, 700]], eio);
   const hl = t < 24.55 ? 0 : t < 25.75 ? 1 : 2;
-  g.save(); cam(g, 960, 560, PORT ? 1.15 : 1.0); drawPhone(g, t, sg => gallery(sg, t, scroll, t > 23.0 ? hl : -1)); g.restore();
+  g.save(); cam(g, 960, 560, 1.15); drawPhone(g, t, sg => gallery(sg, t, scroll, t > 23.0 ? hl : -1)); g.restore();
 }, { noHud: true });
-// M — листал, будто всё принадлежало ему
+// M — листал, будто всё принадлежало ему: экран → двойник на переднем плане, окаменевший Ильмир позади
 shot(27.1, { type: 'cut' }, (g, t) => {
   if (t < 29.0) {
     g.fillStyle = '#04060a'; g.fillRect(0, 0, W, H);
     const scroll = 700 + ((t - 27.1) * 900) % 1400;
     g.save(); cam(g, 960, 560, 1.15); drawHandBack(g); drawPhone(g, t, sg => gallery(sg, t, scroll, -1)); drawHandFront(g); g.restore();
   } else {
-    g.fillStyle = '#020304'; g.fillRect(0, 0, W, H); const k = t - 29.0;
-    head(g, 'old_smile', 960, 80 - k * 10, 1000 + k * 30, 0, 1, 'brightness(.62) saturate(.6)');
-    phoneGlow(g, 960, 1200, .9);
+    const c = [EL.x + 260, 600, .95];
+    officeShot(g, t, c, { door: 1, noPhone: true }, 1, 5);
+    g.save(); cam(g, ...c); g.filter = 'blur(4px)'; stoneElmir(g, t, 1); g.filter = 'none'; g.restore();
+    const k = t - 29.0;
+    head(g, 'old_smile', 1150, 230 - k * 8, 900 + k * 25, 0, 1, 'brightness(.66) saturate(.6)');
+    phoneGlow(g, 1100, 1150, .9);
   }
 });
-// N — хотел закричать, но не мог открыть рот
+// N — хотел закричать, не мог открыть рот
 shot(30.7, { type: 'cut' }, (g, t) => {
   frozenFilter(g, blurred('officeB'), 1); g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(0, 0, W, H);
   const k = t - 30.7, push = ss(32.3, 34.0, t), sq = 1 + Math.sin(t * 40) * .004 * ss(30.9, 31.5, t);
@@ -1103,14 +1164,18 @@ shot(30.7, { type: 'cut' }, (g, t) => {
   g.save(); g.translate(sx, sy); head(g, 'coat_front', 960, lerp(110, -650, eio(push)) - k * 6, lerp(1000, 2400, eio(push)) * sq, 0, 1, 'grayscale(.5) contrast(1.1)'); g.restore();
   const pulse = .5 + .5 * Math.sin(t * 9); g.fillStyle = `rgba(120,0,0,${.18 * pulse})`; g.fillRect(0, 0, W, H);
 });
-// O — подошёл к зеркалу
-const walkMirror = t => lerp(1240, 330, eio(lin(34.4, 36.7, t)));
+// O — подошёл к зеркалу: общий план, двойник идёт за спиной Ильмира к зеркалу
+const MIR_STAND = { x: 300, feet: 1000, h: 720 };
 shot(34.2, { type: 'cut' }, (g, t) => {
-  const x = walkMirror(t), c = [PORT ? lerp(1150, 450, ss(34.4, 36.7, t)) : 820, 600, PORT ? 1.15 : 1.0];
-  officeShot(g, t, c, { door: 1, phoneLit: .7 * (1 - ss(35.5, 36.8, t)) });
-  g.save(); cam(g, ...c); stoneElmir(g, t, 1); oldWalker(g, x, 1055, 800, (t - 34.4) * 7.5); g.restore();
+  const c = [660, 610, .52], k = eio(lin(34.4, 36.7, t)), x = lerp(DBL_DESK.x, MIR_STAND.x, k), feet = lerp(DBL_DESK.feet, MIR_STAND.feet, k), h = lerp(DBL_DESK.h, MIR_STAND.h, k);
+  officeShot(g, t, c, { door: 1, phoneLit: .7 * (1 - lin(35.5, 36.8, t)) });
+  g.save(); cam(g, ...c);
+  const draw = () => (t > 34.4 && t < 36.7) ? oldWalker(g, x, feet, h, (t - 34.4) * 7.5) : (t <= 34.4 ? standSprite(g, 'old_body', x, feet, h) : oldWalker(g, x, feet, h, 0));
+  if (x > DESK.x0 - 40) behindDesk(g, draw); else draw();
+  stoneElmir(g, t, 1);
+  g.restore();
 });
-// P — похолодело внутри (иней)
+// P — похолодело внутри
 shot(36.8, { type: 'cut' }, (g, t) => {
   frozenFilter(g, blurred('officeB'), 1); g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(0, 0, W, H);
   const k = t - 36.8, fr = ss(37.2, 40.4, t);
@@ -1120,68 +1185,59 @@ shot(36.8, { type: 'cut' }, (g, t) => {
   const gr = g.createRadialGradient(960, 540, 300, 960, 540, 1000); gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, `rgba(150,200,255,${.45 * fr})`); g.fillStyle = gr; g.fillRect(0, 0, W, H);
   g.restore();
 });
-// Q/R/S — зеркало
-function mirrorShot(g, t, young, emptyFocus) {
-  frozenFilter(g, blurred('officeB'), 1); g.fillStyle = 'rgba(0,0,0,.45)'; g.fillRect(0, 0, W, H);
-  const mx = PORT ? 700 : 560, my = 70, mw = PORT ? 520 : 800, mh = 940;
-  g.fillStyle = '#2b2520'; rr(g, mx - 24, my - 24, mw + 48, mh + 48, 14); g.fill();
-  g.save(); rr(g, mx, my, mw, mh, 8); g.clip();
-  g.save(); g.translate(mx + mw / 2, 0); g.scale(-1, 1); g.translate(-(mx + mw / 2), 0); g.filter = 'brightness(.75) saturate(.7)'; g.drawImage(blurred('officeB'), 0, 0); g.filter = 'none';
-  const hx = mx + mw * (PORT ? .5 : .38), hh = 820;
-  const f = 'brightness(.85) saturate(.75)';
-  if (young < 1) head(g, 'old_front', hx, 210, hh, 0, 1, f);
-  if (young > 0) { g.save(); g.beginPath(); g.rect(0, 0, W, 210 + hh * young); g.clip(); head(g, 'front', hx, 210, hh, 0, 1, f); g.restore();
-    if (young < 1) { g.save(); g.globalCompositeOperation = 'screen'; g.fillStyle = 'rgba(190,225,255,.8)'; g.fillRect(0, 210 + hh * young - 3, W, 6); g.restore(); } }
-  g.restore();
-  g.fillStyle = 'rgba(255,255,255,.08)'; g.beginPath(); g.moveTo(mx + 60, my); g.lineTo(mx + 170, my); g.lineTo(mx + 20, my + mh); g.lineTo(mx - 90, my + mh); g.fill();
-  if (emptyFocus > 0) { g.save(); g.globalAlpha = .12 * emptyFocus * (.5 + .5 * Math.sin(t * 13)); g.strokeStyle = '#cfe8ff'; g.setLineDash([10, 12]); g.lineWidth = 3; g.beginPath(); g.ellipse(mx + mw * (PORT ? .82 : .76), 420, 130, 300, 0, 0, TAU); g.stroke(); g.setLineDash([]); g.restore(); }
-  g.restore();
-}
+// Q — в зеркале только он: через плечо, Ильмир в профиле справа, двойник спиной слева
 shot(40.7, { type: 'cut' }, (g, t) => {
-  mirrorShot(g, t, 0, 0);
-  // настоящий Ильмир смотрит в зеркало сбоку (его там нет)
-  const im = IMG.coat_profile, h = 900, w = im.width * h / im.height;
-  g.save(); g.filter = 'grayscale(.8) brightness(.7)'; g.drawImage(im, (PORT ? 1330 : 1460) - w / 2 + 60, 220, w, h); g.filter = 'none'; g.restore();
+  const c = [MIRROR.x0 + 125, 430, 1.7];
+  officeShot(g, t, c, { door: 1, mirror: gg => mirrorContent(gg, t, { dbl: true }) });
+  headF(g, 'old_front', 690, 560, 820, 1, 'brightness(.05) blur(3px)');                           // двойник спиной (тёмный силуэт)
+  headF(g, 'coat_profile', 1265, 330, 780, 1, 'grayscale(1) contrast(1.3) brightness(.7)');        // Ильмир (окаменевший) смотрит в зеркало
 });
-shot(43.8, { type: 'cut' }, (g, t) => { g.save(); const z = lerp(1.1, 1.35, lin(43.8, 45.5, t)); cam(g, PORT ? 1080 : 1100, 480, z); mirrorShot(g, t, 0, ss(44, 44.6, t)); g.restore(); });
-shot(45.5, { type: 'cut' }, (g, t) => mirrorShot(g, t, eio(lin(45.7, 47.1, t)), 0));
-// T — надел мой халат: халат срывается с вешалки → склейка → двойник уже в халате
+// R — меня там не было: наезд на пустое место в отражении
+shot(43.8, { type: 'cut' }, (g, t) => {
+  const k = ss(43.8, 45.5, t), c = [lerp(MIRROR.x0 + 150, MIRROR.x0 + 195, k), lerp(470, 440, k), lerp(2.0, 2.8, k)];
+  officeShot(g, t, c, { door: 1, mirror: gg => mirrorContent(gg, t, { dbl: true, empty: ss(44, 44.6, t) }) });
+});
+// S — двойник поправил волосы: отражение молодеет
+shot(45.5, { type: 'cut' }, (g, t) => {
+  officeShot(g, t, [MIRROR.x0 + 110, 380, 2.4], { door: 1, mirror: gg => mirrorContent(gg, t, { dbl: true, young: eio(lin(45.7, 47.1, t)) }) });
+});
+// T — халат с вешалки → склейка → двойник уже в халате
 shot(47.4, { type: 'cut' }, (g, t) => {
   if (t < 48.3) {
-    const c = [1470, 560, PORT ? 1.6 : 1.3], lift = eio(ss(47.65, 48.25, t));
-    officeShot(g, t, c, { door: 1, noCoat: true });
-    g.save(); cam(g, ...c); g.translate(1471 - lift * 260, 345 - lift * 220); g.rotate(-lift * .5 + Math.sin(t * 14) * .05 * lift);
-    g.fillStyle = '#e9ecef'; g.beginPath(); g.moveTo(-25, 0); g.quadraticCurveTo(0, -10, 25, 0); g.lineTo(41 + lift * 30, 355); g.lineTo(-41 - lift * 30, 355); g.closePath(); g.fill();
-    g.strokeStyle = 'rgba(120,130,140,.6)'; g.lineWidth = 3; g.beginPath(); g.moveTo(0, 15); g.lineTo(0, 355); g.stroke();
-    tooth(g, 16, 110, 7, '#2b6cd8'); g.restore();
+    const c = [RACKX, 560, 1.5]; officeShot(g, t, c, { door: 1, noCoat: true });
+    const lift = eio(ss(47.75, 48.25, t));
+    g.save(); cam(g, ...c); drawRackCoat(g, RACKX - lift * 260, 345 - lift * 200, -lift * .6, lift); g.restore();
   } else {
-    const c = [1380, 600, PORT ? 1.25 : 1.1]; officeShot(g, t, c, { door: 1, noCoat: true });
+    const c = [1180, 600, 1.05]; officeShot(g, t, c, { door: 1, noCoat: true });
     const k = t - 48.3, pop = 1 + .03 * Math.exp(-k * 6) * Math.sin(k * 20);
-    g.save(); cam(g, ...c); g.fillStyle = 'rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(1330, 1060, 120, 14, 0, 0, TAU); g.fill();
-    g.translate(1330, 1060); g.scale(pop, pop); g.translate(-1330, -1060); standSprite(g, 'coat_body', 1330, 1060, 820); g.restore();
+    g.save(); cam(g, ...c); g.fillStyle = 'rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(1190, 1060, 120, 14, 0, 0, TAU); g.fill();
+    g.translate(1190, 1060); g.scale(pop, pop); g.translate(-1190, -1060); standSprite(g, 'coat_body', 1190, 1060, 820); g.restore();
     const fl = Math.exp(-k * 9); g.fillStyle = `rgba(255,255,255,${fl * .7})`; g.fillRect(0, 0, W, H);
   }
 });
-// U — взял ключи
+// U — взял ключи: деталь, двойник в халате за столом
 shot(49.4, { type: 'cut' }, (g, t) => {
-  const c = [1320, DESK.top - 30, 4.4]; const take = ss(49.5, 49.9, t), up = ss(49.95, 50.5, t) * 160;
-  officeShot(g, t, c, { door: 1, noKeys: true });
-  g.save(); cam(g, ...c); g.fillStyle = `rgba(0,0,0,${.4 * take})`; g.beginPath(); g.ellipse(1340, DESK.top + 4, 120 * take, 14, 0, 0, TAU); g.fill();
-  drawKeys(g, 1320, DESK.top - 6, 1, up + Math.sin(t * 30) * 2 * (up > 0));
+  const c = [KEYX - 30, DESK.top - 70, 2.6], up = ss(49.95, 50.5, t) * 160;
+  officeShot(g, t, c, { door: 1, noKeys: true, noCoat: true });
+  g.save(); cam(g, ...c);
+  behindDesk(g, () => standSprite(g, 'coat_body', 1060, 985, 700));
+  g.fillStyle = `rgba(0,0,0,${.35 * ss(49.5, 49.9, t)})`; g.beginPath(); g.ellipse(KEYX, DESK.top + 4, 90, 10, 0, 0, TAU); g.fill();
+  drawKeys(g, KEYX, DESK.top - 6, 1, up + Math.sin(t * 30) * 2 * (up > 0));
   g.restore();
 });
-// V — вышел из кабинета
+// V — вышел из кабинета: общий план, Ильмир-камень слева, дверь справа
 shot(50.6, { type: 'cut' }, (g, t) => {
-  const close = ss(51.55, 52.0, t), c = [1600, 620, PORT ? 1.2 : 1.05];
-  const x = lerp(1250, 1690, eio(lin(50.65, 51.55, t)));
-  officeShot(g, t, c, { door: 1 - close, noPhone: false, noKeys: true, noCoat: true,
-    inDoor: gg => { if (t > 51.3 && t < 51.8) { gg.save(); gg.globalAlpha = 1 - lin(51.3, 51.8, t); oldWalker(gg, x, 1000, 760, (t - 50.65) * 7.5, 'coat_walk', -1); gg.restore(); } } });
-  g.save(); cam(g, ...c); stoneElmir(g, t, 1, 760, 1060, 820); if (t < 51.3) oldWalker(g, x, 1030, 790, (t - 50.65) * 7.5, 'coat_walk', -1); g.restore();
-  if (t > 51.95) { const f = Math.exp(-(t - 51.95) * 8); const [sx] = shake(t, 10 * f); g.translate(sx, 0); }
+  const c = [1000, 620, .55], k = eio(lin(50.65, 51.5, t)), x = lerp(1060, DOORX, k), feet = lerp(985, 1000, k), close = ss(51.55, 51.95, t);
+  officeShot(g, t, c, { door: 1 - close, noKeys: true, noCoat: true, inDoor: gg => { if (t > 51.3 && t < 51.75) { gg.save(); gg.globalAlpha = 1 - lin(51.3, 51.75, t); oldWalker(gg, x, 1000, 720, (t - 50.65) * 7.5, 'coat_walk', -1); gg.restore(); } } });
+  g.save(); cam(g, ...c);
+  if (t < 51.3) { const draw = () => oldWalker(g, x, feet, 720, (t - 50.65) * 7.5, 'coat_walk', -1); if (x < DESK.x1 + 40) behindDesk(g, draw); else draw(); }
+  stoneElmir(g, t, 1);
+  g.restore();
+  if (t > 51.95) { const f = Math.exp(-(t - 51.95) * 8); g.fillStyle = `rgba(0,0,0,${.25 * f})`; g.fillRect(0, 0, W, H); }
 });
 // W — часы снова пошли
 shot(52.2, { type: 'cut' }, (g, t) => {
-  officeShot(g, t, [1480, 192, lerp(4.4, 4.9, lin(52.2, 55.3, t)), -.02], { door: 0, noKeys: true, noCoat: true }, 1 - ss(54.0, 54.6, t));
+  officeShot(g, t, [CLOCK[0], CLOCK[1] + 2, lerp(4.4, 4.9, lin(52.2, 55.3, t)), -.02], { door: 0, noKeys: true, noCoat: true }, 1 - ss(54.0, 54.6, t));
   if (t > 54.0) { const f = Math.exp(-(t - 54) * 5); g.fillStyle = `rgba(255,235,200,${f * .3})`; g.fillRect(0, 0, W, H); }
 });
 // X — наконец смог пошевелиться
@@ -1195,30 +1251,31 @@ shot(55.3, { type: 'cut' }, (g, t) => {
   g.restore();
   g.fillStyle = 'rgba(170,175,180,.9)'; for (let i = 0; i < 70; i++) { const p = clamp((t - 55.45 - rnd(i) * 1.2) / .9); if (p <= 0 || p >= 1) continue; g.fillRect(700 + rnd(i + 1) * 520, 1080 * (1 - free) * rnd(i + 2) + p * p * 600, 6, 6); }
 });
-// Y — бросился к двери
+// Y — бросился к двери: камера ведёт Ильмира слева направо
 shot(57.4, { type: 'cut' }, (g, t) => {
-  const k = eio(lin(57.45, 58.6, t)), bob = Math.sin((t - 57.4) * 16) * 14;
-  officeShot(g, t, [lerp(1100, 1690, k), 620 + bob, lerp(1.0, 2.6, k), Math.sin(t * 8) * .02], { door: 0, noKeys: true, noCoat: true }, 0);
+  const k = eio(lin(57.45, 58.7, t)), x = lerp(EL.x, DOOR.x0 + 30, k), c = [lerp(760, 1250, k), 620, .72];
+  officeShot(g, t, c, { door: 0, noKeys: true, noCoat: true }, 0);
+  g.save(); cam(g, ...c); oldWalker(g, x, EL.feet, EL.h, (t - 57.4) * 13, 'coat_walk', -1); g.restore();
 });
-// Z — дверь не открывалась
+// Z — дверь не открывалась: ручка крупно
 shot(58.8, { type: 'cut' }, (g, t) => {
   const hits = [58.95, 59.4, 59.85], rot = Math.max(...hits.map(s => t > s ? Math.exp(-(t - s) * 9) * Math.sin((t - s) * 50) : 0));
-  const [sx, sy] = shake(t, 10 * Math.abs(rot));
+  const [sx, sy] = shake(t, 10 * Math.abs(rot)), HX = DOOR.x0 + 18 + 23, HY = DOOR.y0 + 386;
   g.save(); g.translate(sx, sy);
-  officeShot(g, t, [1760, 640, 6.5], { door: 0, noKeys: true, noCoat: true }, 0);
-  g.save(); cam(g, 1760, 640, 6.5); g.translate(1772, 628); g.rotate(rot * .35 + .05);
-  g.fillStyle = '#b9bfc3'; rr(g, -70, -8, 80, 16, 8); g.fill(); g.fillStyle = '#8f969a'; g.beginPath(); g.arc(0, 0, 14, 0, TAU); g.fill();
+  officeShot(g, t, [HX - 10, HY + 10, 6.0], { door: 0, noKeys: true, noCoat: true }, 0);
+  g.save(); cam(g, HX - 10, HY + 10, 6.0);
+  g.fillStyle = '#8f969a'; rr(g, HX - 12, HY + 10, 26, 48, 6); g.fill(); g.fillStyle = '#2a2d30'; g.beginPath(); g.arc(HX + 1, HY + 26, 4, 0, TAU); g.fill(); g.fillRect(HX - 1, HY + 26, 4, 10);
+  g.translate(HX - 18, HY); g.rotate(rot * .35 + .05); g.fillStyle = '#b9bfc3'; rr(g, -4, -7, 62, 14, 7); g.fill(); g.fillStyle = '#8f969a'; g.beginPath(); g.arc(0, 0, 12, 0, TAU); g.fill();
   g.restore(); g.restore();
-  // накладка с замком
-  g.save(); cam(g, 1760, 640, 6.5); g.fillStyle = '#8f969a'; rr(g, 1758, 640, 28, 52, 6); g.fill(); g.fillStyle = '#2a2d30'; g.beginPath(); g.arc(1772, 656, 4, 0, TAU); g.fill(); g.fillRect(1770, 656, 4, 10);
-  if (rot !== 0) { g.strokeStyle = `rgba(255,255,255,${Math.abs(rot) * .5})`; g.lineWidth = .6; for (let k = 0; k < 3; k++) { g.beginPath(); g.arc(1772, 628, 16 + k * 4, -.8, .8); g.stroke(); } }
-  g.restore();
 });
-// AA — уведомление на телефоне
+// AA — уведомление: телефон на столе светится, Ильмир у двери оборачивается
 shot(60.4, { type: 'cut' }, (g, t) => {
-  const lit = ss(61.3, 61.6, t), c = [1110, DESK.top - 30, lerp(2.2, 3.4, ss(60.4, 63.6, t))];
+  const lit = ss(61.3, 61.6, t), k = eio(ss(62.0, 63.6, t)), c = [lerp(1060, PHX, k), lerp(640, DESK.top - 30, k), lerp(.72, 2.6, k)];
   officeShot(g, t, c, { door: 0, noKeys: true, noCoat: true, phoneLit: lit }, 0);
-  if (t > 61.3 && t < 62.6) { g.save(); cam(g, ...c); g.strokeStyle = `rgba(200,225,255,${.6 * lit})`; g.lineWidth = 2; for (let k = 0; k < 2; k++) { const o = 20 + k * 14 + (t * 50 % 10); g.beginPath(); g.arc(1110, DESK.top - 6, o, Math.PI * 1.1, Math.PI * 1.9); g.stroke(); } g.restore(); }
+  g.save(); cam(g, ...c);
+  standSprite(g, 'coat_body', DOOR.x0 - 40, EL.feet, EL.h);
+  if (t > 61.3 && t < 62.6) { g.strokeStyle = `rgba(200,225,255,${.6 * lit})`; g.lineWidth = 3; for (let q = 0; q < 2; q++) { const o = 20 + q * 14 + (t * 50 % 10); g.beginPath(); g.arc(PHX, DESK.top - 6, o, Math.PI * 1.1, Math.PI * 1.9); g.stroke(); } }
+  g.restore();
 });
 // AB–AD — «ЗАМЕНА ЗАВЕРШЕНА», «…24 ЧАСА»
 shot(63.6, { type: 'cut' }, (g, t) => {
@@ -1229,12 +1286,13 @@ shot(63.6, { type: 'cut' }, (g, t) => {
   g.save(); cam(g, ...c, gl ? .012 : 0); drawPhone(g, t, sg => lockNotes(sg, t)); g.restore();
   g.save(); g.globalCompositeOperation = 'screen'; const gr = g.createRadialGradient(960, 560, 100, 960, 560, 900); gr.addColorStop(0, 'rgba(200,40,40,.15)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, H); g.restore();
 }, { noHud: true });
-// AE — запись с камеры наблюдения на мониторе
+// AE — запись с камеры: Ильмир у стола, наезд на монитор
 shot(71.8, { type: 'cut' }, (g, t) => {
-  const k = eio(lin(71.9, 74.8, t)), sw = ss(73.0, 73.3, t);
-  officeShot(g, t, [1285, 630, lerp(2.0, 5.6, k)], { door: 0, noKeys: true, noCoat: true, monitor: (gg, tt, x, y, w, h) => { monitorUI(gg, tt, x, y, w, h); if (sw > 0) { gg.globalAlpha = sw; cctv(gg, x, y, w, h, tt, 'clinic', { label: 'КАМ 01', time: tc(2 * 3600 + 44 * 60 + 12 + (tt - 73)), dbl: 1020, phase: 0 }); gg.globalAlpha = 1; } } }, 0);
+  const k = eio(lin(71.9, 74.8, t)), sw = ss(73.0, 73.3, t), c = [lerp(900, 1050, k), lerp(620, 630, k), lerp(.8, 5.2, k)];
+  officeShot(g, t, c, { door: 0, noKeys: true, noCoat: true, monitor: (gg, tt, x, y, w, h) => { monitorUI(gg, tt, x, y, w, h); if (sw > 0) { gg.globalAlpha = sw; cctv(gg, x, y, w, h, tt, 'clinic', { label: 'КАМ 01', time: tc(2 * 3600 + 44 * 60 + 12 + (tt - 73)), dbl: 1020, phase: 0 }); gg.globalAlpha = 1; } } }, 0);
+  g.save(); cam(g, ...c); standSprite(g, 'coat_body', 790, EL.feet, EL.h, 'brightness(.85)'); g.restore();
 });
-// AF–AI — клиника на записи
+// AF–AI — стоматология на записи
 shot(74.9, { type: 'cut' }, (g, t) => {
   g.fillStyle = '#0b0e10'; g.fillRect(0, 0, W, H);
   const dx = lerp(1060, 800, lin(75.0, 82.9, t)), ghost = ss(79.55, 80.1, t) * (rnd(Math.floor(t * 20)) > .12 ? 1 : .3);
