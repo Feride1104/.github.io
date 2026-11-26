@@ -1,0 +1,67 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+html,body{background:var(--cream)}
+.stage{background:radial-gradient(1000px 800px at 90% 0%,rgba(183,218,146,.35),transparent 60%),radial-gradient(900px 800px at 0% 100%,rgba(200,170,130,.25),transparent 65%),var(--cream);color:#1E1915}
+.slats{position:absolute;top:0;bottom:0;right:0;width:300px;background:repeating-linear-gradient(90deg,rgba(120,90,60,.05) 0 34px,rgba(120,90,60,.12) 34px 40px);-webkit-mask:linear-gradient(90deg,transparent,#000 45%)}
+.lw{left:110px;top:760px;width:860px;height:302px;transform-origin:0 0}
+.lw img{position:absolute;left:0;top:0;width:860px}
+.ball{position:absolute;width:77px;height:77px;margin:-38.5px 0 0 -38.5px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#7EE096,#2EA84F 45%,#0A6B2A);box-shadow:inset -6px -8px 14px rgba(0,0,0,.15)}
+.ring{position:absolute;width:77px;height:77px;margin:-38.5px 0 0 -38.5px;border-radius:50%;border:5px solid var(--green)}
+.bshadow{position:absolute;width:90px;height:14px;margin-left:-45px;border-radius:50%;background:rgba(0,0,0,.18);filter:blur(3px)}
+.stats{left:110px;right:110px;top:640px}
+.row{display:flex;align-items:baseline;gap:30px;padding:40px 0;border-top:3px solid rgba(30,25,21,.12)}
+.row:last-child{border-bottom:3px solid rgba(30,25,21,.12)}
+.row b{font-variant-numeric:tabular-nums;font-weight:800;font-size:140px;letter-spacing:-.04em;line-height:1;min-width:440px}
+.row b i{font-style:normal;color:var(--green)}
+.row span{font-weight:600;font-size:40px;line-height:1.25;color:#4A3F37}
+.fin{left:110px;right:110px;top:640px}
+.fin .kick{color:var(--green)}
+.fin .h{font-size:112px;margin-top:24px}
+.fin .pill{background:var(--green);color:#fff}
+.fin p{font-weight:600;font-size:34px;letter-spacing:.16em;text-transform:uppercase;color:#7A6D63;margin-top:44px;line-height:1.6}
+.cta{left:110px;top:1400px;display:inline-flex;align-items:center;gap:22px;background:#1E1915;color:#fff;font-weight:800;font-size:44px;border-radius:999px;padding:34px 54px}
+</style></head><body>
+<div class="stage">
+ <div class="slats"></div>
+ <div class="abs lw" id="lw"><img id="logo" src="logo_b_noball.svg"><div class="ring" id="ring"></div><div class="ball" id="ball"></div></div>
+ <div class="abs stats" id="stats">
+   <div class="row" id="r1"><b id="n1">2008</b><span>год<br>основания</span></div>
+   <div class="row" id="r2"><b><span id="n2" style="font:inherit;color:inherit">0</span><i>+</i></b><span>реализованных<br>проектов</span></div>
+   <div class="row" id="r3"><b>2</b><span>города:<br>Астана и Алматы</span></div>
+ </div>
+ <div class="abs fin" id="fin"><div class="kick">Давайте знакомиться</div><div class="h">Мебель<br>на заказ<br><span class="pill">под вас</span></div><p>Проектирование<br>Производство<br>Реализация</p></div>
+ <div class="abs cta" id="cta">Напишите в Direct <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+</div>
+<script src="common.js"></script>
+<script>
+window.DURATION=12;
+const BX=796.7,BY=63.3;
+// bounce: returns height above ground (0..1) for normalized time with 3 hops
+function hop(x){ // x 0..1 -> fall then bounces
+ const segs=[[0,.45,1],[.45,.72,.32],[.72,.88,.1],[.88,1,.03]];
+ for(const [a,b,h] of segs){if(x<=b){const u=(x-a)/(b-a);if(a===0)return 1-u*u;return h*4*u*(1-u)}}return 0}
+window.render=function(t){
+ // logo wipe
+ const w=eio(prog(t,.1,1.1));$('#logo').style.clipPath=`inset(0 ${100-w*100}% 0 0)`;
+ // ball drop 1.0..2.6
+ const x=prog(t,1.0,2.6);const hgt=hop(x);const H=900;
+ let y=BY-hgt*H, sx=1, sy=1;
+ if(t<1.0){y=BY-H-200}
+ // squash near contacts
+ const contacts=[.45,.72,.88,1];let sq=0;for(const c of contacts){const d=Math.abs(x-c);if(d<.035)sq=Math.max(sq,(1-d/.035)*(c===.45?.35:c===.72?.22:.1))}
+ if(x>=1)sq=0;sx=1+sq;sy=1-sq;
+ const ball=$('#ball');ball.style.left=BX+'px';ball.style.top=(y+38.5*sq)+'px';ball.style.transform=`scale(${sx},${sy})`;
+
+ const r=prog(t,2.55,3.3);const ring=$('#ring');ring.style.left=BX+'px';ring.style.top=BY+'px';ring.style.opacity=r>0?(1-r):0;ring.style.transform=`scale(${1+r*2.2})`;
+ // logo moves to top 3.4..4.2
+ const m=eio(prog(t,3.4,4.2));const lw=$('#lw');
+ lw.style.transform=`translate(${lerp(0,-26,m)}px,${lerp(0,-560,m)}px) scale(${lerp(1,.36,m)})`;
+ // stats
+ appear($('#stats'),t,3.9,7.6,40,.5);
+ ['#r1','#r2','#r3'].forEach((id,i)=>appear($(id),t,4.0+i*.35,null,40,.5));
+ $('#n2').textContent=Math.round(eo(prog(t,4.4,6.2))*5000).toLocaleString('ru-RU').replace(/ |,/g,' ');
+ appear($('#fin'),t,8.0,null,50,.6);appear($('#cta'),t,8.8,null,40,.5);
+};
+render(0);
+</script></body></html>

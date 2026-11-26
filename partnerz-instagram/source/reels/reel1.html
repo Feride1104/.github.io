@@ -1,0 +1,110 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="common.css">
+<style>
+.logo{left:84px;top:150px;width:250px}
+.top{left:84px;right:84px;top:300px}
+.top .h{font-size:86px;margin-top:22px}
+.scene{left:0;right:0;top:620px;height:900px;perspective:3200px;perspective-origin:50% 35%}
+.rig{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
+.pn{position:absolute;left:0;top:0;transform-style:preserve-3d;backface-visibility:visible;border:3px solid rgba(183,218,146,0)}
+.wood{background:
+  repeating-linear-gradient(92deg,rgba(80,45,20,.10) 0 3px,transparent 3px 11px),
+  repeating-linear-gradient(88deg,rgba(255,230,200,.07) 0 2px,transparent 2px 23px),
+  linear-gradient(180deg,#B98A5E,#A47448 60%,#94663D)}
+.inside{background:linear-gradient(180deg,#5A3E2A,#4A3222)}
+.door{background:
+  repeating-linear-gradient(90deg,rgba(80,45,20,.08) 0 3px,transparent 3px 13px),
+  linear-gradient(160deg,#CFA57A,#B88B5F 55%,#A57A4F)}
+.fill{position:absolute;inset:-3px}
+.handle{position:absolute;top:44%;width:10px;height:130px;border-radius:6px;background:linear-gradient(90deg,#2a2a2a,#555,#222)}
+.led{position:absolute;left:4%;right:4%;height:6px;border-radius:3px;background:#FFE3B5;box-shadow:0 0 30px 10px rgba(255,205,140,.7)}
+.shadow{left:50%;top:1330px;width:760px;height:90px;margin-left:-380px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent)}
+.cap{left:84px;right:84px;top:1560px;height:150px}
+.step{position:absolute;left:0;top:0;display:flex;align-items:center;gap:28px}
+.step b{display:grid;place-items:center;width:96px;height:96px;border-radius:50%;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:38px}
+.step span{font-weight:800;font-size:58px;text-transform:uppercase;letter-spacing:-.01em}
+.dots{left:84px;top:1700px;display:flex;gap:14px}
+.dots i{display:block;width:60px;height:8px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
+.dots i u{display:block;height:100%;width:0;background:var(--lime)}
+.final{left:84px;right:84px;top:300px}
+.final .h{font-size:104px;margin-top:22px}
+.final p{font-weight:500;font-size:40px;line-height:1.4;color:#D9CFC5;margin-top:34px}
+.cta{left:84px;top:1600px;display:inline-flex;align-items:center;gap:22px;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:44px;border-radius:999px;padding:34px 54px}
+.city{left:84px;top:1770px;font-weight:600;font-size:32px;letter-spacing:.2em;text-transform:uppercase;color:#B9ADA2}
+</style></head><body>
+<div class="stage">
+ <img class="abs logo" src="logo_w.svg">
+ <div class="abs top" id="top"><div class="kick">Мебель на заказ</div><div class="h">От идеи<br>до готовой<br><span class="pill">мебели</span></div></div>
+ <div class="abs final" id="final"><div class="kick">PartnerZ · с 2008 года</div><div class="h">Мебель,<br>которая <span class="g">ваша</span></div><p>Проектируем, производим<br>и устанавливаем под ключ</p></div>
+ <div class="abs shadow" id="shadow"></div>
+ <div class="abs scene"><div class="rig" id="rig"></div><div class="rig" id="rig2"></div></div>
+ <div class="abs cap" id="cap">
+   <div class="step" id="s1"><b>1</b><span>Проект</span></div>
+   <div class="step" id="s2"><b>2</b><span>Производство</span></div>
+   <div class="step" id="s3"><b>3</b><span>Монтаж</span></div>
+ </div>
+ <div class="abs dots" id="dots"><i><u></u></i><i><u></u></i><i><u></u></i></div>
+ <div class="abs cta" id="cta">Напишите в Direct <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1D2716" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+ <div class="abs city" id="city">Астана · Алматы</div>
+</div>
+<script src="common.js"></script>
+<script>
+window.DURATION=15;
+const W=540,H=800,D=320,T=24; // thickness for edge look
+const rig=$('#rig');
+// panel spec: [w,h,transform, cls, from(offset), start time]
+const P=[
+ ['back', W,H,`translateZ(${-D/2}px)`,'inside',[0,0,-500],1.4],
+ ['left', D,H,`rotateY(-90deg) translateZ(${W/2}px)`,'wood',[-600,0,0],1.9],
+ ['right',D,H,`rotateY(90deg) translateZ(${W/2}px)`,'wood',[600,0,0],2.3],
+ ['bot',  W,D,`rotateX(-90deg) translateZ(${H/2}px)`,'wood',[0,500,0],2.7],
+ ['top',  W,D,`rotateX(90deg) translateZ(${H/2}px)`,'wood',[0,-600,0],3.1],
+ ['sh1',  W-6,D-40,`translate3d(0,${-H*0.18}px,-20px) rotateX(90deg)`,'wood',[0,0,600],3.6],
+ ['sh2',  W-6,D-40,`translate3d(0,${H*0.16}px,-20px) rotateX(90deg)`,'wood',[0,0,600],4.0],
+ ['mid',  D-40,H*0.34-6,`translate3d(0,${H*0.33}px,-20px) rotateY(90deg)`,'wood',[0,0,600],4.4],
+];
+const els={};
+for(const [id,w,h,tr,cls] of P){const d=document.createElement('div');d.className='pn';const f=document.createElement('div');f.className='fill '+cls;d.appendChild(f);d.style.width=w+'px';d.style.height=h+'px';d.style.marginLeft=-w/2+'px';d.style.marginTop=-h/2+'px';rig.appendChild(d);els[id]=d;}
+// LEDs under shelves (inside, near front)
+const leds=[];for(const y of [-H*0.18,H*0.16]){const l=document.createElement('div');l.className='pn';l.style.width=W*0.9+'px';l.style.height='8px';l.style.marginLeft=-W*0.45+'px';l.style.marginTop='-4px';l.style.background='#FFE3B5';l.style.borderRadius='4px';l.dataset.y=y;rig.appendChild(l);leds.push(l)}
+const glow=document.createElement('div');glow.className='pn';glow.style.width=W-10+'px';glow.style.height=H-10+'px';glow.style.marginLeft=-(W-10)/2+'px';glow.style.marginTop=-(H-10)/2+'px';
+glow.style.background='radial-gradient(60% 40% at 50% 30%,rgba(255,210,150,.55),transparent 70%),radial-gradient(60% 35% at 50% 70%,rgba(255,210,150,.45),transparent 70%)';rig.appendChild(glow);
+// doors
+const dl=document.createElement('div'),dr=document.createElement('div');
+for(const [d,left] of [[dl,true],[dr,false]]){d.className='pn door';d.style.width=W/2-3+'px';d.style.height=H+'px';d.style.marginTop=-H/2+'px';d.style.marginLeft=(left?-W/2:3)+'px';d.style.transformOrigin=left?'0 50%':'100% 50%';
+ const h=document.createElement('div');h.className='handle';h.style[left?'right':'left']='26px';d.appendChild(h);$('#rig2').appendChild(d)}
+
+window.render=function(t){
+ // camera
+ const ry=lerp(-38,28,eio(prog(t,0,11)))+ (t>11? lerp(0,-18,eio(prog(t,11,15))):0);
+ const sc=lerp(.72,.8,eo(prog(t,0,3)))*(t>10.6?lerp(1,.76,eio(prog(t,10.6,11.8))):1);
+ const dy=t>10.6?lerp(0,105,eio(prog(t,10.6,11.8))):0;
+ rig.style.transform=$('#rig2').style.transform=`translateY(${dy}px) scale(${sc}) rotateX(-14deg) rotateY(${ry}deg)`;
+ $('#shadow').style.transform=`translateY(${dy*0.9}px) scale(${sc})`;$('#shadow').style.opacity=clamp(prog(t,1.5,4));
+ // wireframe 0.2..1.4 then assembly
+ P.forEach(([id,w,h,tr,cls,from,st],k)=>{const el=els[id];
+   const wf=prog(t,0.25+k*0.11,0.6+k*0.11);
+   const a=eo(prog(t,st,st+0.9));const off=from.map(v=>v*(1-a));
+   const solid=prog(t,st+0.1,st+0.7);
+   el.style.transform=tr;el.firstChild.style.transform=`translateZ(${(1-a)*(k%2?420:-420)}px)`;
+   el.style.borderColor=`rgba(183,218,146,${wf*(1-solid)})`;
+   el.firstChild.style.opacity=solid;
+ });
+ // doors: arrive 5.2..6.2 closed, open 7.6..8.8
+ const da=eo(prog(t,5.2,6.2)), op=eio(prog(t,7.4,8.6));
+ const dz=D/2+6+ (1-da)*500;
+ dl.style.transform=`translateZ(${dz}px) rotateY(${-82*op}deg)`;dr.style.transform=`translateZ(${dz}px) rotateY(${82*op}deg)`;
+ dl.style.opacity=dr.style.opacity=da>0?Math.min(1,da*1.5):0;
+ const light=eo(prog(t,8.4,9.2));
+ leds.forEach(l=>{l.style.transform=`translate3d(0,${+l.dataset.y+6}px,${D/2-30}px) rotateX(90deg)`;l.style.opacity=light;l.style.boxShadow=`0 0 ${40*light}px ${14*light}px rgba(255,205,140,.8)`});
+ glow.style.transform=`translateZ(${-D/2+2}px)`;glow.style.opacity=light;
+ // texts
+ appear($('#top'),t,0.2,10.4);
+ appear($('#final'),t,11.4,null);
+ appear($('#s1'),t,0.4,1.4,30,.5);appear($('#s2'),t,1.8,5.0,30,.5);appear($('#s3'),t,5.4,10.4,30,.5);
+ appear($('#dots'),t,0.4,10.4,0);
+ const us=[...document.querySelectorAll('.dots u')];[[0.4,1.8],[1.8,5.4],[5.4,9.6]].forEach(([a,b],i)=>us[i].style.width=prog(t,a,b)*100+'%');
+ appear($('#cta'),t,12.2,null);appear($('#city'),t,12.6,null);
+};
+render(0);
+</script></body></html>

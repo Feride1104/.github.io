@@ -1,0 +1,123 @@
+СЦЕНАРИИ И ПРОМПТЫ ДЛЯ 3D-РИЛСОВ PartnerZ
+(мультяшный стиль и гиперреализм)
+
+Где генерировать: любой AI-генератор видео, например Kling, Runway, Google Veo,
+Sora, Hailuo. Для картинок-кадров подойдёт Midjourney.
+Генераторы платные или с лимитами, поэтому пробуйте 2–3 варианта каждой сцены и
+берите лучший.
+
+КАК РАБОТАТЬ
+1. Каждую сцену генерируйте отдельно (5–8 секунд). Промпт вставляйте на английском:
+   так генераторы понимают точнее.
+2. Формат везде: 9:16 (вертикальный).
+3. НЕ просите генератор писать текст на видео: он искажает буквы.
+   Текст и логотип добавляйте потом в CapCut или пришлите видео мне, и я наложу
+   титры в фирменном стиле PartnerZ (как в готовых рилсах 01–03).
+4. Склейте сцены в CapCut, добавьте музыку из библиотеки Instagram.
+
+Общий «стиль бренда», добавляйте в конец любого промпта:
+  warm walnut and oak wood, soft beige and dark brown palette, subtle sage-green
+  accents, warm LED strip lighting, cozy premium interior, vertical 9:16
+
+
+══════════════════════════════════════════════════════════════
+РИЛС А — ГИПЕРРЕАЛИЗМ: «КУХНЯ СОБИРАЕТСЯ САМА»   (≈20 сек)
+══════════════════════════════════════════════════════════════
+Идея: пустая комната после ремонта → детали мебели сами прилетают и собираются
+в кухню → включается подсветка. Эффект «вау» в первые 2 секунды.
+
+Сцена 1 (0–4 с): пустая комната
+  Prompt: Hyperrealistic 3D render, empty modern apartment kitchen room with
+  bare white walls and concrete floor, morning sunlight through a large window,
+  dust particles in the air, slow cinematic dolly-in camera, photorealistic,
+  8k, vertical 9:16
+  Текст на экране: «Было: пустые стены»
+
+Сцена 2 (4–11 с): сборка
+  Prompt: Hyperrealistic 3D animation, wooden kitchen cabinet panels and
+  facades float in the air and assemble themselves into a modern custom
+  kitchen, precise satisfying motion, oak wood texture, matte beige facades,
+  smooth cinematic camera orbit, photorealistic lighting, vertical 9:16
+  Текст: «Проект → производство → монтаж»
+
+Сцена 3 (11–16 с): подсветка
+  Prompt: Hyperrealistic finished modern kitchen, warm LED strip lights turn on
+  under the upper cabinets one by one, cozy evening atmosphere, steam from a
+  cup of coffee on the countertop, slow push-in camera, photorealistic, 9:16
+  Текст: «Стало: кухня под вас»
+
+Сцена 4 (16–20 с): финал. Добавьте титры с логотипом: «PartnerZ · Мебель на заказ
+  · Напишите в Direct».
+
+Озвучка (по желанию): «Пустые стены. Через несколько недель здесь кухня, сделанная
+под вас до сантиметра. PartnerZ — от идеи до готовой мебели».
+
+
+══════════════════════════════════════════════════════════════
+РИЛС Б — МУЛЬТИК: «ГДЕ ХРАНИТЬ КАСТРЮЛИ?»   (≈20 сек, юмор)
+══════════════════════════════════════════════════════════════
+Идея: семья в мультяшном 3D-стиле. Мама открывает старый шкаф, оттуда сыплются
+кастрюли. Потом новая кухня на заказ: всё на своих местах. Лёгкий юмор цепляет
+и набирает репосты.
+
+Сцена 1 (0–5 с): хаос
+  Prompt: Stylized 3D cartoon animation, cheerful mom opens an old messy
+  kitchen cabinet and an avalanche of pots and pans falls out, funny surprised
+  expression, warm cozy kitchen, soft lighting, expressive characters, family
+  friendly 3D animated movie style, vertical 9:16
+  Текст: «Знакомо? 😅»
+
+Сцена 2 (5–10 с): папа с рулеткой
+  Prompt: Stylized 3D cartoon, dad and mom measuring the kitchen with a tape
+  measure, a friendly furniture designer shows them a 3D kitchen design on a
+  tablet, they smile, warm beige and wood tones, family friendly 3D animated
+  movie style, vertical 9:16
+  Текст: «Замер и проект»
+
+Сцена 3 (10–16 с): новая кухня
+  Prompt: Stylized 3D cartoon, the family stands in a beautiful new custom
+  wooden kitchen, mom smoothly pulls out a deep drawer with neatly organized
+  pots, everyone is happy, a small child jumps with joy, warm LED lighting,
+  family friendly 3D animated movie style, vertical 9:16
+  Текст: «Каждой кастрюле своё место»
+
+Сцена 4 (16–20 с): титры с логотипом: «Кухни на заказ · PartnerZ · Напишите в Direct».
+
+
+══════════════════════════════════════════════════════════════
+РИЛС В — ГИПЕРРЕАЛИЗМ: «ГАРДЕРОБНАЯ ДО / ПОСЛЕ»   (≈15 сек)
+══════════════════════════════════════════════════════════════
+Идея: резкий контраст «до и после». Такие рилсы досматривают до конца.
+
+Сцена 1 (0–5 с): «до»
+  Prompt: Hyperrealistic small closet room full of chaos, clothes piled on the
+  floor, overflowing shelves, dim cold light, handheld camera, photorealistic,
+  vertical 9:16
+  Текст: «До»
+
+Сцена 2 (5–6 с): переход (быстрая склейка-вспышка в CapCut)
+
+Сцена 3 (6–12 с): «после»
+  Prompt: Hyperrealistic luxury walk-in wardrobe, dark walnut wood, glass
+  shelves, neatly hung clothes by color, shoes on illuminated slanted shelves,
+  warm LED lighting inside each section, slow smooth gimbal walk-through,
+  photorealistic, vertical 9:16
+  Текст: «После. Сделано PartnerZ»
+
+Сцена 4 (12–15 с): титры: «Гардеробные на заказ · Астана · Алматы».
+
+Важно: в рилсе В подпись «Сделано PartnerZ» стоит над сгенерированной картинкой,
+то есть это не ваша реальная работа. Лучше напишите «Так может выглядеть ваша
+гардеробная» или замените «после» на видео вашего настоящего проекта.
+Так честнее перед клиентами, и это работает лучше.
+
+
+══════════════════════════════════════════════════════════════
+СОВЕТЫ, ЧТОБЫ РИЛСЫ НАБИРАЛИ ПРОСМОТРЫ
+══════════════════════════════════════════════════════════════
+• Первые 2 секунды решают всё: сразу движение или вопрос, без заставок.
+• Длина 12–25 секунд. Короткие рилсы чаще досматривают.
+• Текст крупный, по центру. Нижние ~25% экрана перекрывает интерфейс.
+• Лучший контент — ваши настоящие объекты. AI-видео хорошо для внимания,
+  а реальные работы вызывают доверие. Чередуйте их.
+• В конце всегда давайте понятное действие: «Напишите в Direct».
