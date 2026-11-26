@@ -1,62 +1,106 @@
 <!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="common.css">
 <style>
-.logo{left:84px;top:150px;width:230px}
+.logo{left:84px;top:150px;width:220px}
 .bars{left:84px;right:84px;top:112px;display:flex;gap:10px}
 .bars i{flex:1;height:7px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
 .bars u{display:block;height:100%;width:0;background:var(--lime)}
-.hook{left:84px;right:84px;top:520px}
-.hook .big{white-space:nowrap;font-weight:800;font-size:150px;line-height:1;letter-spacing:-.03em;text-transform:uppercase}
-.hook .h{font-size:92px;margin-top:20px}
-.hook p{font-weight:600;font-size:40px;color:#D9CFC5;margin-top:40px}
-.blk{left:84px;right:84px;top:470px;height:1200px}
-.num{font-weight:800;font-size:300px;line-height:.9;letter-spacing:-.05em;color:var(--lime);opacity:.95}
-.lbl{font-weight:700;font-size:32px;letter-spacing:.24em;text-transform:uppercase;color:#C9786A;margin-top:30px;display:flex;align-items:center;gap:16px}
-.lbl s{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#C9786A;color:#221C18;text-decoration:none;font-size:34px}
-.ttl{font-weight:800;font-size:84px;line-height:1.08;text-transform:uppercase;margin-top:22px}.ln{position:relative;display:inline-block}
-.strike{position:absolute;left:-6px;top:52%;height:10px;border-radius:5px;background:#C9786A;width:0}
-.fix{margin-top:60px;background:#2C241F;border:2px solid rgba(255,240,225,.12);border-left:10px solid var(--lime);border-radius:30px;padding:44px 48px}
-.fix b{display:flex;align-items:center;gap:16px;font-weight:800;font-size:30px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:18px}
-.fix b i{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--lime)}
-.fix p{font-weight:700;font-size:50px;line-height:1.3}
-.end{left:84px;right:84px;top:520px}
-.end .h{font-size:100px;margin-top:24px}
-.end p{font-weight:500;font-size:40px;line-height:1.4;color:#D9CFC5;margin-top:36px}
-.cta{left:84px;top:1180px;display:inline-flex;align-items:center;gap:22px;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:44px;border-radius:999px;padding:34px 54px}
-.save{left:84px;top:1340px;font-weight:600;font-size:32px;color:#B9ADA2}
+.top{left:84px;right:84px;top:280px}
+.hook .big{white-space:nowrap;font-weight:800;font-size:140px;line-height:1;text-transform:uppercase}
+.hook .h{font-size:80px;margin-top:22px}
+.lbl{display:flex;align-items:center;gap:18px;font-weight:800;font-size:30px;letter-spacing:.22em;text-transform:uppercase;color:#D98B7C}
+.lbl s{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;background:#C9786A;color:#221C18;text-decoration:none;font-size:30px}
+.lbl em{font-style:normal;color:var(--lime);font-size:72px;letter-spacing:-.02em;margin-right:6px}
+.ttl{font-weight:800;font-size:76px;line-height:1.08;text-transform:uppercase;margin-top:18px}
+.ln{position:relative;display:inline-block}
+.strike{position:absolute;left:-6px;top:52%;height:9px;border-radius:5px;background:#C9786A;width:0}
+.scene3d{top:720px;height:700px}
+.fix{left:84px;right:84px;top:1420px;background:rgba(44,36,31,.94);border:2px solid rgba(255,240,225,.12);border-left:10px solid var(--lime);border-radius:30px;padding:36px 44px}
+.fix b{display:flex;align-items:center;gap:14px;font-weight:800;font-size:26px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:14px}
+.fix p{font-weight:700;font-size:44px;line-height:1.3}
+.end .h{font-size:96px;margin-top:22px}
+.cta{left:84px;top:1420px;display:inline-flex;align-items:center;gap:22px;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:44px;border-radius:999px;padding:32px 52px}
+.save{left:84px;top:1580px;font-weight:600;font-size:30px;color:#B9ADA2}
+.tag3d{position:absolute;font-weight:800;font-size:44px;color:var(--lime-ink);background:var(--lime);padding:10px 26px;border-radius:999px;white-space:nowrap;transform-style:preserve-3d}
 </style></head><body>
 <div class="stage">
  <div class="abs bars"><i><u></u></i><i><u></u></i><i><u></u></i><i><u></u></i><i><u></u></i></div>
  <img class="abs logo" src="logo_w.svg">
- <div class="abs hook" id="hook"><div class="big" id="hb"><span class="pill">3 ошибки</span></div><div class="h" id="hh">которые испортят<br>вашу кухню</div><p id="hp">Проверьте себя до ремонта ↓</p></div>
- <div class="abs blk" id="b1"><div class="num">01</div><div class="lbl"><s>✕</s>Ошибка</div><div class="ttl"><span class="ln">Розеток меньше,<i class="strike"></i></span><br><span class="ln">чем техники<i class="strike"></i></span></div>
-   <div class="fix"><b><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D2716" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Как правильно</b><p>Посчитайте всю технику и добавьте 2–3 розетки про запас</p></div></div>
- <div class="abs blk" id="b2"><div class="num">02</div><div class="lbl"><s>✕</s>Ошибка</div><div class="ttl"><span class="ln">Экономия<i class="strike"></i></span><br><span class="ln">на фурнитуре<i class="strike"></i></span></div>
-   <div class="fix"><b><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D2716" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Как правильно</b><p>Петли и ящики работают каждый день — на них не экономят</p></div></div>
- <div class="abs blk" id="b3"><div class="num">03</div><div class="lbl"><s>✕</s>Ошибка</div><div class="ttl"><span class="ln">Негде резать<i class="strike"></i></span><br><span class="ln">продукты<i class="strike"></i></span></div>
-   <div class="fix"><b><i><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D2716" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Как правильно</b><p>Между мойкой и плитой — рабочая зона от 60 см</p></div></div>
- <div class="abs end" id="end"><div class="kick">PartnerZ · кухни на заказ</div><div class="h">Спроектируем<br>кухню <span class="pill">без ошибок</span></div><p>Продумаем всё — от розеток до фурнитуры — ещё до начала производства.</p></div>
+ <div class="abs top hook" id="hook"><div class="big"><span class="pill">3 ошибки</span></div><div class="h">которые испортят<br>вашу кухню</div></div>
+ <div class="abs top" id="t1"><div class="lbl"><em>01</em><s>✕</s>Ошибка</div><div class="ttl"><span class="ln">Розеток меньше,<i class="strike"></i></span><br><span class="ln">чем техники<i class="strike"></i></span></div></div>
+ <div class="abs top" id="t2"><div class="lbl"><em>02</em><s>✕</s>Ошибка</div><div class="ttl"><span class="ln">Экономия<i class="strike"></i></span><br><span class="ln">на фурнитуре<i class="strike"></i></span></div></div>
+ <div class="abs top" id="t3"><div class="lbl"><em>03</em><s>✕</s>Ошибка</div><div class="ttl"><span class="ln">Негде резать<i class="strike"></i></span><br><span class="ln">продукты<i class="strike"></i></span></div></div>
+ <div class="abs top end" id="end"><div class="kick">PartnerZ · кухни на заказ</div><div class="h">Спроектируем<br>кухню <span class="pill">без ошибок</span></div></div>
+ <div class="scene3d" id="sc"><div class="rig3d" id="rig"></div></div>
+ <div class="abs fix" id="f1"><b>✓ Как правильно</b><p>Посчитайте всю технику и добавьте 2–3 розетки про запас</p></div>
+ <div class="abs fix" id="f2"><b>✓ Как правильно</b><p>Петли и направляющие работают каждый день — на них не экономят</p></div>
+ <div class="abs fix" id="f3"><b>✓ Как правильно</b><p>Между мойкой и плитой — рабочая зона от 60 см</p></div>
  <div class="abs cta" id="cta">Напишите в Direct <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1D2716" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
- <div class="abs save" id="save"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B7DA92" stroke-width="2.2" stroke-linejoin="round" style="vertical-align:-5px;margin-right:12px"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>Сохраните, чтобы не потерять</div>
+ <div class="abs save" id="save">Сохраните, чтобы показать перед ремонтом</div>
 </div>
 <script src="common.js"></script>
 <script>
-window.DURATION=22;
-const seg=[[0,3],[3,8],[8,13],[13,18],[18,22]];
-function pop(el,t,a,dur=.45){const x=prog(t,a,a+dur);const s=x<=0?0:back(x);el.style.opacity=clamp(x*3);el.style.transform=`scale(${.6+.4*s})`;el.style.transformOrigin='0 50%'}
-function slideX(el,t,a,b,dx=120){const i=eo(prog(t,a,a+.5)),o=eio(prog(t,b-.4,b));el.style.opacity=i*(1-o);el.style.transform=`translateX(${(1-i)*dx-o*dx}px)`}
+window.DURATION=30;
+const rig=$('#rig');const P=[];
+function add(g,x,y,z,t0){P.push({g,x,y,z,t0});return g}
+const line=(css)=>`<div style="position:absolute;background:rgba(0,0,0,.18);${css}"></div>`;
+const hdl=(css)=>`<div style="position:absolute;border-radius:4px;background:linear-gradient(#444,#111);${css}"></div>`;
+// wall
+add(box(rig,1300,900,10,'var(--walnut)'),0,-110,-128,0.2);
+// base modules (front face decorations)
+add(box(rig,200,316,240,'var(--beige)',{front:line('left:0;right:0;top:105px;height:3px')+line('left:0;right:0;top:210px;height:3px')+hdl('left:60px;width:80px;top:150px;height:8px')+hdl('left:60px;width:80px;top:255px;height:8px')}),-510,170+12,0,0.45);
+const drw=grp(rig);box(drw,196,100,22,'var(--beige)',{front:hdl('left:58px;width:80px;top:40px;height:8px')});const db=box(drw,170,70,200,'var(--inner)');db.style.transform=T3(0,6,-111);
+add(drw,-510,24+50+6,121,0.55);
+add(box(rig,240,316,240,'var(--beige)',{front:line('left:119px;width:3px;top:0;bottom:0')+hdl('left:100px;width:8px;top:30px;height:70px')+hdl('left:132px;width:8px;top:30px;height:70px')}),-290,182,0,0.6);
+add(box(rig,300,316,240,'var(--beige)',{front:line('left:0;right:0;top:105px;height:3px')+hdl('left:110px;width:80px;top:40px;height:8px')+hdl('left:110px;width:80px;top:150px;height:8px')}),-20,182,0,0.75);
+add(box(rig,240,316,240,'var(--beige)',{front:line('left:0;right:0;top:60px;height:3px')+hdl('left:80px;width:80px;top:24px;height:8px')+'<div style="position:absolute;left:20px;right:20px;top:90px;bottom:20px;border-radius:10px;background:linear-gradient(#2a2a2a,#111)"></div>'}),250,182,0,0.9);
+add(box(rig,240,800,250,'var(--beige)',{front:line('left:0;right:0;top:300px;height:3px')+hdl('left:24px;width:8px;top:200px;height:80px')+hdl('left:24px;width:8px;top:330px;height:120px')}),490,-60,5,1.05);
+// countertop
+add(box(rig,1000,22,262,'var(--stone)'),-140,13,8,1.2);
+// sink + faucet
+add(box(rig,190,8,150,'var(--steel)',{top:'<div style="position:absolute;inset:14px;border-radius:12px;background:linear-gradient(#8d8d8d,#cfcfcf)"></div>'}),-290,-2,10,1.45);
+add(box(rig,14,100,14,'var(--steel)'),-290,-50,-80,1.55);
+add(box(rig,14,14,80,'var(--steel)'),-290,-96,-46,1.6);
+// cooktop
+add(box(rig,210,6,170,'linear-gradient(#1b1b1b,#111)',{top:'<div style="position:absolute;left:22px;top:18px;width:64px;height:64px;border-radius:50%;border:3px solid #444"></div><div style="position:absolute;right:22px;top:18px;width:64px;height:64px;border-radius:50%;border:3px solid #444"></div><div style="position:absolute;left:22px;bottom:18px;width:64px;height:64px;border-radius:50%;border:3px solid #444"></div><div style="position:absolute;right:22px;bottom:18px;width:64px;height:64px;border-radius:50%;border:3px solid #444"></div>'}),250,-1,15,1.7);
+// uppers
+for(let i=0;i<4;i++)add(box(rig,246,270,150,'var(--oak)',{front:line('left:122px;width:3px;top:0;bottom:0')+hdl(`left:${i%2?20:212}px;width:8px;top:200px;height:56px`)}),-510+i*247,-355,-45,1.8+i*.12);
+// LED under uppers
+const led=document.createElement('div');led.className='grp';led.style.cssText='width:960px;height:6px;margin-left:-480px;margin-top:-3px;background:#FFE3B5;border-radius:3px';rig.appendChild(led);
+// outlets
+const outs=[];[-430,-150,-90,120,370].forEach((x,i)=>{const o=box(rig,40,40,6,'linear-gradient(#fff,#e9e9e9)',{front:'<div style="position:absolute;left:12px;top:15px;width:4px;height:10px;background:#555;border-radius:2px"></div><div style="position:absolute;right:12px;top:15px;width:4px;height:10px;background:#555;border-radius:2px"></div>'});outs.push({o,x})});
+// dimension
+const dim=grp(rig);const bar=box(dim,1,8,8,'linear-gradient(#B7DA92,#B7DA92)');const tk1=box(dim,6,40,6,'linear-gradient(#B7DA92,#B7DA92)'),tk2=box(dim,6,40,6,'linear-gradient(#B7DA92,#B7DA92)');
+const tag=document.createElement('div');tag.className='tag3d';tag.textContent='от 60 см';dim.appendChild(tag);
 window.render=function(t){
- const us=document.querySelectorAll('.bars u');seg.forEach(([a,b],i)=>us[i].style.width=prog(t,a,b)*100+'%');
- // hook
- const ho=eio(prog(t,2.6,3));$('#hook').style.opacity=1-ho;
- pop($('#hb'),t,.15);appear($('#hh'),t,.6,null,50,.5);appear($('#hp'),t,1.2,null,30,.5);
- // blocks
- [['#b1',3],['#b2',8],['#b3',13]].forEach(([id,a])=>{const el=$(id);slideX(el,t,a,a+5);
-   const n=el.querySelector('.num'),l=el.querySelector('.lbl'),tt=el.querySelector('.ttl'),sts=el.querySelectorAll('.strike'),fx=el.querySelector('.fix');
-   pop(n,t,a+.05,.5);appear(l,t,a+.35,null,20,.4);appear(tt,t,a+.55,null,30,.45);
-   sts.forEach((st,j)=>st.style.width=eio(prog(t,a+1.7+j*.25,a+2.0+j*.25))*104+'%');tt.style.opacity=Math.min(+tt.style.opacity,1-.45*prog(t,a+1.8,a+2.2));
-   appear(fx,t,a+2.2,null,60,.5);});
- appear($('#end'),t,18.1,null,50,.6);pop($('#cta'),t,18.9,.5);appear($('#save'),t,19.4,null,20,.5);
+ // camera keyframes [t, angle, tilt, fx, fy, scale]
+ const K=[[0,-70,-30,0,-60,.42],[3,-18,-14,-60,-60,.58],[4.2,-14,-10,-100,-170,.68],[9.6,10,-10,-60,-170,.7],[10.6,32,-16,-430,-40,.78],[16.6,18,-12,-430,-40,.8],[17.6,-6,-28,-30,-60,.8],[23.6,6,-34,-30,-60,.84],[24.6,-25,-14,-40,-60,.55],[30,40,-12,-40,-60,.58]];
+ let a=K[0];let i=0;while(i<K.length-1&&t>K[i+1][0])i++;const k0=K[i],k1=K[Math.min(i+1,K.length-1)];const x=k1===k0?1:eio(prog(t,k0[0],k1[0]));
+ const v=k0.map((q,j)=>lerp(q,k1[j],x));
+ const bob=Math.sin(t*1.1)*4;
+ rig.style.transform=`translateY(${bob}px) scale(${v[5]}) rotateX(${v[2]}deg) rotateY(${v[1]}deg) translate3d(${-v[3]}px,${-v[4]}px,0)`;
+ // assembly drop
+ P.forEach(p=>{const q=prog(t,p.t0,p.t0+.7);const d=(1-clamp(back(q),0,1.3))*-900;p.g.style.transform=T3(p.x,p.y+d,p.z);p.g.style.opacity=q>0?1:0});
+ // drawer slide 11.2..13 out, 14.4..15.6 back (soft)
+ const dp=P.find(p=>p.g===drw);const o=eio(prog(t,11.4,12.6))*(1-eo(prog(t,14.2,15.8)));if(t>1.3)drw.style.transform=T3(dp.x,dp.y,dp.z+o*190);
+ // LED
+ const ledOn=eo(prog(t,2.6,3.2));led.style.transform=T3(-140,-218,-20,0,90);led.style.opacity=ledOn;led.style.boxShadow=`0 0 ${30*ledOn}px ${10*ledOn}px rgba(255,205,140,.8)`;
+ // outlets pop 5.2..
+ outs.forEach(({o,x},j)=>{const q=prog(t,5.6+j*.25,6.1+j*.25);const s=q<=0?0.001:back(q);o.style.transform=T3(x,-110,-120,0,0)+` scale(${s})`;o.style.opacity=q>0?1:0;
+   o.faces[0].style.boxShadow=q>0&&q<1.5?`0 0 ${30*(1-prog(t,6.3+j*.25,7.2+j*.25))}px 8px rgba(183,218,146,.9)`:'none'});
+ // dimension 19..20.5
+ const dq=eio(prog(t,19.2,20.4)),x1=-195,x2=145,len=(x2-x1)*dq;
+ dim.style.opacity=t>19.1&&t<24.4?1:0;
+ bar.style.transform=T3(x1+len/2,-30,95)+` scaleX(${Math.max(len,1)})`;
+ tk1.style.transform=T3(x1,-30,95);tk2.style.transform=T3(x1+len,-30,95);tk2.style.opacity=dq>0.02?1:0;
+ tag.style.transform=T3((x1+x2)/2-110,-120,95)+` scale(${back(prog(t,20.3,20.8))})`;tag.style.opacity=prog(t,20.3,20.5);
+ // texts
+ const us=document.querySelectorAll('.bars u');[[0,3.5],[3.5,10.5],[10.5,17.5],[17.5,24.5],[24.5,30]].forEach(([a,b],i)=>us[i].style.width=prog(t,a,b)*100+'%');
+ appear($('#hook'),t,.15,3.2,40,.5);
+ [['#t1','#f1',3.6],['#t2','#f2',10.6],['#t3','#f3',17.6]].forEach(([ti,fi,a])=>{appear($(ti),t,a,a+6.3,40,.5);
+   $(ti).querySelectorAll('.strike').forEach((s,j)=>s.style.width=eio(prog(t,a+1.4+j*.25,a+1.8+j*.25))*104+'%');
+   appear($(fi),t,a+2.2,a+6.3,60,.5);});
+ appear($('#end'),t,24.8,null,40,.6);appear($('#cta'),t,25.6,null,40,.5);appear($('#save'),t,26.1,null,20,.5);
 };
 render(0);
 </script></body></html>

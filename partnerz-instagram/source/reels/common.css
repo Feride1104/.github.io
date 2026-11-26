@@ -16,3 +16,18 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:var(--dark);font
 .g{color:var(--lime)}
 .kick{font-weight:700;font-size:30px;letter-spacing:.24em;text-transform:uppercase;color:var(--lime)}
 .h{font-weight:800;text-transform:uppercase;letter-spacing:-.015em;line-height:1.06}
+.scene3d{position:absolute;left:0;right:0;perspective:2800px}
+.rig3d,.grp,.face{position:absolute;left:0;top:0;transform-style:preserve-3d}
+.rig3d{left:50%;top:50%}
+.face{backface-visibility:hidden;border:2px solid rgba(183,218,146,0)}
+.face .fl{position:absolute;inset:-1px;background:var(--tex)}
+.face .sh{position:absolute;inset:-1px}
+:root{
+--oak:repeating-linear-gradient(92deg,rgba(80,45,20,.10) 0 3px,transparent 3px 11px),repeating-linear-gradient(88deg,rgba(255,230,200,.07) 0 2px,transparent 2px 23px),linear-gradient(180deg,#C29467,#A97A4C 60%,#9A6B40);
+--beige:linear-gradient(160deg,#EEE6DA,#DCCFBD);
+--walnut:repeating-linear-gradient(91deg,rgba(0,0,0,.10) 0 3px,transparent 3px 13px),linear-gradient(170deg,#7A5235,#5E3D27);
+--stone:radial-gradient(circle at 20% 30%,rgba(0,0,0,.05) 0 2px,transparent 3px) 0 0/23px 23px,linear-gradient(160deg,#ECE8E1,#D6D0C6);
+--inner:linear-gradient(180deg,#6B4A32,#553923);
+--sage:linear-gradient(160deg,#A9BFA0,#8DA684);
+--steel:linear-gradient(160deg,#D9D9D9,#9A9A9A);
+}

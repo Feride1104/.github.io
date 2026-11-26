@@ -1,110 +1,109 @@
 <!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="common.css">
 <style>
-.logo{left:84px;top:150px;width:250px}
-.top{left:84px;right:84px;top:300px}
-.top .h{font-size:86px;margin-top:22px}
-.scene{left:0;right:0;top:620px;height:900px;perspective:3200px;perspective-origin:50% 35%}
-.rig{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
-.pn{position:absolute;left:0;top:0;transform-style:preserve-3d;backface-visibility:visible;border:3px solid rgba(183,218,146,0)}
-.wood{background:
-  repeating-linear-gradient(92deg,rgba(80,45,20,.10) 0 3px,transparent 3px 11px),
-  repeating-linear-gradient(88deg,rgba(255,230,200,.07) 0 2px,transparent 2px 23px),
-  linear-gradient(180deg,#B98A5E,#A47448 60%,#94663D)}
-.inside{background:linear-gradient(180deg,#5A3E2A,#4A3222)}
-.door{background:
-  repeating-linear-gradient(90deg,rgba(80,45,20,.08) 0 3px,transparent 3px 13px),
-  linear-gradient(160deg,#CFA57A,#B88B5F 55%,#A57A4F)}
-.fill{position:absolute;inset:-3px}
-.handle{position:absolute;top:44%;width:10px;height:130px;border-radius:6px;background:linear-gradient(90deg,#2a2a2a,#555,#222)}
-.led{position:absolute;left:4%;right:4%;height:6px;border-radius:3px;background:#FFE3B5;box-shadow:0 0 30px 10px rgba(255,205,140,.7)}
-.shadow{left:50%;top:1330px;width:760px;height:90px;margin-left:-380px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent)}
-.cap{left:84px;right:84px;top:1560px;height:150px}
-.step{position:absolute;left:0;top:0;display:flex;align-items:center;gap:28px}
-.step b{display:grid;place-items:center;width:96px;height:96px;border-radius:50%;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:38px}
-.step span{font-weight:800;font-size:58px;text-transform:uppercase;letter-spacing:-.01em}
-.dots{left:84px;top:1700px;display:flex;gap:14px}
-.dots i{display:block;width:60px;height:8px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
-.dots i u{display:block;height:100%;width:0;background:var(--lime)}
-.final{left:84px;right:84px;top:300px}
-.final .h{font-size:104px;margin-top:22px}
-.final p{font-weight:500;font-size:40px;line-height:1.4;color:#D9CFC5;margin-top:34px}
-.cta{left:84px;top:1600px;display:inline-flex;align-items:center;gap:22px;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:44px;border-radius:999px;padding:34px 54px}
-.city{left:84px;top:1770px;font-weight:600;font-size:32px;letter-spacing:.2em;text-transform:uppercase;color:#B9ADA2}
+.logo{left:84px;top:150px;width:240px}
+.hd{left:84px;right:84px;top:300px}
+.hd .h{font-size:88px;margin-top:20px}
+.scene3d{top:560px;height:1000px}
+.floor{left:50%;top:1420px;width:900px;height:120px;margin-left:-450px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent)}
+.cap{left:84px;right:84px;top:1580px}
+.step{position:absolute;left:0;top:0;display:flex;align-items:center;gap:26px}
+.step b{display:grid;place-items:center;width:92px;height:92px;border-radius:50%;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:36px}
+.step span{font-weight:800;font-size:54px;text-transform:uppercase}
+.dots{left:84px;top:1710px;display:flex;gap:12px}
+.dots i{display:block;width:56px;height:8px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
+.dots u{display:block;height:100%;width:0;background:var(--lime)}
+.cta{left:84px;top:1590px;display:inline-flex;align-items:center;gap:22px;background:var(--lime);color:var(--lime-ink);font-weight:800;font-size:44px;border-radius:999px;padding:32px 52px}
+.city{left:84px;top:1760px;font-weight:600;font-size:30px;letter-spacing:.2em;text-transform:uppercase;color:#B9ADA2}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.dim{position:absolute;font-weight:800;font-size:30px;color:var(--lime);background:rgba(34,28,24,.85);padding:6px 16px;border-radius:999px;border:2px solid var(--lime);white-space:nowrap}
 </style></head><body>
 <div class="stage">
  <img class="abs logo" src="logo_w.svg">
- <div class="abs top" id="top"><div class="kick">Мебель на заказ</div><div class="h">От идеи<br>до готовой<br><span class="pill">мебели</span></div></div>
- <div class="abs final" id="final"><div class="kick">PartnerZ · с 2008 года</div><div class="h">Мебель,<br>которая <span class="g">ваша</span></div><p>Проектируем, производим<br>и устанавливаем под ключ</p></div>
- <div class="abs shadow" id="shadow"></div>
- <div class="abs scene"><div class="rig" id="rig"></div><div class="rig" id="rig2"></div></div>
- <div class="abs cap" id="cap">
-   <div class="step" id="s1"><b>1</b><span>Проект</span></div>
-   <div class="step" id="s2"><b>2</b><span>Производство</span></div>
-   <div class="step" id="s3"><b>3</b><span>Монтаж</span></div>
- </div>
+ <div class="abs hd" id="h1"><div class="kick">Мебель на заказ</div><div class="h">Как рождается<br><span class="pill">ваша мебель?</span></div></div>
+ <div class="abs hd" id="h2"><div class="kick">Деталь за деталью</div><div class="h">Каждая деталь —<br><span class="pill">точно в размер</span></div></div>
+ <div class="abs hd" id="h3"><div class="kick">Внутри</div><div class="h">Наполнение<br>под <span class="pill">ваши вещи</span></div></div>
+ <div class="abs hd" id="h4"><div class="kick">PartnerZ · с 2008 года</div><div class="h">Сделаем<br>такую же —<br><span class="pill">для вас</span></div></div>
+ <div class="abs floor" id="floor"></div>
+ <div class="scene3d" id="sc"><div class="rig3d" id="rig"></div></div>
+ <div class="abs cap" id="cap"><div class="step" id="s1"><b>1</b><span>Проект</span></div><div class="step" id="s2"><b>2</b><span>Производство</span></div><div class="step" id="s3"><b>3</b><span>Монтаж</span></div></div>
  <div class="abs dots" id="dots"><i><u></u></i><i><u></u></i><i><u></u></i></div>
  <div class="abs cta" id="cta">Напишите в Direct <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1D2716" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
  <div class="abs city" id="city">Астана · Алматы</div>
+ <div class="flash" id="flash"></div>
 </div>
 <script src="common.js"></script>
 <script>
-window.DURATION=15;
-const W=540,H=800,D=320,T=24; // thickness for edge look
-const rig=$('#rig');
-// panel spec: [w,h,transform, cls, from(offset), start time]
-const P=[
- ['back', W,H,`translateZ(${-D/2}px)`,'inside',[0,0,-500],1.4],
- ['left', D,H,`rotateY(-90deg) translateZ(${W/2}px)`,'wood',[-600,0,0],1.9],
- ['right',D,H,`rotateY(90deg) translateZ(${W/2}px)`,'wood',[600,0,0],2.3],
- ['bot',  W,D,`rotateX(-90deg) translateZ(${H/2}px)`,'wood',[0,500,0],2.7],
- ['top',  W,D,`rotateX(90deg) translateZ(${H/2}px)`,'wood',[0,-600,0],3.1],
- ['sh1',  W-6,D-40,`translate3d(0,${-H*0.18}px,-20px) rotateX(90deg)`,'wood',[0,0,600],3.6],
- ['sh2',  W-6,D-40,`translate3d(0,${H*0.16}px,-20px) rotateX(90deg)`,'wood',[0,0,600],4.0],
- ['mid',  D-40,H*0.34-6,`translate3d(0,${H*0.33}px,-20px) rotateY(90deg)`,'wood',[0,0,600],4.4],
-];
-const els={};
-for(const [id,w,h,tr,cls] of P){const d=document.createElement('div');d.className='pn';const f=document.createElement('div');f.className='fill '+cls;d.appendChild(f);d.style.width=w+'px';d.style.height=h+'px';d.style.marginLeft=-w/2+'px';d.style.marginTop=-h/2+'px';rig.appendChild(d);els[id]=d;}
-// LEDs under shelves (inside, near front)
-const leds=[];for(const y of [-H*0.18,H*0.16]){const l=document.createElement('div');l.className='pn';l.style.width=W*0.9+'px';l.style.height='8px';l.style.marginLeft=-W*0.45+'px';l.style.marginTop='-4px';l.style.background='#FFE3B5';l.style.borderRadius='4px';l.dataset.y=y;rig.appendChild(l);leds.push(l)}
-const glow=document.createElement('div');glow.className='pn';glow.style.width=W-10+'px';glow.style.height=H-10+'px';glow.style.marginLeft=-(W-10)/2+'px';glow.style.marginTop=-(H-10)/2+'px';
-glow.style.background='radial-gradient(60% 40% at 50% 30%,rgba(255,210,150,.55),transparent 70%),radial-gradient(60% 35% at 50% 70%,rgba(255,210,150,.45),transparent 70%)';rig.appendChild(glow);
-// doors
-const dl=document.createElement('div'),dr=document.createElement('div');
-for(const [d,left] of [[dl,true],[dr,false]]){d.className='pn door';d.style.width=W/2-3+'px';d.style.height=H+'px';d.style.marginTop=-H/2+'px';d.style.marginLeft=(left?-W/2:3)+'px';d.style.transformOrigin=left?'0 50%':'100% 50%';
- const h=document.createElement('div');h.className='handle';h.style[left?'right':'left']='26px';d.appendChild(h);$('#rig2').appendChild(d)}
+window.DURATION=26;
+const W=600,H=900,D=340,Tk=20,rig=$('#rig');
+const parts=[]; // {g, pos:[x,y,z], ex:[dx,dy,dz], t0}
+function add(g,pos,ex,t0){parts.push({g,pos,ex,t0});return g}
+const yS1=-H*0.2, yS2=H*0.06;
+add(box(rig,W-2*Tk,H-2*Tk,8,'var(--inner)'),[0,0,-D/2+4],[0,0,-520],2.6);
+add(box(rig,Tk,H,D,'var(--oak)'),[-(W/2-Tk/2),0,0],[-560,0,0],3.0);
+add(box(rig,Tk,H,D,'var(--oak)'),[(W/2-Tk/2),0,0],[560,0,0],3.4);
+add(box(rig,W-2*Tk,Tk,D,'var(--oak)'),[0,H/2-Tk/2,0],[0,480,0],3.8);
+add(box(rig,W-2*Tk,Tk,D,'var(--oak)'),[0,-H/2+Tk/2,0],[0,-520,0],4.2);
+add(box(rig,W-2*Tk,Tk,D-40,'var(--oak)'),[0,yS1,-20],[0,0,520],4.7);
+add(box(rig,W-2*Tk,Tk,D-40,'var(--oak)'),[0,yS2,-20],[0,0,560],5.1);
+// drawers: lower section from yS2+Tk/2 to H/2-Tk
+const lowTop=yS2+Tk/2, lowBot=H/2-Tk, dh=(lowBot-lowTop)/2;
+const drawers=[];
+for(let i=0;i<2;i++){const yc=lowTop+dh*i+dh/2;const g=grp(rig);
+ box(g,W-2*Tk-4,dh-6,Tk,'var(--beige)',{front:'<div style="position:absolute;left:50%;top:22px;width:160px;height:10px;margin-left:-80px;border-radius:5px;background:linear-gradient(#3a3a3a,#111)"></div>'});
+ const body=box(g,W-2*Tk-40,dh-50,D-70,'var(--inner)');body.style.transform=T3(0,6,-(D-70)/2-Tk/2);
+ drawers.push(g);add(g,[0,yc,D/2-Tk/2],[0,0,620+i*120],5.6+i*.35);}
+// doors upper section
+const upTop=-H/2+Tk, upBot=yS2-Tk/2, dH=upBot-upTop, yD=(upTop+upBot)/2;
+const doors=[];
+for(const s of [-1,1]){const hinge=grp(rig);const dw=W/2-3;
+ const d=box(hinge,dw,dH-4,Tk,'var(--beige)',{front:`<div style="position:absolute;top:${dH*0.62}px;${s<0?'right':'left'}:28px;width:10px;height:150px;border-radius:5px;background:linear-gradient(90deg,#111,#444,#111)"></div>`});
+ d.style.transform=T3(-s*dw/2,0,0);doors.push({hinge,s});add(hinge,[s*W/2,yD,D/2+Tk/2+1],[s*300,0,700],6.6+(s>0?.3:0));}
+// LEDs
+const leds=[];for(const y of [yS1+Tk/2+4,upTop+6]){const l=document.createElement('div');l.className='grp';l.style.width=(W-2*Tk-20)+'px';l.style.height='6px';l.style.marginLeft=-(W-2*Tk-20)/2+'px';l.style.marginTop='-3px';l.style.background='#FFE3B5';l.style.borderRadius='3px';l.dataset.y=y;rig.appendChild(l);leds.push(l)}
+const glow=document.createElement('div');glow.className='grp';glow.style.cssText=`width:${W-2*Tk}px;height:${dH}px;margin-left:${-(W-2*Tk)/2}px;margin-top:${-dH/2}px;background:radial-gradient(70% 45% at 50% 20%,rgba(255,210,150,.6),transparent 70%),radial-gradient(70% 45% at 50% 75%,rgba(255,210,150,.5),transparent 70%)`;rig.appendChild(glow);
 
 window.render=function(t){
- // camera
- const ry=lerp(-38,28,eio(prog(t,0,11)))+ (t>11? lerp(0,-18,eio(prog(t,11,15))):0);
- const sc=lerp(.72,.8,eo(prog(t,0,3)))*(t>10.6?lerp(1,.76,eio(prog(t,10.6,11.8))):1);
- const dy=t>10.6?lerp(0,105,eio(prog(t,10.6,11.8))):0;
- rig.style.transform=$('#rig2').style.transform=`translateY(${dy}px) scale(${sc}) rotateX(-14deg) rotateY(${ry}deg)`;
- $('#shadow').style.transform=`translateY(${dy*0.9}px) scale(${sc})`;$('#shadow').style.opacity=clamp(prog(t,1.5,4));
- // wireframe 0.2..1.4 then assembly
- P.forEach(([id,w,h,tr,cls,from,st],k)=>{const el=els[id];
-   const wf=prog(t,0.25+k*0.11,0.6+k*0.11);
-   const a=eo(prog(t,st,st+0.9));const off=from.map(v=>v*(1-a));
-   const solid=prog(t,st+0.1,st+0.7);
-   el.style.transform=tr;el.firstChild.style.transform=`translateZ(${(1-a)*(k%2?420:-420)}px)`;
-   el.style.borderColor=`rgba(183,218,146,${wf*(1-solid)})`;
-   el.firstChild.style.opacity=solid;
+ const ex=Math.sin(Math.PI*eio(prog(t,11.3,15.2)));
+ // camera angle: whip spin then orbit
+ let ang;
+ if(t<2.4) ang=lerp(-260,-35,eo(prog(t,0,2.4)));
+ else if(t<11) ang=lerp(-35,35,eio(prog(t,2.4,11)));
+ else if(t<15.5) ang=lerp(35,215,eio(prog(t,11,15.5)));
+ else if(t<20) ang=lerp(215,375,eio(prog(t,15.5,20)));   // 375 = 15
+ else ang=lerp(15,375,eio(prog(t,20.6,25.6)));
+ const tilt=lerp(-22,-12,eio(prog(t,0,3)))+(t>11&&t<15.5?-10*Math.sin(Math.PI*prog(t,11,15.5)):0);
+ let sc=lerp(.55,.78,eo(prog(t,0,3)));
+ sc*= 1+.12*Math.sin(Math.PI*prog(t,15.5,20)); // push-in
+ const fin=eio(prog(t,19.6,20.8)); sc*=lerp(1,.78,fin); const dy=lerp(0,150,fin);
+ const bob=Math.sin(t*1.3)*6+90*ex;
+ rig.style.transform=`translateY(${dy+bob}px) scale(${sc}) rotateX(${tilt}deg) rotateY(${ang}deg)`;
+ $('#floor').style.transform=`translateY(${dy+sc*110}px) scale(${sc*1.1})`;$('#floor').style.opacity=prog(t,2.5,5)*.9;
+ // explode factor 11.4..15
+ parts.forEach((p,k)=>{
+  const wire=prog(t,0.3+k*.08,0.8+k*.08);
+  const a=back(prog(t,p.t0,p.t0+.9));const fly=1-clamp(a,0,1.2);
+  const m=(t<2.4?0:(t<p.t0?eo(prog(t,2.4,2.9)):fly))+ex*.26;
+  p.g.style.transform=T3(p.pos[0]+p.ex[0]*m,p.pos[1]+p.ex[1]*m,p.pos[2]+p.ex[2]*m);
+  if(p.g.faces)look(p.g,wire,prog(t,p.t0,p.t0+.5));
+  else p.g.querySelectorAll('.grp').forEach(c=>c.faces&&look(c,wire,prog(t,p.t0,p.t0+.5)));
  });
- // doors: arrive 5.2..6.2 closed, open 7.6..8.8
- const da=eo(prog(t,5.2,6.2)), op=eio(prog(t,7.4,8.6));
- const dz=D/2+6+ (1-da)*500;
- dl.style.transform=`translateZ(${dz}px) rotateY(${-82*op}deg)`;dr.style.transform=`translateZ(${dz}px) rotateY(${82*op}deg)`;
- dl.style.opacity=dr.style.opacity=da>0?Math.min(1,da*1.5):0;
- const light=eo(prog(t,8.4,9.2));
- leds.forEach(l=>{l.style.transform=`translate3d(0,${+l.dataset.y+6}px,${D/2-30}px) rotateX(90deg)`;l.style.opacity=light;l.style.boxShadow=`0 0 ${40*light}px ${14*light}px rgba(255,205,140,.8)`});
- glow.style.transform=`translateZ(${-D/2+2}px)`;glow.style.opacity=light;
+ // drawers slide: 16.5..18.5 out, back at 19.2
+ drawers.forEach((g,i)=>{const o=eio(prog(t,16.2+i*.3,17.0+i*.3))*(1-eio(prog(t,18.6+i*.2,19.4+i*.2)));const p=parts.find(q=>q.g===g);
+   if(t>8) g.style.transform=T3(p.pos[0]+p.ex[0]*ex*.26,p.pos[1]+p.ex[1]*ex*.26,p.pos[2]+p.ex[2]*ex*.26+o*(D-120));});
+ // doors: open at 15.8 and stay open
+ doors.forEach(({hinge,s})=>{const p=parts.find(q=>q.g===hinge);const op=eio(prog(t,15.7,16.8));const fl=1-clamp(back(prog(t,p.t0,p.t0+.9)),0,1.2);const m=(t<2.4?0:(t<p.t0?eo(prog(t,2.4,2.9)):fl))+ex*.26;
+   hinge.style.transform=T3(p.pos[0]+p.ex[0]*m,p.pos[1]+p.ex[1]*m,p.pos[2]+p.ex[2]*m, s*op*-100);});
+ const light=eo(prog(t,16.4,17.2));
+ leds.forEach(l=>{l.style.transform=T3(0,+l.dataset.y,D/2-40,0,90);l.style.opacity=light;l.style.boxShadow=`0 0 ${40*light}px ${14*light}px rgba(255,205,140,.85)`});
+ glow.style.transform=T3(0,yD,-D/2+10);glow.style.opacity=light*(1-ex);
+ // flash on snap
+ $('#flash').style.opacity=.18*Math.max(0,1-Math.abs(t-15.25)/.15);
  // texts
- appear($('#top'),t,0.2,10.4);
- appear($('#final'),t,11.4,null);
- appear($('#s1'),t,0.4,1.4,30,.5);appear($('#s2'),t,1.8,5.0,30,.5);appear($('#s3'),t,5.4,10.4,30,.5);
- appear($('#dots'),t,0.4,10.4,0);
- const us=[...document.querySelectorAll('.dots u')];[[0.4,1.8],[1.8,5.4],[5.4,9.6]].forEach(([a,b],i)=>us[i].style.width=prog(t,a,b)*100+'%');
- appear($('#cta'),t,12.2,null);appear($('#city'),t,12.6,null);
+ appear($('#h1'),t,0.15,10.8);appear($('#h2'),t,11.3,15.2);appear($('#h3'),t,15.7,19.4);appear($('#h4'),t,20.4,null);
+ appear($('#s1'),t,0.5,2.4,30,.45);appear($('#s2'),t,2.8,6.4,30,.45);appear($('#s3'),t,6.8,10.8,30,.45);appear($('#dots'),t,0.5,10.8,0);
+ const us=document.querySelectorAll('.dots u');[[0.5,2.8],[2.8,6.8],[6.8,10.5]].forEach(([a,b],i)=>us[i].style.width=prog(t,a,b)*100+'%');
+ appear($('#cta'),t,21.2,null);appear($('#city'),t,21.6,null);
 };
 render(0);
 </script></body></html>

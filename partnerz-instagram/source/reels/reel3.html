@@ -21,26 +21,48 @@ html,body{background:var(--cream)}
 .fin .pill{background:var(--green);color:#fff}
 .fin p{font-weight:600;font-size:34px;letter-spacing:.16em;text-transform:uppercase;color:#7A6D63;margin-top:44px;line-height:1.6}
 .cta{left:110px;top:1400px;display:inline-flex;align-items:center;gap:22px;background:#1E1915;color:#fff;font-weight:800;font-size:44px;border-radius:999px;padding:34px 54px}
+
+.scene3d{top:620px;height:900px;perspective:2600px}
+.cf{display:flex;flex-direction:column;justify-content:center;padding:60px;text-align:left}
+.cf .big{white-space:nowrap;font-weight:800;font-size:130px;letter-spacing:-.04em;line-height:1}
+.cf .sm{font-weight:700;font-size:44px;line-height:1.25;margin-top:20px}
+.cf.ink{background:#1E1915;color:#F4EEE7}.cf.ink .big{color:#B7DA92}
+.cf.grn{background:linear-gradient(150deg,#27A852,#167A37);color:#fff}
+.cf.oak{background:var(--oak);color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.25)}
+.cf.bei{background:#E4DACB;color:#1E1915}.cf.bei .sm{font-size:46px;line-height:1.5;margin:0}
+.cf .k{font-weight:700;font-size:26px;letter-spacing:.22em;text-transform:uppercase;opacity:.7;margin-bottom:24px}
+.ckick{left:110px;right:110px;top:470px}
+.ckick .h{font-size:70px;margin-top:16px}.ckick .kick{color:var(--green)}
+.mini{position:absolute;transform-style:preserve-3d}
 </style></head><body>
 <div class="stage">
  <div class="slats"></div>
  <div class="abs lw" id="lw"><img id="logo" src="logo_b_noball.svg"><div class="ring" id="ring"></div><div class="ball" id="ball"></div></div>
- <div class="abs stats" id="stats">
-   <div class="row" id="r1"><b id="n1">2008</b><span>год<br>основания</span></div>
-   <div class="row" id="r2"><b><span id="n2" style="font:inherit;color:inherit">0</span><i>+</i></b><span>реализованных<br>проектов</span></div>
-   <div class="row" id="r3"><b>2</b><span>города:<br>Астана и Алматы</span></div>
- </div>
- <div class="abs fin" id="fin"><div class="kick">Давайте знакомиться</div><div class="h">Мебель<br>на заказ<br><span class="pill">под вас</span></div><p>Проектирование<br>Производство<br>Реализация</p></div>
+ <div class="abs ckick" id="ck"><div class="kick">Давайте знакомиться</div><div class="h">PartnerZ — это…</div></div>
+ <div class="scene3d" id="sc"><div class="rig3d" id="rig"></div></div>
+ <div class="scene3d" id="sc2" style="top:0;height:1920px"><div class="rig3d" id="rig2"></div></div>
+ <div class="abs fin" id="fin"><div class="kick">Давайте знакомиться</div><div class="h">Мебель<br>на заказ<br><span class="pill">для вас</span></div><p>Проектирование<br>Производство<br>Реализация</p></div>
  <div class="abs cta" id="cta">Напишите в Direct <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
 </div>
 <script src="common.js"></script>
 <script>
-window.DURATION=12;
+window.DURATION=20;
 const BX=796.7,BY=63.3;
 // bounce: returns height above ground (0..1) for normalized time with 3 hops
 function hop(x){ // x 0..1 -> fall then bounces
  const segs=[[0,.45,1],[.45,.72,.32],[.72,.88,.1],[.88,1,.03]];
  for(const [a,b,h] of segs){if(x<=b){const u=(x-a)/(b-a);if(a===0)return 1-u*u;return h*4*u*(1-u)}}return 0}
+
+const C=560,rig=$('#rig');const cube=grp(rig);
+const FACES=[
+ ['ink',`translateZ(${C/2}px)`,'<div class="k">Опыт</div><div class="big">2008</div><div class="sm">год, с которого<br>мы делаем мебель</div>'],
+ ['grn',`rotateY(90deg) translateZ(${C/2}px)`,'<div class="k">Проекты</div><div class="big">5 000+</div><div class="sm">реализованных<br>проектов</div>'],
+ ['oak',`rotateY(180deg) translateZ(${C/2}px)`,'<div class="k">География</div><div class="big">2</div><div class="sm">города:<br>Астана и Алматы</div>'],
+ ['bei',`rotateY(-90deg) translateZ(${C/2}px)`,'<div class="k">Что делаем</div><div class="sm">Кухни<br>Шкафы и гардеробные<br>Двери<br>Лестницы</div>'],
+ ['grn',`rotateX(90deg) translateZ(${C/2}px)`,''],['ink',`rotateX(-90deg) translateZ(${C/2}px)`,'']];
+for(const [c,tr,h] of FACES){const f=document.createElement('div');f.className='face cf '+c;f.style.cssText+=`width:${C}px;height:${C}px;margin-left:${-C/2}px;margin-top:${-C/2}px;transform:${tr};border-radius:6px`;f.innerHTML=h;cube.appendChild(f)}
+const minis=[];const MT=['var(--oak)','linear-gradient(#27A852,#167A37)','var(--beige)','var(--walnut)'];
+for(let i=0;i<0;i++){const sz=50+((i*37)%70);const b=box($('#rig2'),sz,sz,sz,MT[i%4]);minis.push({b,x:((i*263)%900)-450,y:((i*419)%1500)-750,z:-200-((i*131)%400),sp:.4+(i%3)*.25,ph:i})}
 window.render=function(t){
  // logo wipe
  const w=eio(prog(t,.1,1.1));$('#logo').style.clipPath=`inset(0 ${100-w*100}% 0 0)`;
@@ -57,11 +79,18 @@ window.render=function(t){
  // logo moves to top 3.4..4.2
  const m=eio(prog(t,3.4,4.2));const lw=$('#lw');
  lw.style.transform=`translate(${lerp(0,-26,m)}px,${lerp(0,-560,m)}px) scale(${lerp(1,.36,m)})`;
- // stats
- appear($('#stats'),t,3.9,7.6,40,.5);
- ['#r1','#r2','#r3'].forEach((id,i)=>appear($(id),t,4.0+i*.35,null,40,.5));
- $('#n2').textContent=Math.round(eo(prog(t,4.4,6.2))*5000).toLocaleString('ru-RU').replace(/ |,/g,' ');
- appear($('#fin'),t,8.0,null,50,.6);appear($('#cta'),t,8.8,null,40,.5);
+
+ appear($('#ck'),t,4.0,12.6,40,.5);
+ const steps=[4.9,7.1,9.3,11.5];let ry=-0;steps.forEach((s0,i)=>{if(i<3)ry-=90*clamp(back(prog(t,s0+1.4,s0+2.1)),0,1.2)});
+ const enter=eo(prog(t,3.9,4.9)),leave=eio(prog(t,12.6,13.6));
+ const spin=-360*leave*1.5;
+ const rx=-10+Math.sin(t*1.4)*5,wob=Math.sin(t*1.1)*7;
+ cube.style.transform=`translateY(${lerp(700,0,enter)+leave*-900}px) scale(${lerp(.4,1,enter)*lerp(1,.3,leave)}) rotateX(${rx+lerp(60,0,enter)}deg) rotateY(${ry+wob+lerp(-120,0,enter)+spin}deg)`;
+ cube.style.opacity=enter*(1-leave);
+ // minis float in final
+ const mf=eo(prog(t,13.2,14.4));
+ minis.forEach(m=>{m.b.style.transform=T3(m.x,m.y-((t*40*m.sp)%300)+lerp(400,0,mf),m.z,t*40*m.sp+m.ph*30,t*30*m.sp+m.ph*20);m.b.style.opacity=mf*.55});
+ appear($('#fin'),t,13.8,null,50,.6);appear($('#cta'),t,14.6,null,40,.5);
 };
 render(0);
 </script></body></html>
